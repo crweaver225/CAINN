@@ -1,0 +1,94 @@
+#include "Neural_Layer.h"
+
+Neural_Layer::Neural_Layer(std::vector<int> dimensions, Activation_Function activation_function) {
+    std::cout<<"Neural Layer constructor called"<<std::endl;
+    this->dimensions = dimensions;
+    this->activation_function = activation_function;
+}
+
+Neural_Layer::~Neural_Layer() {
+    std::cout<<"Neural Layer destructor called"<<std::endl;
+}
+
+Neural_Layer::Neural_Layer(const Neural_Layer &neural_layer) {
+    std::cout<<"Neural Layer copy constructor called"<<std::endl;
+}
+
+Neural_Layer& Neural_Layer::operator = (const Neural_Layer &neural_layer) {
+    std::cout<<"Neural Layer copy assignment operation called"<<std::endl;
+}
+
+Neural_Layer::Neural_Layer(Neural_Layer &&neural_layer) {
+    std::cout<<"Neural Layer move constructor called"<<std::endl;
+    output_results = std::move(neural_layer.output_results);
+    weights = std::move(neural_layer.weights);
+    gradient = std::move(neural_layer.gradient);
+    bias = std::move(neural_layer.bias);
+    previous_layer = std::move(neural_layer.previous_layer);
+    dimensions = std::move(neural_layer.dimensions);
+    activation_function = neural_layer.activation_function;
+}
+
+Neural_Layer& Neural_Layer::operator=(Neural_Layer &&neural_layer) {
+    std::cout<<"Neural Layer move assignment operator called"<<std::endl;
+}
+
+void Neural_Layer::printMetaData() {
+    std::cout<<"Generic neural layer: "<<dimensions[0]<<std::endl;
+}
+
+std::vector<int> Neural_Layer::output_dimensions() {
+    return dimensions;
+}
+
+const Tensor* Neural_Layer::previous_layer_output() {
+    return previous_layer.get()->output_results.get();
+}
+
+float* Neural_Layer::generateBiasValues(int size) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(-1.0,1.0);
+    float* bias_layer = new float[size];
+    for (int i = 0; i < size; ++i) {
+        bias_layer[i] = dis(gen);
+    }
+    return bias_layer;
+}
+
+void Neural_Layer::clearGradient() {
+    gradient.get()->resetTensor();
+}
+
+void Neural_Layer::buildGradient(const int dimensions) {
+    this->gradient = std::unique_ptr<Tensor>(new Tensor(dimensions, 1, this->dimensions[0]));
+}
+
+Tensor* Neural_Layer::previous_layer_gradient() {
+    return previous_layer.get()->gradient.get();
+}
+
+void Neural_Layer::addInput(float *input) {
+  std::cout<<"attempting to add input to a non-input neural layer. aborting..."<<std::endl;
+  exit(0);
+}
+
+void Neural_Layer::addInputInBatches(const int dimensions, float **input) {
+    std::cout<<"attempting to add input as batches to a non-input neural layer. aborting..."<<std::endl;
+    exit(0);
+}
+
+void Neural_Layer::calculateError(float **target, float regularization) {
+    std::cout<<"attempting to calculate the rror from a non-output neural layer. aborting..."<<std::endl;
+    exit(0);
+}
+
+void Neural_Layer::printError() {
+    std::cout<<"attempting to print error from a non-output neural layer...aborting..."<<std::endl;
+    exit(0);
+}
+
+void Neural_Layer::printFinalResults() {
+    std::cout<<"Final results: "<<std::endl;
+    output_results->print();
+}
