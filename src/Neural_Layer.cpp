@@ -37,7 +37,7 @@ void Neural_Layer::printMetaData() {
     std::cout<<"Generic neural layer: "<<dimensions[0]<<std::endl;
 }
 
-std::vector<int> Neural_Layer::output_dimensions() {
+const std::vector<int>& Neural_Layer::output_dimensions() {
     return dimensions;
 }
 
@@ -48,7 +48,7 @@ const Tensor* Neural_Layer::previous_layer_output() {
 float* Neural_Layer::generateBiasValues(int size) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(-1.0,1.0);
+    std::uniform_real_distribution<> dis(-0.1,0.1);
     float* bias_layer = new float[size];
     for (int i = 0; i < size; ++i) {
         bias_layer[i] = dis(gen);
@@ -56,12 +56,26 @@ float* Neural_Layer::generateBiasValues(int size) {
     return bias_layer;
 }
 
+void Neural_Layer::training(bool train) { }
+
+void Neural_Layer::setBatchDimensions(int batch_size) {
+    dimensions.front() = batch_size;
+}
+
+const float Neural_Layer::returnL2() const {
+    return weights.get()->sumTheSquares();
+}
+
 void Neural_Layer::clearGradient() {
     gradient.get()->resetTensor();
 }
 
 void Neural_Layer::buildGradient(const int dimensions) {
-    this->gradient = std::unique_ptr<Tensor>(new Tensor(dimensions, 1, this->dimensions[0]));
+    this->gradient = std::unique_ptr<Tensor>(new Tensor(dimensions, 1, this->dimensions.back()));
+}
+
+Activation_Function Neural_Layer::returnActivationFunctionType() const {
+    return activation_function;
 }
 
 Tensor* Neural_Layer::previous_layer_gradient() {

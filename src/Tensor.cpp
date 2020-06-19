@@ -1,8 +1,9 @@
 #include "Tensor.h"
 
+float Tensor::learning_rate = 0.1f;
 
 Tensor::Tensor(const int rows, const int columns) {
-    std::cout<<"Tensor constructor with "<<rows<<" rows and "<<columns<<" columns called"<<std::endl;
+  //  std::cout<<"Tensor constructor with "<<rows<<" rows and "<<columns<<" columns called"<<std::endl;
     this->dimensions = 1;
     this->rows = rows;
     this->columns = columns;
@@ -11,7 +12,7 @@ Tensor::Tensor(const int rows, const int columns) {
 }
 
 Tensor::Tensor(const int dimensions, const int rows, const int columns) {
-    std::cout<<"Tensor constructor with dimensions, rows, and columns called"<<std::endl;
+  //  std::cout<<"Tensor constructor with dimensions, rows, and columns called"<<std::endl;
     this->dimensions = dimensions;
     this->rows = rows;
     this->columns = columns;
@@ -20,7 +21,7 @@ Tensor::Tensor(const int dimensions, const int rows, const int columns) {
 }
 
 Tensor::Tensor(const int rows, const int columns, float *tensor) {
-    std::cout<<"Tensor constructor with rows, columns, and data called"<<std::endl;
+   // std::cout<<"Tensor constructor with rows, columns, and data called"<<std::endl;
     this->dimensions = 1;
     this->rows = rows;
     this->columns = columns;
@@ -28,7 +29,8 @@ Tensor::Tensor(const int rows, const int columns, float *tensor) {
 }
 
 Tensor::Tensor(const int dimensions, const int rows, const int columns, float *tensor) {
-    std::cout<<"Tensor constructor with dimensions, rows, columns, and data called"<<std::endl;
+   // std::cout<<"Tensor constructor with dimensions, rows, columns, and data called"<<std::endl;
+    //std::cout<<dimensions<<","<<rows<<","<<columns<<std::endl;
     this->dimensions = dimensions;
     this->rows = rows;
     this->columns = columns;
@@ -36,32 +38,57 @@ Tensor::Tensor(const int dimensions, const int rows, const int columns, float *t
 }
 
 Tensor::~Tensor() {
-    std::cout<<"Tensor destructor called"<<std::endl;
+   // std::cout<<"Tensor destructor called"<<std::endl;
     delete [] tensor;
 }
 
-Tensor::Tensor(const Tensor &Tensor) {
-    std::cout<<"Tensor copy constructor called"<<std::endl;
+Tensor::Tensor(const Tensor &otherTensor) {
+   // std::cout<<"Tensor copy constructor called"<<std::endl;
+    this->dimensions = otherTensor.dimensions;
+    this->rows = otherTensor.rows;
+    this->columns = otherTensor.columns;
+    this->tensor = new float[dimensions * rows * columns];
+    *this->tensor = *(otherTensor.returnData());
 }
 
-Tensor& Tensor::operator = (const Tensor &tensor) {
-    std::cout<<"Tensor copy assignment operator called"<<std::endl;
+Tensor& Tensor::operator = (const Tensor &otherTensor) {
+   // std::cout<<"Tensor copy assignment operator called"<<std::endl;
+    if (this == &otherTensor) { return *this; }
+    this->dimensions = otherTensor.dimensions;
+    this->rows = otherTensor.rows;
+    this->columns = otherTensor.columns;
+    this->tensor = new float[dimensions * rows * columns];
+    *this->tensor = *(otherTensor.tensor);
+    return *this;
 }
 
-Tensor::Tensor(Tensor &&tensor) {
-    std::cout<<"Tensor move constructor called"<<std::endl;
+Tensor::Tensor(Tensor &&otherTensor) {
+   // std::cout<<"Tensor move constructor called"<<std::endl;
+    this->dimensions = otherTensor.dimensions;
+    this->rows = otherTensor.rows;
+    this->columns = otherTensor.columns;
+    this->tensor = otherTensor.tensor;
+    otherTensor.tensor = nullptr;
 }
 
-Tensor& Tensor::operator = (Tensor &&tensor) {
-    std::cout<<"Tensor move assignment operator called"<<std::endl;
-}
-
-void Tensor::setActivation_Function(Activation_Function activation_function) {
-    this->activation_function = activation_function;
+Tensor& Tensor::operator = (Tensor &&otherTensor) {
+   // std::cout<<"Tensor move assignment operator called"<<std::endl;
+    if (this == &otherTensor) { return *this; }
+    this->dimensions = otherTensor.dimensions;
+    this->rows = otherTensor.rows;
+    this->columns = otherTensor.columns;
+    this->tensor = otherTensor.tensor;
+    otherTensor.tensor = nullptr;
+    return *this;
 }
 
 template<typename a_f>
 Tensor* Tensor::matmul(Tensor &tensor, float *bias, a_f af) const {
+
+   // print();
+   // std::cout<<" * ";
+    //tensor.print();
+
     int dimension_size = this->rows * this->columns;
     int product_dimension_size = this->rows * tensor.columns;
     float *product = new float[dimensions * product_dimension_size];
@@ -77,23 +104,41 @@ Tensor* Tensor::matmul(Tensor &tensor, float *bias, a_f af) const {
             }
         }
     }
+
+   // std::cout<<" retsults: ";
+   // Tensor temp = Tensor(dimensions, this->rows, tensor.columns, product);
+   // temp.print();
+
     for (int d = 0; d < dimensions; ++d) {
         int dimension_location = d * product_dimension_size;
         for (int i = 0; i < product_dimension_size; ++i) {
+           // std::cout<<"value before af "<<product[i + dimension_location]<<" + bias: "<<bias[i]<<" = "<< product[i + dimension_location] + bias[i]<<" through af = "<<af(product[i + dimension_location] + bias[i])<<std::endl;
             product[i + dimension_location] = af(product[i + dimension_location] + bias[i]);
         }
     }
     Tensor *productTensor = new Tensor(dimensions, this->rows, tensor.columns, product);
+    
+  //  std::cout<<"after activation function: ";
+  //  productTensor->print();
+
     return productTensor;
 }
 template Tensor* Tensor::matmul<float (*)(float)>(Tensor&, float*, float (*)(float)) const;
 
 template<typename a_fd>
 void Tensor::applyDerivative(const Tensor& output, a_fd afd) {
+
+  //  std::cout<<"output before derivative: ";
+   // print();
+
     const int number_of_elements = dimensions * rows * columns;
     for (int i = 0; i < number_of_elements; ++i) {
-        tensor[i] = afd(output.tensor[i] * tensor[i]);
+       // std::cout<<"output value was: "<<output.tensor[i]<<" its derivative was: "<<afd(output.tensor[i])<<std::endl;
+        tensor[i] = afd(output.tensor[i]) * tensor[i];
     }
+
+   // std::cout<<"output after derivative: ";
+   // print();
 }
 template void Tensor::applyDerivative<float (*)(float)>(const Tensor&, float (*)(float));
 
@@ -103,16 +148,20 @@ void Tensor::updateGradients(const Tensor &gradient, const Tensor &weights) {
     for (int d = 0; d < dimensions; ++d) {
         for (int r = 0; r < weights.rows; ++r) {
             for (int c = 0; c < gradient.columns; ++c) {
-                std::cout<<"the gradient value: "<<gradient.tensor[(d * previous_gradient_d_size) + c]<<", the weight value: "<<weights.tensor[(r * gradient.columns) + c]<<std::endl;
-                //std::cout<<"gradient at index: "<<(d * gradient_dimension_size) + r<<" before the update: "<<tensor[(d * gradient_dimension_size) + r]<<std::endl;
-                tensor[(d * gradient_dimension_size) + r] += gradient.tensor[(d * previous_gradient_d_size) + c] * weights.tensor[(r * gradient.columns) + c];
-                std::cout<<"gradient value after the update: "<<tensor[(d * gradient_dimension_size) + r]<<std::endl;
+               // std::cout<<"the gradient value: "<<gradient.tensor[(d * previous_gradient_d_size) + c]<<", the weight value: "<<weights.tensor[(r * gradient.columns) + c]<<std::endl;
+                tensor[(d * gradient_dimension_size) + r] += clip(gradient.tensor[(d * previous_gradient_d_size) + c] * weights.tensor[(r * gradient.columns) + c]);
+              //  std::cout<<"gradient value after the update: "<<tensor[(d * gradient_dimension_size) + r]<<std::endl;
             }
         }
     }
 }
 
 void Tensor::updateWeights(const Tensor &gradient, const Tensor &output) {
+
+  //  std::cout<<"-updating weights-"<<std::endl;
+  //  std::cout<<"old weight: ";
+   // print();
+
     const int gradient_dimensions = output.dimensions;
     float averaged_gradient[columns * rows];
     const int weight_dimension_size = columns * rows;
@@ -122,20 +171,28 @@ void Tensor::updateWeights(const Tensor &gradient, const Tensor &output) {
     for (int d = 0; d < gradient_dimensions; ++d) {
         const int gradient_index = d * gradient_dimension_size;
         const int output_index = d * output_dimension_size;
-        for (int gradient_x = 0; gradient_x < gradient.columns; ++gradient_x) {
-            for (int output_x = 0; output_x < output.columns; ++output_x) {
+        for (int gradient_x = 0; gradient_x < gradient.columns; gradient_x++) {
+            for (int output_x = 0; output_x < output.columns; output_x++) {
+
+              //  std::cout<<"The output value was: "<<output.tensor[output_index + output_x]<<" The gradient value was: "<<gradient.tensor[gradient_index + gradient_x];
+              //  std::cout<<" results: "<<gradient.tensor[gradient_index + gradient_x] * output.tensor[output_index + output_x]<<std::endl;
                 averaged_gradient[(output_x * columns) + gradient_x] += gradient.tensor[gradient_index + gradient_x] * output.tensor[output_index + output_x];
+               // std::cout<<"Averaged gradient at index: "<<(output_x * columns) + gradient_x<<" updated to: "<<averaged_gradient[(output_x * columns) + gradient_x]<<std::endl;
             }
         }
     }
     for (int i = 0; i < weight_dimension_size; ++i) {
-        tensor[i] += (averaged_gradient[i] / gradient_dimensions) * 0.001;
+        tensor[i] += (averaged_gradient[i] / gradient_dimensions) * learning_rate;
     }
+
+  //  std::cout<<"new weight value: ";
+  //  print();
+   // std::cout<<"-ending updating weights-"<<std::endl;
 }
 
 float Tensor::clip(float x) {
     float value = roundf(x * 100000) / 100000;
-    return std::max(-1.0f, std::min(value, 1.0f));
+    return std::max(-10.0f, std::min(value, 10.0f));
 }
 
 void Tensor::resetTensor() {
@@ -143,11 +200,11 @@ void Tensor::resetTensor() {
 }
 
 void Tensor::setData(float *tensor) {
-    this->tensor = tensor;
+    std::memcpy(this->tensor, tensor, dimensions * rows * columns * sizeof(float));
 }
 
-std::shared_ptr<float> Tensor::returnData() {
-    return std::shared_ptr<float>(tensor);
+const float * Tensor::returnData() const {
+    return tensor;
 }
 
 void Tensor::assignRandomValues() {
@@ -160,9 +217,17 @@ void Tensor::assignRandomValues() {
     }
 }
 
+const float Tensor::sumTheSquares() const {
+    float finalValue = 0.0f;
+    const int number_of_elements = dimensions * rows * columns;
+    for (int i = 0; i < number_of_elements; i++) {
+        finalValue += std::pow(tensor[i],2);
+    }
+    return (0.001 * finalValue) / (10 * dimensions * rows * columns);
+}
+
 void Tensor::updateTensor(float *new_tensor) {
-    delete[] tensor;
-    tensor = new_tensor;
+    std::memcpy(this->tensor, new_tensor, dimensions * rows * columns * sizeof(float));
 }
 
 void Tensor::print() const {
@@ -191,11 +256,10 @@ void Tensor::printShape() const {
     std::cout<<"("<<dimensions<<","<<rows<<","<<columns<<")"<<std::endl;
 }
 
-std::unique_ptr<int> Tensor::shape(){
-    std::unique_ptr<int> shape_array = std::unique_ptr<int>(new int[3]);
-   // int *shape_array = new int [3];
-    shape_array.get()[0] = dimensions;
-    shape_array.get()[1] = rows;
-    shape_array.get()[2] = columns;
-    return std::move(shape_array);
+std::vector<int> Tensor::shape(){
+    std::vector<int> shape_array(3);
+    shape_array[0] = dimensions;
+    shape_array[1] = rows;
+    shape_array[2] = columns;
+    return shape_array;
 }

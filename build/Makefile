@@ -226,6 +226,36 @@ src/Input_Layer.cpp.s:
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Input_Layer.cpp.s
 .PHONY : src/Input_Layer.cpp.s
 
+src/Network_Saver.o: src/Network_Saver.cpp.o
+
+.PHONY : src/Network_Saver.o
+
+# target to build an object file
+src/Network_Saver.cpp.o:
+	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Network_Saver.cpp.o
+	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o
+.PHONY : src/Network_Saver.cpp.o
+
+src/Network_Saver.i: src/Network_Saver.cpp.i
+
+.PHONY : src/Network_Saver.i
+
+# target to preprocess a source file
+src/Network_Saver.cpp.i:
+	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Network_Saver.cpp.i
+	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.i
+.PHONY : src/Network_Saver.cpp.i
+
+src/Network_Saver.s: src/Network_Saver.cpp.s
+
+.PHONY : src/Network_Saver.s
+
+# target to generate assembly for a file
+src/Network_Saver.cpp.s:
+	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Network_Saver.cpp.s
+	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.s
+.PHONY : src/Network_Saver.cpp.s
+
 src/Neural_Layer.o: src/Neural_Layer.cpp.o
 
 .PHONY : src/Neural_Layer.o
@@ -285,6 +315,36 @@ src/Neural_Network.cpp.s:
 	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Network.cpp.s
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.s
 .PHONY : src/Neural_Network.cpp.s
+
+src/Neural_Network_Extension.o: src/Neural_Network_Extension.cpp.o
+
+.PHONY : src/Neural_Network_Extension.o
+
+# target to build an object file
+src/Neural_Network_Extension.cpp.o:
+	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.o
+	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o
+.PHONY : src/Neural_Network_Extension.cpp.o
+
+src/Neural_Network_Extension.i: src/Neural_Network_Extension.cpp.i
+
+.PHONY : src/Neural_Network_Extension.i
+
+# target to preprocess a source file
+src/Neural_Network_Extension.cpp.i:
+	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.i
+	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.i
+.PHONY : src/Neural_Network_Extension.cpp.i
+
+src/Neural_Network_Extension.s: src/Neural_Network_Extension.cpp.s
+
+.PHONY : src/Neural_Network_Extension.s
+
+# target to generate assembly for a file
+src/Neural_Network_Extension.cpp.s:
+	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.s
+	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.s
+.PHONY : src/Neural_Network_Extension.cpp.s
 
 src/Output_Layer.o: src/Output_Layer.cpp.o
 
@@ -395,12 +455,18 @@ help:
 	@echo "... src/Input_Layer.o"
 	@echo "... src/Input_Layer.i"
 	@echo "... src/Input_Layer.s"
+	@echo "... src/Network_Saver.o"
+	@echo "... src/Network_Saver.i"
+	@echo "... src/Network_Saver.s"
 	@echo "... src/Neural_Layer.o"
 	@echo "... src/Neural_Layer.i"
 	@echo "... src/Neural_Layer.s"
 	@echo "... src/Neural_Network.o"
 	@echo "... src/Neural_Network.i"
 	@echo "... src/Neural_Network.s"
+	@echo "... src/Neural_Network_Extension.o"
+	@echo "... src/Neural_Network_Extension.i"
+	@echo "... src/Neural_Network_Extension.s"
 	@echo "... src/Output_Layer.o"
 	@echo "... src/Output_Layer.i"
 	@echo "... src/Output_Layer.s"

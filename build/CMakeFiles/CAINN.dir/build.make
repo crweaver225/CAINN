@@ -96,9 +96,22 @@ CMakeFiles/CAINN.dir/src/Input_Layer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CAINN.dir/src/Input_Layer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christopher/Desktop/CAINN/src/Input_Layer.cpp -o CMakeFiles/CAINN.dir/src/Input_Layer.cpp.s
 
+CMakeFiles/CAINN.dir/src/Network_Saver.cpp.o: CMakeFiles/CAINN.dir/flags.make
+CMakeFiles/CAINN.dir/src/Network_Saver.cpp.o: ../src/Network_Saver.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CAINN.dir/src/Network_Saver.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAINN.dir/src/Network_Saver.cpp.o -c /home/christopher/Desktop/CAINN/src/Network_Saver.cpp
+
+CMakeFiles/CAINN.dir/src/Network_Saver.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CAINN.dir/src/Network_Saver.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christopher/Desktop/CAINN/src/Network_Saver.cpp > CMakeFiles/CAINN.dir/src/Network_Saver.cpp.i
+
+CMakeFiles/CAINN.dir/src/Network_Saver.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CAINN.dir/src/Network_Saver.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christopher/Desktop/CAINN/src/Network_Saver.cpp -o CMakeFiles/CAINN.dir/src/Network_Saver.cpp.s
+
 CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.o: CMakeFiles/CAINN.dir/flags.make
 CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.o: ../src/Neural_Layer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.o -c /home/christopher/Desktop/CAINN/src/Neural_Layer.cpp
 
 CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.i: cmake_force
@@ -111,7 +124,7 @@ CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.s: cmake_force
 
 CMakeFiles/CAINN.dir/src/Neural_Network.cpp.o: CMakeFiles/CAINN.dir/flags.make
 CMakeFiles/CAINN.dir/src/Neural_Network.cpp.o: ../src/Neural_Network.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/CAINN.dir/src/Neural_Network.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/CAINN.dir/src/Neural_Network.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAINN.dir/src/Neural_Network.cpp.o -c /home/christopher/Desktop/CAINN/src/Neural_Network.cpp
 
 CMakeFiles/CAINN.dir/src/Neural_Network.cpp.i: cmake_force
@@ -122,9 +135,22 @@ CMakeFiles/CAINN.dir/src/Neural_Network.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CAINN.dir/src/Neural_Network.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christopher/Desktop/CAINN/src/Neural_Network.cpp -o CMakeFiles/CAINN.dir/src/Neural_Network.cpp.s
 
+CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.o: CMakeFiles/CAINN.dir/flags.make
+CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.o: ../src/Neural_Network_Extension.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.o -c /home/christopher/Desktop/CAINN/src/Neural_Network_Extension.cpp
+
+CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christopher/Desktop/CAINN/src/Neural_Network_Extension.cpp > CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.i
+
+CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christopher/Desktop/CAINN/src/Neural_Network_Extension.cpp -o CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.s
+
 CMakeFiles/CAINN.dir/src/Output_Layer.cpp.o: CMakeFiles/CAINN.dir/flags.make
 CMakeFiles/CAINN.dir/src/Output_Layer.cpp.o: ../src/Output_Layer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/CAINN.dir/src/Output_Layer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/CAINN.dir/src/Output_Layer.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAINN.dir/src/Output_Layer.cpp.o -c /home/christopher/Desktop/CAINN/src/Output_Layer.cpp
 
 CMakeFiles/CAINN.dir/src/Output_Layer.cpp.i: cmake_force
@@ -137,7 +163,7 @@ CMakeFiles/CAINN.dir/src/Output_Layer.cpp.s: cmake_force
 
 CMakeFiles/CAINN.dir/src/Tensor.cpp.o: CMakeFiles/CAINN.dir/flags.make
 CMakeFiles/CAINN.dir/src/Tensor.cpp.o: ../src/Tensor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/CAINN.dir/src/Tensor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/CAINN.dir/src/Tensor.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAINN.dir/src/Tensor.cpp.o -c /home/christopher/Desktop/CAINN/src/Tensor.cpp
 
 CMakeFiles/CAINN.dir/src/Tensor.cpp.i: cmake_force
@@ -150,7 +176,7 @@ CMakeFiles/CAINN.dir/src/Tensor.cpp.s: cmake_force
 
 CMakeFiles/CAINN.dir/src/main.cpp.o: CMakeFiles/CAINN.dir/flags.make
 CMakeFiles/CAINN.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/CAINN.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/CAINN.dir/src/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAINN.dir/src/main.cpp.o -c /home/christopher/Desktop/CAINN/src/main.cpp
 
 CMakeFiles/CAINN.dir/src/main.cpp.i: cmake_force
@@ -166,8 +192,10 @@ CAINN_OBJECTS = \
 "CMakeFiles/CAINN.dir/src/Activation_Functions.cpp.o" \
 "CMakeFiles/CAINN.dir/src/Fully_Connected_Layer.cpp.o" \
 "CMakeFiles/CAINN.dir/src/Input_Layer.cpp.o" \
+"CMakeFiles/CAINN.dir/src/Network_Saver.cpp.o" \
 "CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.o" \
 "CMakeFiles/CAINN.dir/src/Neural_Network.cpp.o" \
+"CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.o" \
 "CMakeFiles/CAINN.dir/src/Output_Layer.cpp.o" \
 "CMakeFiles/CAINN.dir/src/Tensor.cpp.o" \
 "CMakeFiles/CAINN.dir/src/main.cpp.o"
@@ -178,14 +206,16 @@ CAINN_EXTERNAL_OBJECTS =
 CAINN: CMakeFiles/CAINN.dir/src/Activation_Functions.cpp.o
 CAINN: CMakeFiles/CAINN.dir/src/Fully_Connected_Layer.cpp.o
 CAINN: CMakeFiles/CAINN.dir/src/Input_Layer.cpp.o
+CAINN: CMakeFiles/CAINN.dir/src/Network_Saver.cpp.o
 CAINN: CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.o
 CAINN: CMakeFiles/CAINN.dir/src/Neural_Network.cpp.o
+CAINN: CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.o
 CAINN: CMakeFiles/CAINN.dir/src/Output_Layer.cpp.o
 CAINN: CMakeFiles/CAINN.dir/src/Tensor.cpp.o
 CAINN: CMakeFiles/CAINN.dir/src/main.cpp.o
 CAINN: CMakeFiles/CAINN.dir/build.make
 CAINN: CMakeFiles/CAINN.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable CAINN"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable CAINN"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CAINN.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -19,6 +19,17 @@ CMakeFiles/Neural_Network.dir/src/Input_Layer.cpp.o: ../include/Neural_Layer.h
 CMakeFiles/Neural_Network.dir/src/Input_Layer.cpp.o: ../include/Tensor.h
 CMakeFiles/Neural_Network.dir/src/Input_Layer.cpp.o: ../src/Input_Layer.cpp
 
+CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Activation_Function.h
+CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Activation_Functions.h
+CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Fully_Connected_Layer.h
+CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Input_Layer.h
+CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Network_Saver.h
+CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Neural_Layer.h
+CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Neural_Network.h
+CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Output_Layer.h
+CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Tensor.h
+CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../src/Network_Saver.cpp
+
 CMakeFiles/Neural_Network.dir/src/Neural_Layer.cpp.o: ../include/Activation_Function.h
 CMakeFiles/Neural_Network.dir/src/Neural_Layer.cpp.o: ../include/Activation_Functions.h
 CMakeFiles/Neural_Network.dir/src/Neural_Layer.cpp.o: ../include/Neural_Layer.h
@@ -29,11 +40,23 @@ CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Activation_Fu
 CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Activation_Functions.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Fully_Connected_Layer.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Input_Layer.h
+CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Network_Saver.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Neural_Layer.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Neural_Network.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Output_Layer.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Tensor.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../src/Neural_Network.cpp
+
+CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Activation_Function.h
+CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Activation_Functions.h
+CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Fully_Connected_Layer.h
+CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Input_Layer.h
+CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Network_Saver.h
+CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Neural_Layer.h
+CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Neural_Network.h
+CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Output_Layer.h
+CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Tensor.h
+CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../src/Neural_Network_Extension.cpp
 
 CMakeFiles/Neural_Network.dir/src/Output_Layer.cpp.o: ../include/Activation_Function.h
 CMakeFiles/Neural_Network.dir/src/Output_Layer.cpp.o: ../include/Activation_Functions.h
@@ -47,5 +70,14 @@ CMakeFiles/Neural_Network.dir/src/Tensor.cpp.o: ../include/Activation_Functions.
 CMakeFiles/Neural_Network.dir/src/Tensor.cpp.o: ../include/Tensor.h
 CMakeFiles/Neural_Network.dir/src/Tensor.cpp.o: ../src/Tensor.cpp
 
+CMakeFiles/Neural_Network.dir/src/main.cpp.o: ../include/Activation_Function.h
+CMakeFiles/Neural_Network.dir/src/main.cpp.o: ../include/Activation_Functions.h
+CMakeFiles/Neural_Network.dir/src/main.cpp.o: ../include/Fully_Connected_Layer.h
+CMakeFiles/Neural_Network.dir/src/main.cpp.o: ../include/Input_Layer.h
+CMakeFiles/Neural_Network.dir/src/main.cpp.o: ../include/Network_Saver.h
+CMakeFiles/Neural_Network.dir/src/main.cpp.o: ../include/Neural_Layer.h
+CMakeFiles/Neural_Network.dir/src/main.cpp.o: ../include/Neural_Network.h
+CMakeFiles/Neural_Network.dir/src/main.cpp.o: ../include/Output_Layer.h
+CMakeFiles/Neural_Network.dir/src/main.cpp.o: ../include/Tensor.h
 CMakeFiles/Neural_Network.dir/src/main.cpp.o: ../src/main.cpp
 

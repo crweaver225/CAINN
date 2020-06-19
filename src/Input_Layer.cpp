@@ -29,8 +29,8 @@ void Input_layer::printMetaData() {
 }
 
 void Input_layer::build(std::shared_ptr<Neural_Layer> previous_layer) {
-    std::cout<<"Input layer (1, "<<dimensions[0]<<")"<<std::endl;
-    output_results = std::unique_ptr<Tensor>( new Tensor(1,dimensions[0]));
+    std::cout<<"Input layer build called"<<std::endl;
+    output_results = std::unique_ptr<Tensor>( new Tensor(dimensions.front(),1,dimensions.back()));
 }
 
 void Input_layer::addInput(float *input) {
@@ -45,7 +45,15 @@ void Input_layer::addInputInBatches(const int dimensions, float **input) {
             input_array[(i * input_size) + k] = input[i][k];
         }
     }
-    this->output_results = std::unique_ptr<Tensor>(new Tensor(dimensions,1,output_dimensions().back(), input_array));
+    output_results.get()->setData(input_array);
+}
+
+void Input_layer::training(bool train){
+    if (train) {
+        output_results = std::unique_ptr<Tensor>( new Tensor(dimensions.front(),1,dimensions.back()));
+    } else {
+        output_results = std::unique_ptr<Tensor>( new Tensor(dimensions.front(),1,dimensions.back()));
+    }
 }
 
 void Input_layer::forward_propogate() {}

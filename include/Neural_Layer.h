@@ -13,7 +13,6 @@ private:
 
 protected:
     std::unique_ptr<Tensor> output_results;
-
     std::unique_ptr<Tensor> weights;
     std::unique_ptr<Tensor> gradient;
     std::unique_ptr<float> bias;
@@ -54,6 +53,8 @@ public:
     Neural_Layer(Neural_Layer &&neural_layer);
     Neural_Layer& operator=(Neural_Layer &&neural_layer);
 
+    const float returnL2() const;
+
     virtual void build(std::shared_ptr<Neural_Layer> previous_layer) = 0;
     virtual void forward_propogate() = 0;
     virtual void backpropogate() = 0;
@@ -62,17 +63,21 @@ public:
     void clearGradient();
 
     virtual void printMetaData();
-    std::vector<int> output_dimensions();
+    const std::vector<int>& output_dimensions();
+    void setBatchDimensions(int batch_size);
 
     // functions for input layer
     virtual void addInput(float *input);
     virtual void addInputInBatches(const int dimensions, float **input);
 
     //functions for output layer
+    virtual void training(bool train);
     virtual void calculateError(float **target, float regularization);
     virtual void printError();
     virtual void printFinalResults();
 
+    // for network saver
+    Activation_Function returnActivationFunctionType() const;
 };
 
 #endif /* NEURAL_LAYER_H_ */

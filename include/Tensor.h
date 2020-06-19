@@ -3,6 +3,7 @@
 #include <random>
 #include <algorithm>
 #include <cstring>
+#include <string.h>
 #include "Activation_Function.h"
 #include "Activation_Functions.h"
 
@@ -16,7 +17,6 @@ private:
     int rows;
     int columns;
     float *tensor;
-    Activation_Function activation_function;
     float clip(float x);
 
 public:
@@ -29,12 +29,14 @@ public:
     Tensor& operator = (const Tensor &tensor);
     Tensor(Tensor &&tensor);
     Tensor& operator = (Tensor &&tensor);
+
+    static float learning_rate;
     
-    void setActivation_Function(Activation_Function activation_function);
     void setData(float *tensor);
     void assignRandomValues();
 
-    std::shared_ptr<float> returnData();
+    const float * returnData() const;
+    const float sumTheSquares() const;
 
     template<typename a_f>
     Tensor* matmul(Tensor &tensor, float *bias, a_f af) const;
@@ -49,7 +51,7 @@ public:
 
     void print() const;
     void printShape() const;
-    std::unique_ptr<int> shape();
+    std::vector<int> shape();
 };
 
 #endif /* TENSOR_H_ */

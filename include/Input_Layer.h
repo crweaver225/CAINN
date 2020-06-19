@@ -10,6 +10,7 @@ public:
     Input_layer& operator=(Input_layer &&input_layer);
 
     void printMetaData() override;
+    void training(bool train) override;
     void build(std::shared_ptr<Neural_Layer> previous_layer);
     void addInput(float *input);
     void addInputInBatches(const int dimensions, float **input);
