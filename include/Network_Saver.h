@@ -11,8 +11,8 @@ class Neural_Network;
 class Network_Saver {
     int *network_layers;
     int *activation_functions;
-   // float *weights;
-  //  float *bias;
+    float *weights;
+    float *bias;
     int *neurons;
 public:
     void save_network(Neural_Network *neural_network, std::string &path);

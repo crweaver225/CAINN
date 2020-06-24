@@ -111,19 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named CAINN
-
-# Build rule for target.
-CAINN: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 CAINN
-.PHONY : CAINN
-
-# fast build rule for target.
-CAINN/fast:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/build
-.PHONY : CAINN/fast
-
-#=============================================================================
 # Target rules for targets named Neural_Network
 
 # Build rule for target.
@@ -142,7 +129,6 @@ src/Activation_Functions.o: src/Activation_Functions.cpp.o
 
 # target to build an object file
 src/Activation_Functions.cpp.o:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Activation_Functions.cpp.o
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Activation_Functions.cpp.o
 .PHONY : src/Activation_Functions.cpp.o
 
@@ -152,7 +138,6 @@ src/Activation_Functions.i: src/Activation_Functions.cpp.i
 
 # target to preprocess a source file
 src/Activation_Functions.cpp.i:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Activation_Functions.cpp.i
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Activation_Functions.cpp.i
 .PHONY : src/Activation_Functions.cpp.i
 
@@ -162,7 +147,6 @@ src/Activation_Functions.s: src/Activation_Functions.cpp.s
 
 # target to generate assembly for a file
 src/Activation_Functions.cpp.s:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Activation_Functions.cpp.s
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Activation_Functions.cpp.s
 .PHONY : src/Activation_Functions.cpp.s
 
@@ -172,7 +156,6 @@ src/Fully_Connected_Layer.o: src/Fully_Connected_Layer.cpp.o
 
 # target to build an object file
 src/Fully_Connected_Layer.cpp.o:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Fully_Connected_Layer.cpp.o
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Fully_Connected_Layer.cpp.o
 .PHONY : src/Fully_Connected_Layer.cpp.o
 
@@ -182,7 +165,6 @@ src/Fully_Connected_Layer.i: src/Fully_Connected_Layer.cpp.i
 
 # target to preprocess a source file
 src/Fully_Connected_Layer.cpp.i:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Fully_Connected_Layer.cpp.i
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Fully_Connected_Layer.cpp.i
 .PHONY : src/Fully_Connected_Layer.cpp.i
 
@@ -192,7 +174,6 @@ src/Fully_Connected_Layer.s: src/Fully_Connected_Layer.cpp.s
 
 # target to generate assembly for a file
 src/Fully_Connected_Layer.cpp.s:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Fully_Connected_Layer.cpp.s
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Fully_Connected_Layer.cpp.s
 .PHONY : src/Fully_Connected_Layer.cpp.s
 
@@ -202,7 +183,6 @@ src/Input_Layer.o: src/Input_Layer.cpp.o
 
 # target to build an object file
 src/Input_Layer.cpp.o:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Input_Layer.cpp.o
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Input_Layer.cpp.o
 .PHONY : src/Input_Layer.cpp.o
 
@@ -212,7 +192,6 @@ src/Input_Layer.i: src/Input_Layer.cpp.i
 
 # target to preprocess a source file
 src/Input_Layer.cpp.i:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Input_Layer.cpp.i
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Input_Layer.cpp.i
 .PHONY : src/Input_Layer.cpp.i
 
@@ -222,7 +201,6 @@ src/Input_Layer.s: src/Input_Layer.cpp.s
 
 # target to generate assembly for a file
 src/Input_Layer.cpp.s:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Input_Layer.cpp.s
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Input_Layer.cpp.s
 .PHONY : src/Input_Layer.cpp.s
 
@@ -232,7 +210,6 @@ src/Network_Saver.o: src/Network_Saver.cpp.o
 
 # target to build an object file
 src/Network_Saver.cpp.o:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Network_Saver.cpp.o
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o
 .PHONY : src/Network_Saver.cpp.o
 
@@ -242,7 +219,6 @@ src/Network_Saver.i: src/Network_Saver.cpp.i
 
 # target to preprocess a source file
 src/Network_Saver.cpp.i:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Network_Saver.cpp.i
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.i
 .PHONY : src/Network_Saver.cpp.i
 
@@ -252,7 +228,6 @@ src/Network_Saver.s: src/Network_Saver.cpp.s
 
 # target to generate assembly for a file
 src/Network_Saver.cpp.s:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Network_Saver.cpp.s
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.s
 .PHONY : src/Network_Saver.cpp.s
 
@@ -262,7 +237,6 @@ src/Neural_Layer.o: src/Neural_Layer.cpp.o
 
 # target to build an object file
 src/Neural_Layer.cpp.o:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.o
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Layer.cpp.o
 .PHONY : src/Neural_Layer.cpp.o
 
@@ -272,7 +246,6 @@ src/Neural_Layer.i: src/Neural_Layer.cpp.i
 
 # target to preprocess a source file
 src/Neural_Layer.cpp.i:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.i
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Layer.cpp.i
 .PHONY : src/Neural_Layer.cpp.i
 
@@ -282,7 +255,6 @@ src/Neural_Layer.s: src/Neural_Layer.cpp.s
 
 # target to generate assembly for a file
 src/Neural_Layer.cpp.s:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Layer.cpp.s
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Layer.cpp.s
 .PHONY : src/Neural_Layer.cpp.s
 
@@ -292,7 +264,6 @@ src/Neural_Network.o: src/Neural_Network.cpp.o
 
 # target to build an object file
 src/Neural_Network.cpp.o:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Network.cpp.o
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o
 .PHONY : src/Neural_Network.cpp.o
 
@@ -302,7 +273,6 @@ src/Neural_Network.i: src/Neural_Network.cpp.i
 
 # target to preprocess a source file
 src/Neural_Network.cpp.i:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Network.cpp.i
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.i
 .PHONY : src/Neural_Network.cpp.i
 
@@ -312,7 +282,6 @@ src/Neural_Network.s: src/Neural_Network.cpp.s
 
 # target to generate assembly for a file
 src/Neural_Network.cpp.s:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Network.cpp.s
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.s
 .PHONY : src/Neural_Network.cpp.s
 
@@ -322,7 +291,6 @@ src/Neural_Network_Extension.o: src/Neural_Network_Extension.cpp.o
 
 # target to build an object file
 src/Neural_Network_Extension.cpp.o:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.o
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o
 .PHONY : src/Neural_Network_Extension.cpp.o
 
@@ -332,7 +300,6 @@ src/Neural_Network_Extension.i: src/Neural_Network_Extension.cpp.i
 
 # target to preprocess a source file
 src/Neural_Network_Extension.cpp.i:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.i
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.i
 .PHONY : src/Neural_Network_Extension.cpp.i
 
@@ -342,7 +309,6 @@ src/Neural_Network_Extension.s: src/Neural_Network_Extension.cpp.s
 
 # target to generate assembly for a file
 src/Neural_Network_Extension.cpp.s:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Neural_Network_Extension.cpp.s
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.s
 .PHONY : src/Neural_Network_Extension.cpp.s
 
@@ -352,7 +318,6 @@ src/Output_Layer.o: src/Output_Layer.cpp.o
 
 # target to build an object file
 src/Output_Layer.cpp.o:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Output_Layer.cpp.o
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Output_Layer.cpp.o
 .PHONY : src/Output_Layer.cpp.o
 
@@ -362,7 +327,6 @@ src/Output_Layer.i: src/Output_Layer.cpp.i
 
 # target to preprocess a source file
 src/Output_Layer.cpp.i:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Output_Layer.cpp.i
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Output_Layer.cpp.i
 .PHONY : src/Output_Layer.cpp.i
 
@@ -372,7 +336,6 @@ src/Output_Layer.s: src/Output_Layer.cpp.s
 
 # target to generate assembly for a file
 src/Output_Layer.cpp.s:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Output_Layer.cpp.s
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Output_Layer.cpp.s
 .PHONY : src/Output_Layer.cpp.s
 
@@ -382,7 +345,6 @@ src/Tensor.o: src/Tensor.cpp.o
 
 # target to build an object file
 src/Tensor.cpp.o:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Tensor.cpp.o
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Tensor.cpp.o
 .PHONY : src/Tensor.cpp.o
 
@@ -392,7 +354,6 @@ src/Tensor.i: src/Tensor.cpp.i
 
 # target to preprocess a source file
 src/Tensor.cpp.i:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Tensor.cpp.i
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Tensor.cpp.i
 .PHONY : src/Tensor.cpp.i
 
@@ -402,39 +363,8 @@ src/Tensor.s: src/Tensor.cpp.s
 
 # target to generate assembly for a file
 src/Tensor.cpp.s:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/Tensor.cpp.s
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Tensor.cpp.s
 .PHONY : src/Tensor.cpp.s
-
-src/main.o: src/main.cpp.o
-
-.PHONY : src/main.o
-
-# target to build an object file
-src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/main.cpp.o
-	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
-
-src/main.i: src/main.cpp.i
-
-.PHONY : src/main.i
-
-# target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/main.cpp.i
-	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
-
-src/main.s: src/main.cpp.s
-
-.PHONY : src/main.s
-
-# target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/CAINN.dir/build.make CMakeFiles/CAINN.dir/src/main.cpp.s
-	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
 
 # Help Target
 help:
@@ -443,9 +373,8 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... edit_cache"
-	@echo "... CAINN"
 	@echo "... Neural_Network"
+	@echo "... edit_cache"
 	@echo "... src/Activation_Functions.o"
 	@echo "... src/Activation_Functions.i"
 	@echo "... src/Activation_Functions.s"
@@ -473,9 +402,6 @@ help:
 	@echo "... src/Tensor.o"
 	@echo "... src/Tensor.i"
 	@echo "... src/Tensor.s"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
 .PHONY : help
 
 

@@ -2,8 +2,8 @@
 
 
 void Network_Saver::save_network(Neural_Network *neural_network, std::string &path) {
-
-    
+// TODO: take neural network data and write to disk in json format to read later on.
+/*
     this->network_layers = new int[neural_network->neural_layers.size()];
     this->activation_functions = new int[neural_network->neural_layers.size()];
     this->neurons = new int[neural_network->neural_layers.size()];
@@ -23,9 +23,10 @@ void Network_Saver::save_network(Neural_Network *neural_network, std::string &pa
         this->neurons[index] = x.get()->output_dimensions()[1];
         index += 1;
     }
+    */
 }
 
 void Network_Saver::load_network(std::string &path) {
- 
+ // TODO: read a json file from disk and construct a neural network object.
 }
 

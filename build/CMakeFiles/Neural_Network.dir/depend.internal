@@ -70,14 +70,3 @@ CMakeFiles/Neural_Network.dir/src/Tensor.cpp.o
  ../include/Activation_Functions.h
  ../include/Tensor.h
  /home/christopher/Desktop/CAINN/src/Tensor.cpp
-CMakeFiles/Neural_Network.dir/src/main.cpp.o
- ../include/Activation_Function.h
- ../include/Activation_Functions.h
- ../include/Fully_Connected_Layer.h
- ../include/Input_Layer.h
- ../include/Network_Saver.h
- ../include/Neural_Layer.h
- ../include/Neural_Network.h
- ../include/Output_Layer.h
- ../include/Tensor.h
- /home/christopher/Desktop/CAINN/src/main.cpp

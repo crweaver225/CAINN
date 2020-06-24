@@ -1,4 +1,3 @@
 /home/christopher/Desktop/CAINN/build/CMakeFiles/rebuild_cache.dir
-/home/christopher/Desktop/CAINN/build/CMakeFiles/edit_cache.dir
-/home/christopher/Desktop/CAINN/build/CMakeFiles/CAINN.dir
 /home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir
+/home/christopher/Desktop/CAINN/build/CMakeFiles/edit_cache.dir

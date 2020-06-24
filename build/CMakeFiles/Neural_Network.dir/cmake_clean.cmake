@@ -8,7 +8,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o"
   "CMakeFiles/Neural_Network.dir/src/Output_Layer.cpp.o"
   "CMakeFiles/Neural_Network.dir/src/Tensor.cpp.o"
-  "CMakeFiles/Neural_Network.dir/src/main.cpp.o"
   "libNeural_Network.pdb"
   "libNeural_Network.so"
 )

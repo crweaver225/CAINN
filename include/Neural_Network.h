@@ -10,6 +10,7 @@
 #include "Output_Layer.h"
 #include "Network_Saver.h"
 
+
 class Neural_Network {
 
 private:
@@ -36,7 +37,5 @@ public:
     void execute(float *input);
     void train(float **input, float **targets, int batch_size, int epochs, int input_size);
 };
-
-
 
 #endif /* NEURAL_NETWORK_H_ */

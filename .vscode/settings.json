@@ -46,6 +46,22 @@
         "functional": "cpp",
         "numeric": "cpp",
         "random": "cpp",
-        "ctime": "cpp"
+        "ctime": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "condition_variable": "cpp",
+        "csignal": "cpp",
+        "forward_list": "cpp",
+        "unordered_set": "cpp",
+        "map": "cpp",
+        "ratio": "cpp",
+        "regex": "cpp",
+        "set": "cpp",
+        "iomanip": "cpp",
+        "mutex": "cpp",
+        "thread": "cpp",
+        "cinttypes": "cpp",
+        "valarray": "cpp",
+        "variant": "cpp"
     }
 }

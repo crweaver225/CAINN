@@ -13,7 +13,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/christopher/Desktop/CAINN/src/Neural_Network_Extension.cpp" "/home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o"
   "/home/christopher/Desktop/CAINN/src/Output_Layer.cpp" "/home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir/src/Output_Layer.cpp.o"
   "/home/christopher/Desktop/CAINN/src/Tensor.cpp" "/home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir/src/Tensor.cpp.o"
-  "/home/christopher/Desktop/CAINN/src/main.cpp" "/home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

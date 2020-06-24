@@ -14,6 +14,7 @@ class Tensor {
 
 private:
     int dimensions;
+    int active_dimensions;
     int rows;
     int columns;
     float *tensor;
@@ -39,7 +40,7 @@ public:
     const float sumTheSquares() const;
 
     template<typename a_f>
-    Tensor* matmul(Tensor &tensor, float *bias, a_f af) const;
+    void matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af);
 
     void resetTensor();
     void updateTensor(float *new_tensor);
@@ -49,9 +50,12 @@ public:
     template<typename a_fd>
     void applyDerivative(const Tensor& output, a_fd afd);
 
+    void setActiveDimension(int batch_size);
+    const int returnActiveDimension() const;
+
     void print() const;
     void printShape() const;
-    std::vector<int> shape();
+    std::vector<int> shape() const;
 };
 
 #endif /* TENSOR_H_ */

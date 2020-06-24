@@ -56,10 +56,21 @@ float* Neural_Layer::generateBiasValues(int size) {
     return bias_layer;
 }
 
-void Neural_Layer::training(bool train) { }
+void Neural_Layer::training(bool train) { 
+    if (train) {
+        buildGradient();
+    } else {
+        gradient.reset();
+    }
+}
+
+void Neural_Layer::setActiveDimensions(int batch_size) {
+    this->output_results.get()->setActiveDimension(batch_size);
+}
 
 void Neural_Layer::setBatchDimensions(int batch_size) {
     dimensions.front() = batch_size;
+    this->output_results = std::unique_ptr<Tensor>(new Tensor(batch_size, previous_layer.get()->output_results.get()->shape()[1], dimensions.back()));
 }
 
 const float Neural_Layer::returnL2() const {
@@ -70,8 +81,8 @@ void Neural_Layer::clearGradient() {
     gradient.get()->resetTensor();
 }
 
-void Neural_Layer::buildGradient(const int dimensions) {
-    this->gradient = std::unique_ptr<Tensor>(new Tensor(dimensions, 1, this->dimensions.back()));
+void Neural_Layer::buildGradient() {
+    this->gradient = std::unique_ptr<Tensor>(new Tensor(this->dimensions.front(), 1, this->dimensions.back()));
 }
 
 Activation_Function Neural_Layer::returnActivationFunctionType() const {

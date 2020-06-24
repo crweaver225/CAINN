@@ -24,8 +24,10 @@ protected:
     Tensor* previous_layer_gradient();
 
     float* generateBiasValues(int size);
+
+    void buildGradient();
     
-    auto returnActivationFunction() {
+    auto returnActivationFunction() -> float (*)(float) {
         if (activation_function == Activation_Function::Sigmoid) {
             return Activation_Functions::sigmoid;
         } else if (activation_function == Activation_Function::Relu) {
@@ -35,7 +37,7 @@ protected:
         }
     }
 
-    auto returnActivationFunctionDerivative() {
+    auto returnActivationFunctionDerivative() -> float (*)(float) {
         if (activation_function == Activation_Function::Sigmoid) {
             return Activation_Functions::sigmoid_d;
         } else if (activation_function == Activation_Function::Relu) {
@@ -59,12 +61,12 @@ public:
     virtual void forward_propogate() = 0;
     virtual void backpropogate() = 0;
 
-    void buildGradient(const int dimensions);
     void clearGradient();
 
     virtual void printMetaData();
     const std::vector<int>& output_dimensions();
-    void setBatchDimensions(int batch_size);
+    virtual void setBatchDimensions(int batch_size);
+    void setActiveDimensions(int batch_size);
 
     // functions for input layer
     virtual void addInput(float *input);
