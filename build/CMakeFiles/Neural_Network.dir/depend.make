@@ -29,6 +29,7 @@ CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Neural_Network
 CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Output_Layer.h
 CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../include/Tensor.h
 CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: ../src/Network_Saver.cpp
+CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o: _deps/json-src/single_include/nlohmann/json.hpp
 
 CMakeFiles/Neural_Network.dir/src/Neural_Layer.cpp.o: ../include/Activation_Function.h
 CMakeFiles/Neural_Network.dir/src/Neural_Layer.cpp.o: ../include/Activation_Functions.h
@@ -46,6 +47,7 @@ CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Neural_Networ
 CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Output_Layer.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../include/Tensor.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: ../src/Neural_Network.cpp
+CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o: _deps/json-src/single_include/nlohmann/json.hpp
 
 CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Activation_Function.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Activation_Functions.h
@@ -57,6 +59,7 @@ CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Neu
 CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Output_Layer.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../include/Tensor.h
 CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: ../src/Neural_Network_Extension.cpp
+CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o: _deps/json-src/single_include/nlohmann/json.hpp
 
 CMakeFiles/Neural_Network.dir/src/Output_Layer.cpp.o: ../include/Activation_Function.h
 CMakeFiles/Neural_Network.dir/src/Output_Layer.cpp.o: ../include/Activation_Functions.h

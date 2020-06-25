@@ -49,6 +49,7 @@ void Neural_Network::setLearningRate(float learning_rate) {
 
 void Neural_Network::build() {
     std::cout<<"building neural network..."<<std::endl;
+    
     neural_layers[0]->build(neural_layers[0]);
     for (int i = 1; i < neural_layers.size(); ++i) {
         neural_layers[i]->build(neural_layers[i-1]);
@@ -57,6 +58,13 @@ void Neural_Network::build() {
     for (int i = 0; i < neural_layers.size(); ++i) {
         neural_layers[i]->printMetaData();
     }
+
+    /*
+    Network_Saver n;
+    std::string t = "test.json";
+    n.save_network(this, t);
+    n.load_network(this, t);
+    */
 }
 
 void Neural_Network::execute(float *input) {

@@ -10,6 +10,7 @@
 class Neural_Layer {
 
 private:
+    friend class Network_Saver;
 
 protected:
     std::unique_ptr<Tensor> output_results;
