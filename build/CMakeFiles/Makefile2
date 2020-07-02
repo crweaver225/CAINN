@@ -71,7 +71,7 @@ CMAKE_BINARY_DIR = /home/christopher/Desktop/CAINN/build
 CMakeFiles/Neural_Network.dir/all:
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/depend
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target Neural_Network"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11 "Built target Neural_Network"
 .PHONY : CMakeFiles/Neural_Network.dir/all
 
 # Include target in all.
@@ -81,7 +81,7 @@ all: CMakeFiles/Neural_Network.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Neural_Network.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/christopher/Desktop/CAINN/build/CMakeFiles 10
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/christopher/Desktop/CAINN/build/CMakeFiles 11
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Neural_Network.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/christopher/Desktop/CAINN/build/CMakeFiles 0
 .PHONY : CMakeFiles/Neural_Network.dir/rule
@@ -1160,7 +1160,7 @@ _deps/json-build/test/preinstall: _deps/json-build/test/cmake_add_subdirectory/p
 _deps/json-build/test/CMakeFiles/test-wstring.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-wstring.dir/build.make _deps/json-build/test/CMakeFiles/test-wstring.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-wstring.dir/build.make _deps/json-build/test/CMakeFiles/test-wstring.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=94,95 "Built target test-wstring"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=95,96 "Built target test-wstring"
 .PHONY : _deps/json-build/test/CMakeFiles/test-wstring.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1192,7 +1192,7 @@ clean: _deps/json-build/test/CMakeFiles/test-wstring.dir/clean
 _deps/json-build/test/CMakeFiles/test-unicode.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-unicode.dir/build.make _deps/json-build/test/CMakeFiles/test-unicode.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-unicode.dir/build.make _deps/json-build/test/CMakeFiles/test-unicode.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=92,93 "Built target test-unicode"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=93,94 "Built target test-unicode"
 .PHONY : _deps/json-build/test/CMakeFiles/test-unicode.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1224,7 +1224,7 @@ clean: _deps/json-build/test/CMakeFiles/test-unicode.dir/clean
 _deps/json-build/test/CMakeFiles/test-udt.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-udt.dir/build.make _deps/json-build/test/CMakeFiles/test-udt.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-udt.dir/build.make _deps/json-build/test/CMakeFiles/test-udt.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=90,91 "Built target test-udt"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=91,92 "Built target test-udt"
 .PHONY : _deps/json-build/test/CMakeFiles/test-udt.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1256,7 +1256,7 @@ clean: _deps/json-build/test/CMakeFiles/test-udt.dir/clean
 _deps/json-build/test/CMakeFiles/test-ubjson.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-ubjson.dir/build.make _deps/json-build/test/CMakeFiles/test-ubjson.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-ubjson.dir/build.make _deps/json-build/test/CMakeFiles/test-ubjson.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=88,89 "Built target test-ubjson"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=89,90 "Built target test-ubjson"
 .PHONY : _deps/json-build/test/CMakeFiles/test-ubjson.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1288,7 +1288,7 @@ clean: _deps/json-build/test/CMakeFiles/test-ubjson.dir/clean
 _deps/json-build/test/CMakeFiles/test-to_chars.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-to_chars.dir/build.make _deps/json-build/test/CMakeFiles/test-to_chars.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-to_chars.dir/build.make _deps/json-build/test/CMakeFiles/test-to_chars.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=86,87 "Built target test-to_chars"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=87,88 "Built target test-to_chars"
 .PHONY : _deps/json-build/test/CMakeFiles/test-to_chars.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1320,7 +1320,7 @@ clean: _deps/json-build/test/CMakeFiles/test-to_chars.dir/clean
 _deps/json-build/test/CMakeFiles/test-serialization.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-serialization.dir/build.make _deps/json-build/test/CMakeFiles/test-serialization.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-serialization.dir/build.make _deps/json-build/test/CMakeFiles/test-serialization.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=82,83 "Built target test-serialization"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=83,84 "Built target test-serialization"
 .PHONY : _deps/json-build/test/CMakeFiles/test-serialization.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1352,7 +1352,7 @@ clean: _deps/json-build/test/CMakeFiles/test-serialization.dir/clean
 _deps/json-build/test/CMakeFiles/test-convenience.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-convenience.dir/build.make _deps/json-build/test/CMakeFiles/test-convenience.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-convenience.dir/build.make _deps/json-build/test/CMakeFiles/test-convenience.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=40,41 "Built target test-convenience"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=41,42 "Built target test-convenience"
 .PHONY : _deps/json-build/test/CMakeFiles/test-convenience.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1384,7 +1384,7 @@ clean: _deps/json-build/test/CMakeFiles/test-convenience.dir/clean
 _deps/json-build/test/CMakeFiles/test-class_iterator.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-class_iterator.dir/build.make _deps/json-build/test/CMakeFiles/test-class_iterator.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-class_iterator.dir/build.make _deps/json-build/test/CMakeFiles/test-class_iterator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=26,27 "Built target test-class_iterator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=27,28 "Built target test-class_iterator"
 .PHONY : _deps/json-build/test/CMakeFiles/test-class_iterator.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1416,7 +1416,7 @@ clean: _deps/json-build/test/CMakeFiles/test-class_iterator.dir/clean
 _deps/json-build/test/CMakeFiles/test-class_parser.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-class_parser.dir/build.make _deps/json-build/test/CMakeFiles/test-class_parser.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-class_parser.dir/build.make _deps/json-build/test/CMakeFiles/test-class_parser.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=30,31 "Built target test-class_parser"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=31,32 "Built target test-class_parser"
 .PHONY : _deps/json-build/test/CMakeFiles/test-class_parser.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1448,7 +1448,7 @@ clean: _deps/json-build/test/CMakeFiles/test-class_parser.dir/clean
 _deps/json-build/test/CMakeFiles/test-comparison.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-comparison.dir/build.make _deps/json-build/test/CMakeFiles/test-comparison.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-comparison.dir/build.make _deps/json-build/test/CMakeFiles/test-comparison.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=32,33 "Built target test-comparison"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=33,34 "Built target test-comparison"
 .PHONY : _deps/json-build/test/CMakeFiles/test-comparison.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1480,7 +1480,7 @@ clean: _deps/json-build/test/CMakeFiles/test-comparison.dir/clean
 _deps/json-build/test/CMakeFiles/test-regression.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-regression.dir/build.make _deps/json-build/test/CMakeFiles/test-regression.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-regression.dir/build.make _deps/json-build/test/CMakeFiles/test-regression.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=80,81 "Built target test-regression"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=81,82 "Built target test-regression"
 .PHONY : _deps/json-build/test/CMakeFiles/test-regression.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1512,7 +1512,7 @@ clean: _deps/json-build/test/CMakeFiles/test-regression.dir/clean
 _deps/json-build/test/CMakeFiles/test-class_const_iterator.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-class_const_iterator.dir/build.make _deps/json-build/test/CMakeFiles/test-class_const_iterator.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-class_const_iterator.dir/build.make _deps/json-build/test/CMakeFiles/test-class_const_iterator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=24,25 "Built target test-class_const_iterator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=25,26 "Built target test-class_const_iterator"
 .PHONY : _deps/json-build/test/CMakeFiles/test-class_const_iterator.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1544,7 +1544,7 @@ clean: _deps/json-build/test/CMakeFiles/test-class_const_iterator.dir/clean
 _deps/json-build/test/CMakeFiles/test-json_patch.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-json_patch.dir/build.make _deps/json-build/test/CMakeFiles/test-json_patch.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-json_patch.dir/build.make _deps/json-build/test/CMakeFiles/test-json_patch.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=58,59 "Built target test-json_patch"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=59,60 "Built target test-json_patch"
 .PHONY : _deps/json-build/test/CMakeFiles/test-json_patch.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1576,7 +1576,7 @@ clean: _deps/json-build/test/CMakeFiles/test-json_patch.dir/clean
 _deps/json-build/test/CMakeFiles/test-noexcept.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-noexcept.dir/build.make _deps/json-build/test/CMakeFiles/test-noexcept.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-noexcept.dir/build.make _deps/json-build/test/CMakeFiles/test-noexcept.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=72,73 "Built target test-noexcept"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=73,74 "Built target test-noexcept"
 .PHONY : _deps/json-build/test/CMakeFiles/test-noexcept.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1608,7 +1608,7 @@ clean: _deps/json-build/test/CMakeFiles/test-noexcept.dir/clean
 _deps/json-build/test/CMakeFiles/test-pointer_access.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-pointer_access.dir/build.make _deps/json-build/test/CMakeFiles/test-pointer_access.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-pointer_access.dir/build.make _deps/json-build/test/CMakeFiles/test-pointer_access.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=74,75 "Built target test-pointer_access"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=75,76 "Built target test-pointer_access"
 .PHONY : _deps/json-build/test/CMakeFiles/test-pointer_access.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1640,7 +1640,7 @@ clean: _deps/json-build/test/CMakeFiles/test-pointer_access.dir/clean
 _deps/json-build/test/CMakeFiles/test-class_lexer.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-class_lexer.dir/build.make _deps/json-build/test/CMakeFiles/test-class_lexer.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-class_lexer.dir/build.make _deps/json-build/test/CMakeFiles/test-class_lexer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=28,29 "Built target test-class_lexer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=29,30 "Built target test-class_lexer"
 .PHONY : _deps/json-build/test/CMakeFiles/test-class_lexer.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1672,7 +1672,7 @@ clean: _deps/json-build/test/CMakeFiles/test-class_lexer.dir/clean
 _deps/json-build/test/CMakeFiles/test-bson.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-bson.dir/build.make _deps/json-build/test/CMakeFiles/test-bson.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-bson.dir/build.make _deps/json-build/test/CMakeFiles/test-bson.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=18,19 "Built target test-bson"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=19,20 "Built target test-bson"
 .PHONY : _deps/json-build/test/CMakeFiles/test-bson.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1704,7 +1704,7 @@ clean: _deps/json-build/test/CMakeFiles/test-bson.dir/clean
 _deps/json-build/test/CMakeFiles/test-cbor.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-cbor.dir/build.make _deps/json-build/test/CMakeFiles/test-cbor.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-cbor.dir/build.make _deps/json-build/test/CMakeFiles/test-cbor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=22,23 "Built target test-cbor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=23,24 "Built target test-cbor"
 .PHONY : _deps/json-build/test/CMakeFiles/test-cbor.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1736,7 +1736,7 @@ clean: _deps/json-build/test/CMakeFiles/test-cbor.dir/clean
 _deps/json-build/test/CMakeFiles/test-algorithms.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-algorithms.dir/build.make _deps/json-build/test/CMakeFiles/test-algorithms.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-algorithms.dir/build.make _deps/json-build/test/CMakeFiles/test-algorithms.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=12,13 "Built target test-algorithms"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=13,14 "Built target test-algorithms"
 .PHONY : _deps/json-build/test/CMakeFiles/test-algorithms.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1768,7 +1768,7 @@ clean: _deps/json-build/test/CMakeFiles/test-algorithms.dir/clean
 _deps/json-build/test/CMakeFiles/test-element_access2.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-element_access2.dir/build.make _deps/json-build/test/CMakeFiles/test-element_access2.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-element_access2.dir/build.make _deps/json-build/test/CMakeFiles/test-element_access2.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=48,49 "Built target test-element_access2"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=49,50 "Built target test-element_access2"
 .PHONY : _deps/json-build/test/CMakeFiles/test-element_access2.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1800,7 +1800,7 @@ clean: _deps/json-build/test/CMakeFiles/test-element_access2.dir/clean
 _deps/json-build/test/CMakeFiles/test-allocator.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-allocator.dir/build.make _deps/json-build/test/CMakeFiles/test-allocator.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-allocator.dir/build.make _deps/json-build/test/CMakeFiles/test-allocator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=14,15 "Built target test-allocator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=15,16 "Built target test-allocator"
 .PHONY : _deps/json-build/test/CMakeFiles/test-allocator.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1832,7 +1832,7 @@ clean: _deps/json-build/test/CMakeFiles/test-allocator.dir/clean
 _deps/json-build/test/CMakeFiles/test-items.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-items.dir/build.make _deps/json-build/test/CMakeFiles/test-items.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-items.dir/build.make _deps/json-build/test/CMakeFiles/test-items.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=52,53 "Built target test-items"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=53,54 "Built target test-items"
 .PHONY : _deps/json-build/test/CMakeFiles/test-items.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1864,7 +1864,7 @@ clean: _deps/json-build/test/CMakeFiles/test-items.dir/clean
 _deps/json-build/test/CMakeFiles/test-constructor2.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-constructor2.dir/build.make _deps/json-build/test/CMakeFiles/test-constructor2.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-constructor2.dir/build.make _deps/json-build/test/CMakeFiles/test-constructor2.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=38,39 "Built target test-constructor2"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=39,40 "Built target test-constructor2"
 .PHONY : _deps/json-build/test/CMakeFiles/test-constructor2.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1896,7 +1896,7 @@ clean: _deps/json-build/test/CMakeFiles/test-constructor2.dir/clean
 _deps/json-build/test/CMakeFiles/test-alt-string.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-alt-string.dir/build.make _deps/json-build/test/CMakeFiles/test-alt-string.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-alt-string.dir/build.make _deps/json-build/test/CMakeFiles/test-alt-string.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=16,17 "Built target test-alt-string"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=17,18 "Built target test-alt-string"
 .PHONY : _deps/json-build/test/CMakeFiles/test-alt-string.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1928,7 +1928,7 @@ clean: _deps/json-build/test/CMakeFiles/test-alt-string.dir/clean
 _deps/json-build/test/CMakeFiles/test-iterators2.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-iterators2.dir/build.make _deps/json-build/test/CMakeFiles/test-iterators2.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-iterators2.dir/build.make _deps/json-build/test/CMakeFiles/test-iterators2.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=56,57 "Built target test-iterators2"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=57,58 "Built target test-iterators2"
 .PHONY : _deps/json-build/test/CMakeFiles/test-iterators2.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1960,7 +1960,7 @@ clean: _deps/json-build/test/CMakeFiles/test-iterators2.dir/clean
 _deps/json-build/test/CMakeFiles/test-capacity.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-capacity.dir/build.make _deps/json-build/test/CMakeFiles/test-capacity.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-capacity.dir/build.make _deps/json-build/test/CMakeFiles/test-capacity.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=20,21 "Built target test-capacity"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=21,22 "Built target test-capacity"
 .PHONY : _deps/json-build/test/CMakeFiles/test-capacity.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1992,7 +1992,7 @@ clean: _deps/json-build/test/CMakeFiles/test-capacity.dir/clean
 _deps/json-build/test/CMakeFiles/test-conversions.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-conversions.dir/build.make _deps/json-build/test/CMakeFiles/test-conversions.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-conversions.dir/build.make _deps/json-build/test/CMakeFiles/test-conversions.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=42,43 "Built target test-conversions"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=43,44 "Built target test-conversions"
 .PHONY : _deps/json-build/test/CMakeFiles/test-conversions.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2024,7 +2024,7 @@ clean: _deps/json-build/test/CMakeFiles/test-conversions.dir/clean
 _deps/json-build/test/CMakeFiles/test-constructor1.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-constructor1.dir/build.make _deps/json-build/test/CMakeFiles/test-constructor1.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-constructor1.dir/build.make _deps/json-build/test/CMakeFiles/test-constructor1.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=36,37 "Built target test-constructor1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=37,38 "Built target test-constructor1"
 .PHONY : _deps/json-build/test/CMakeFiles/test-constructor1.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2056,7 +2056,7 @@ clean: _deps/json-build/test/CMakeFiles/test-constructor1.dir/clean
 _deps/json-build/test/CMakeFiles/test-deserialization.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-deserialization.dir/build.make _deps/json-build/test/CMakeFiles/test-deserialization.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-deserialization.dir/build.make _deps/json-build/test/CMakeFiles/test-deserialization.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=44,45 "Built target test-deserialization"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=45,46 "Built target test-deserialization"
 .PHONY : _deps/json-build/test/CMakeFiles/test-deserialization.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2088,7 +2088,7 @@ clean: _deps/json-build/test/CMakeFiles/test-deserialization.dir/clean
 _deps/json-build/test/CMakeFiles/test-reference_access.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-reference_access.dir/build.make _deps/json-build/test/CMakeFiles/test-reference_access.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-reference_access.dir/build.make _deps/json-build/test/CMakeFiles/test-reference_access.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=78,79 "Built target test-reference_access"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=79,80 "Built target test-reference_access"
 .PHONY : _deps/json-build/test/CMakeFiles/test-reference_access.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2120,7 +2120,7 @@ clean: _deps/json-build/test/CMakeFiles/test-reference_access.dir/clean
 _deps/json-build/test/CMakeFiles/test-element_access1.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-element_access1.dir/build.make _deps/json-build/test/CMakeFiles/test-element_access1.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-element_access1.dir/build.make _deps/json-build/test/CMakeFiles/test-element_access1.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=46,47 "Built target test-element_access1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=47,48 "Built target test-element_access1"
 .PHONY : _deps/json-build/test/CMakeFiles/test-element_access1.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2152,7 +2152,7 @@ clean: _deps/json-build/test/CMakeFiles/test-element_access1.dir/clean
 _deps/json-build/test/CMakeFiles/test-meta.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-meta.dir/build.make _deps/json-build/test/CMakeFiles/test-meta.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-meta.dir/build.make _deps/json-build/test/CMakeFiles/test-meta.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=66,67 "Built target test-meta"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=67,68 "Built target test-meta"
 .PHONY : _deps/json-build/test/CMakeFiles/test-meta.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2184,7 +2184,7 @@ clean: _deps/json-build/test/CMakeFiles/test-meta.dir/clean
 _deps/json-build/test/CMakeFiles/test-inspection.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-inspection.dir/build.make _deps/json-build/test/CMakeFiles/test-inspection.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-inspection.dir/build.make _deps/json-build/test/CMakeFiles/test-inspection.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=50,51 "Built target test-inspection"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=51,52 "Built target test-inspection"
 .PHONY : _deps/json-build/test/CMakeFiles/test-inspection.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2216,7 +2216,7 @@ clean: _deps/json-build/test/CMakeFiles/test-inspection.dir/clean
 _deps/json-build/test/CMakeFiles/doctest_main.dir/all:
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/doctest_main.dir/build.make _deps/json-build/test/CMakeFiles/doctest_main.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/doctest_main.dir/build.make _deps/json-build/test/CMakeFiles/doctest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=11 "Built target doctest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=12 "Built target doctest_main"
 .PHONY : _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2248,7 +2248,7 @@ clean: _deps/json-build/test/CMakeFiles/doctest_main.dir/clean
 _deps/json-build/test/CMakeFiles/test-readme.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-readme.dir/build.make _deps/json-build/test/CMakeFiles/test-readme.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-readme.dir/build.make _deps/json-build/test/CMakeFiles/test-readme.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=76,77 "Built target test-readme"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=77,78 "Built target test-readme"
 .PHONY : _deps/json-build/test/CMakeFiles/test-readme.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2280,7 +2280,7 @@ clean: _deps/json-build/test/CMakeFiles/test-readme.dir/clean
 _deps/json-build/test/CMakeFiles/test-iterators1.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-iterators1.dir/build.make _deps/json-build/test/CMakeFiles/test-iterators1.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-iterators1.dir/build.make _deps/json-build/test/CMakeFiles/test-iterators1.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=54,55 "Built target test-iterators1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=55,56 "Built target test-iterators1"
 .PHONY : _deps/json-build/test/CMakeFiles/test-iterators1.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2312,7 +2312,7 @@ clean: _deps/json-build/test/CMakeFiles/test-iterators1.dir/clean
 _deps/json-build/test/CMakeFiles/test-json_pointer.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-json_pointer.dir/build.make _deps/json-build/test/CMakeFiles/test-json_pointer.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-json_pointer.dir/build.make _deps/json-build/test/CMakeFiles/test-json_pointer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=60,61 "Built target test-json_pointer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=61,62 "Built target test-json_pointer"
 .PHONY : _deps/json-build/test/CMakeFiles/test-json_pointer.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2344,7 +2344,7 @@ clean: _deps/json-build/test/CMakeFiles/test-json_pointer.dir/clean
 _deps/json-build/test/CMakeFiles/test-modifiers.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-modifiers.dir/build.make _deps/json-build/test/CMakeFiles/test-modifiers.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-modifiers.dir/build.make _deps/json-build/test/CMakeFiles/test-modifiers.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=68,69 "Built target test-modifiers"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=69,70 "Built target test-modifiers"
 .PHONY : _deps/json-build/test/CMakeFiles/test-modifiers.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2376,7 +2376,7 @@ clean: _deps/json-build/test/CMakeFiles/test-modifiers.dir/clean
 _deps/json-build/test/CMakeFiles/test-testsuites.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-testsuites.dir/build.make _deps/json-build/test/CMakeFiles/test-testsuites.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-testsuites.dir/build.make _deps/json-build/test/CMakeFiles/test-testsuites.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=84,85 "Built target test-testsuites"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=85,86 "Built target test-testsuites"
 .PHONY : _deps/json-build/test/CMakeFiles/test-testsuites.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2408,7 +2408,7 @@ clean: _deps/json-build/test/CMakeFiles/test-testsuites.dir/clean
 _deps/json-build/test/CMakeFiles/test-concepts.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-concepts.dir/build.make _deps/json-build/test/CMakeFiles/test-concepts.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-concepts.dir/build.make _deps/json-build/test/CMakeFiles/test-concepts.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=34,35 "Built target test-concepts"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=35,36 "Built target test-concepts"
 .PHONY : _deps/json-build/test/CMakeFiles/test-concepts.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2440,7 +2440,7 @@ clean: _deps/json-build/test/CMakeFiles/test-concepts.dir/clean
 _deps/json-build/test/CMakeFiles/test-large_json.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-large_json.dir/build.make _deps/json-build/test/CMakeFiles/test-large_json.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-large_json.dir/build.make _deps/json-build/test/CMakeFiles/test-large_json.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=62,63 "Built target test-large_json"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=63,64 "Built target test-large_json"
 .PHONY : _deps/json-build/test/CMakeFiles/test-large_json.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2472,7 +2472,7 @@ clean: _deps/json-build/test/CMakeFiles/test-large_json.dir/clean
 _deps/json-build/test/CMakeFiles/test-merge_patch.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-merge_patch.dir/build.make _deps/json-build/test/CMakeFiles/test-merge_patch.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-merge_patch.dir/build.make _deps/json-build/test/CMakeFiles/test-merge_patch.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=64,65 "Built target test-merge_patch"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=65,66 "Built target test-merge_patch"
 .PHONY : _deps/json-build/test/CMakeFiles/test-merge_patch.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2504,7 +2504,7 @@ clean: _deps/json-build/test/CMakeFiles/test-merge_patch.dir/clean
 _deps/json-build/test/CMakeFiles/test-msgpack.dir/all: _deps/json-build/test/CMakeFiles/doctest_main.dir/all
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-msgpack.dir/build.make _deps/json-build/test/CMakeFiles/test-msgpack.dir/depend
 	$(MAKE) -f _deps/json-build/test/CMakeFiles/test-msgpack.dir/build.make _deps/json-build/test/CMakeFiles/test-msgpack.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=70,71 "Built target test-msgpack"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/christopher/Desktop/CAINN/build/CMakeFiles --progress-num=71,72 "Built target test-msgpack"
 .PHONY : _deps/json-build/test/CMakeFiles/test-msgpack.dir/all
 
 # Build rule for subdir invocation for target.

@@ -56,11 +56,47 @@ float* Neural_Layer::generateBiasValues(int size) {
     return bias_layer;
 }
 
+void Neural_Layer::setBias(float *data) {
+    float * new_bias = new float[dimensions.back()];
+    for (int b = 0; b < dimensions.back(); b++) {
+        new_bias[b] = data[b];
+    }
+    this->bias.reset(new_bias);
+}
+
+void Neural_Layer::setLossFunction(Loss loss) {
+    this->loss_function = loss;
+}
+
 void Neural_Layer::training(bool train) { 
     if (train) {
         buildGradient();
     } else {
         gradient.reset();
+    }
+}
+
+auto Neural_Layer::returnActivationFunction() -> void (*)(float*,float*, int, int) {
+        if (activation_function == Activation_Function::Sigmoid) {
+        return Activation_Functions::sigmoid;
+    } else if (activation_function == Activation_Function::Relu) {
+        return Activation_Functions::relu;
+    } else if (activation_function == Activation_Function::SoftMax) {
+        return Activation_Functions::softmax;
+    } else {
+        return Activation_Functions::pass;
+    }
+}
+
+auto Neural_Layer::returnActivationFunctionDerivative() -> void (*)(float*, float*, int) {
+    if (activation_function == Activation_Function::Sigmoid) {
+        return Activation_Functions::sigmoid_d;
+    } else if (activation_function == Activation_Function::Relu) {
+        return Activation_Functions::relu_d;
+    } else if (activation_function == Activation_Function::SoftMax) {
+        return Activation_Functions::softmax_d;
+    } else {
+        return Activation_Functions::pass_d;
     }
 }
 
@@ -110,6 +146,16 @@ void Neural_Layer::calculateError(float **target, float regularization) {
 
 void Neural_Layer::printError() {
     std::cout<<"attempting to print error from a non-output neural layer...aborting..."<<std::endl;
+    exit(0);
+}
+
+void Neural_Layer::resetLoss() {
+    std::cout<<"Attempting to reset the loss of a non-output neural layer...aborting..."<<std::endl;
+    exit(0);
+}
+
+float Neural_Layer::returnLoss() const {
+    std::cout<<"Attempting to access the loss of a non-output neural layer...aborting..."<<std::endl;
     exit(0);
 }
 

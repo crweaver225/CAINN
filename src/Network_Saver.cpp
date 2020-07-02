@@ -19,6 +19,8 @@ void Network_Saver::save_network(Neural_Network *neural_network, std::string &pa
             weights.push_back(std::vector<float>(x.get()->weights.get()->returnData() , x.get()->weights.get()->returnData() + (weight_shape[1] * weight_shape[2])));
         } else if (dynamic_cast<Output_Layer*>(x.get()) != nullptr) {
             network_layers.push_back(3);
+            std::vector<int> weight_shape = x.get()->weights.get()->shape();
+            weights.push_back(std::vector<float>(x.get()->weights.get()->returnData() , x.get()->weights.get()->returnData() + (weight_shape[1] * weight_shape[2])));
         }
         activation_functions.push_back(x.get()->returnActivationFunctionType());
         neurons.push_back(x.get()->output_dimensions().back());
@@ -36,7 +38,9 @@ void Network_Saver::save_network(Neural_Network *neural_network, std::string &pa
 }
 
 void Network_Saver::load_network(Neural_Network *neural_network, std::string &path) {
-    // TODO: read a json file from disk and construct a neural network object.
+
+    neural_network->neural_layers.clear();
+
     std::ifstream i(path);
     json network_json;
     i >> network_json;
@@ -49,8 +53,8 @@ void Network_Saver::load_network(Neural_Network *neural_network, std::string &pa
 
     for (int layer = 0; layer < network_layers.size(); layer++) {
         if (network_layers[layer] == 1) {
-            int *i = new int[1];
-            neural_network->addInputLayer(i,neurons[layer]);
+           // int *i = new int[1];
+            neural_network->addInputLayer(neurons[layer]);
         } else if (network_layers[layer] == 2) {
             neural_network->addFullyConnectedLayer(neurons[layer], activation_functions[layer]);
         } else if (network_layers[layer] == 3) {
@@ -59,17 +63,20 @@ void Network_Saver::load_network(Neural_Network *neural_network, std::string &pa
     }
     neural_network->build();
 
+
     int bias_index = 0;
     int weight_index = 0;
     for (int layer = 0; layer < network_layers.size(); layer++) {
         if (network_layers[layer] == 2) {
-            neural_network->neural_layers[layer].get()->bias = std::unique_ptr<float>(bias[bias_index].data());
+            neural_network->neural_layers[layer].get()->setBias(bias[bias_index].data());
             bias_index++;
             neural_network->neural_layers[layer].get()->weights.get()->setData(weights[weight_index].data());
             weight_index++;
         } else if (network_layers[layer] == 3) {
-            neural_network->addOutputLayer(neurons[layer], activation_functions[layer]);
+            neural_network->neural_layers[layer].get()->weights.get()->setData(weights[weight_index].data());
+            weight_index++;
         }
     }
+
 }
 

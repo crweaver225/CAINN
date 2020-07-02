@@ -25,7 +25,7 @@ Neural_Network& Neural_Network::operator=(Neural_Network &&neural_network) {
     std::cout<<"Move assignment operator called on Neural Network"<<std::endl;
 }
 
-void Neural_Network::addInputLayer(int *dimensions, int dimension) {
+void Neural_Network::addInputLayer(int dimension) {
     std::vector<int> input_vector{1, 1, dimension};
     std::shared_ptr<Input_layer> input_layer = std::shared_ptr<Input_layer>(new Input_layer(input_vector));
     neural_layers.push_back(input_layer);
@@ -39,6 +39,7 @@ void Neural_Network::addFullyConnectedLayer(int neurons, int activation_function
 
 void Neural_Network::addOutputLayer(int neurons, int activation_function) {
     std::vector<int> output_vector{1, 1, neurons};
+    std::cout<<activation_function<<std::endl;
     std::shared_ptr<Output_Layer> output_layer = std::shared_ptr<Output_Layer>(new Output_Layer(output_vector, (Activation_Function)activation_function));
     neural_layers.push_back(output_layer);
 }
@@ -47,35 +48,61 @@ void Neural_Network::setLearningRate(float learning_rate) {
     Tensor::learning_rate = learning_rate;
 }
 
+void Neural_Network::set_print_loss_ever_iterations(int iteration) {
+    this->print_loss_every_iterations = iteration;
+}
+
+void Neural_Network::save_network() {
+    Network_Saver network_saver;
+    network_saver.save_network(this, this->filePath);
+ }
+
+  void Neural_Network::load_network(size_t len, const char* path) {
+    std::string path_str(path);
+    Network_Saver network_saver;
+    network_saver.load_network(this, path_str);
+ }
+
+const int Neural_Network::output_dimensions() const {
+    return neural_layers.back()->output_dimensions().back();
+}
+
+void Neural_Network::set_filepath(const char* path) {
+    this->filePath = path;
+}
+
+void Neural_Network::save_best_automatically(bool activate) {
+    this->save_if_best = activate;
+}
+
+void Neural_Network::stop_training_automatically(bool activate) {
+    this->stop_automatically = activate;
+}
+
 void Neural_Network::build() {
     std::cout<<"building neural network..."<<std::endl;
     
     neural_layers[0]->build(neural_layers[0]);
     for (int i = 1; i < neural_layers.size(); ++i) {
         neural_layers[i]->build(neural_layers[i-1]);
-       // neural_layers[i]->printMetaData();
     }
     for (int i = 0; i < neural_layers.size(); ++i) {
         neural_layers[i]->printMetaData();
     }
-
-    /*
-    Network_Saver n;
-    std::string t = "test.json";
-    n.save_network(this, t);
-    n.load_network(this, t);
-    */
 }
 
-void Neural_Network::execute(float *input) {
+const float* Neural_Network::execute(float *input) {
     neural_layers[0]->addInput(input);
     for (int i = 0; i < neural_layers.size(); ++i) {
         neural_layers[i]->forward_propogate();
     }
-    neural_layers.back()->printFinalResults();
+    return neural_layers.back().get()->output_results.get()->returnData();
 }
 
-void Neural_Network::train(float **input, float **targets, int batch_size, int epochs, int input_size) {
+void Neural_Network::train(float **input, float **targets, int batch_size, int epochs, int loss_function, int input_size) {
+
+    this->best_loss = std::numeric_limits<float>::max();
+    neural_layers.back().get()->setLossFunction((Loss)loss_function);
 
     for (int i = 0; i < neural_layers.size(); ++i) {
         neural_layers[i].get()->setBatchDimensions(batch_size);
@@ -114,11 +141,30 @@ void Neural_Network::train(float **input, float **targets, int batch_size, int e
             clearGradients();
             backpropogate();
         }
-        if (epoch % 100== 0) {
+
+        if (epoch % this->print_loss_every_iterations == 0) {
             std::cout<<" iteration: "<<epoch<<" ";
             neural_layers.back().get()->printError();
         }
+
+        float loss = neural_layers.back().get()->returnLoss();
+
+        if (save_if_best) {
+            if (loss < best_loss) {
+                save_network();
+                best_loss = loss;
+            }
+        }
+
+        if (stop_automatically) {
+            if (loss == 0) {
+                std::cout<<"stopping training early, loss has reached zero"<<std::endl;
+                break;
+            }
+        }
+        neural_layers.back().get()->resetLoss();
     }
+
     for (int i = 0; i < neural_layers.size(); ++i) {
         neural_layers[i].get()->setBatchDimensions(1);
         neural_layers[i].get()->training(false);

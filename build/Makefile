@@ -1173,6 +1173,33 @@ src/Input_Layer.cpp.s:
 	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Input_Layer.cpp.s
 .PHONY : src/Input_Layer.cpp.s
 
+src/Loss.o: src/Loss.cpp.o
+
+.PHONY : src/Loss.o
+
+# target to build an object file
+src/Loss.cpp.o:
+	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Loss.cpp.o
+.PHONY : src/Loss.cpp.o
+
+src/Loss.i: src/Loss.cpp.i
+
+.PHONY : src/Loss.i
+
+# target to preprocess a source file
+src/Loss.cpp.i:
+	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Loss.cpp.i
+.PHONY : src/Loss.cpp.i
+
+src/Loss.s: src/Loss.cpp.s
+
+.PHONY : src/Loss.s
+
+# target to generate assembly for a file
+src/Loss.cpp.s:
+	$(MAKE) -f CMakeFiles/Neural_Network.dir/build.make CMakeFiles/Neural_Network.dir/src/Loss.cpp.s
+.PHONY : src/Loss.cpp.s
+
 src/Network_Saver.o: src/Network_Saver.cpp.o
 
 .PHONY : src/Network_Saver.o
@@ -1428,6 +1455,9 @@ help:
 	@echo "... src/Input_Layer.o"
 	@echo "... src/Input_Layer.i"
 	@echo "... src/Input_Layer.s"
+	@echo "... src/Loss.o"
+	@echo "... src/Loss.i"
+	@echo "... src/Loss.s"
 	@echo "... src/Network_Saver.o"
 	@echo "... src/Network_Saver.i"
 	@echo "... src/Network_Saver.s"

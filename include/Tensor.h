@@ -6,6 +6,7 @@
 #include <string.h>
 #include "Activation_Function.h"
 #include "Activation_Functions.h"
+#include "Loss.h"
 
 #ifndef TENSOR_H_
 #define TENSOR_H_

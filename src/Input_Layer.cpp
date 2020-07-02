@@ -47,8 +47,6 @@ void Input_layer::addInputInBatches(const int dimensions, float **input) {
         }
     }
     output_results.get()->setData(input_array);
-   // std::cout<<"input: ";
-   // output_results.get()->print();
 }
 
 void Input_layer::setBatchDimensions(int batch_size) {

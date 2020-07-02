@@ -4,8 +4,8 @@ class Output_Layer: public Neural_Layer {
 
 private:
     std::unique_ptr<float> error;
-   //std::vector<float> error;
     float loss;
+    auto returnLossFunction() -> float (*)(const float*, float*, int, int);
 public:
     Output_Layer(std::vector<int> dimensions, Activation_Function af);
     ~Output_Layer();
@@ -19,6 +19,8 @@ public:
     void training(bool train) override;
     void forward_propogate() override;
     void calculateError(float **target, float regularization);
+    void resetLoss() override;
+    float returnLoss() const override;
 
     void printFinalResults();
     void printError();

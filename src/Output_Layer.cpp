@@ -6,12 +6,10 @@ Output_Layer::Output_Layer(std::vector<int> dimensions, Activation_Function af) 
 
 Output_Layer::~Output_Layer() {
     std::cout<<"output layer deconstructor called"<<std::endl;
-
 }
 
 Output_Layer::Output_Layer(const Output_Layer &output_layer) : Neural_Layer(output_layer.dimensions, output_layer.activation_function) {
     std::cout<<"output layer copy constructor called"<<std::endl;
-
 }
 
 Output_Layer& Output_Layer::operator=(const Output_Layer &output_layer) {
@@ -46,6 +44,14 @@ void Output_Layer::training(bool train) {
     }
 }
 
+void Output_Layer::resetLoss() {
+    this->loss = 0.0f;
+}
+
+float Output_Layer::returnLoss() const {
+    return loss;
+}
+
 void Output_Layer::printMetaData() {
     std::cout<<"output layer: ("<<previous_layer->output_dimensions().back()<<","<<dimensions.back()<<") "<<std::endl;
 }
@@ -61,6 +67,7 @@ void Output_Layer::printFinalResults() {
 }
 
 void Output_Layer::calculateError(float **target, float regularization) {
+    auto lf = returnLossFunction();
     loss = 0.0f;
     int output_size = dimensions.back();
     int dimension = dimensions.front();
@@ -68,31 +75,28 @@ void Output_Layer::calculateError(float **target, float regularization) {
     const float *output = output_results->returnData();
     for (int d = 0; d < active_dimension; d++) {
         int current_dimensions = d * output_size;
+        loss += lf(output, target[d], current_dimensions, output_size);
         for (int i_o = 0; i_o < output_size; ++ i_o) {
-          //  std::cout<<"output: "<<output[d]<<" target: "<<target[d][i_o]<<std::endl;
-            loss += abs(target[d][i_o] - output[d]);
-            error.get()[current_dimensions + i_o] = (target[d][i_o] - output[d]) - regularization;
+            error.get()[current_dimensions + i_o] = (target[d][i_o] - output[current_dimensions + i_o]) - regularization;
         }
     }
     loss = loss / dimension;
 }
 
+auto Output_Layer::returnLossFunction() -> float (*)(const float*, float*, int, int) {
+    if (loss_function == Loss::MSE) {
+        return Loss_Function::mse;
+    } else if (loss_function == Loss::ASE) {
+        return Loss_Function::ase;
+    } else {
+        return Loss_Function::crossentropy;
+    }
+}
+
 void Output_Layer::printError() {
     int output_size = output_dimensions().back();
     const float *output = output_results.get()->returnData();
-    std::cout<<"Output: ";
-    for (int i = 0; i < output_size; ++i) {
-        std::cout<<output[i]<<" ";
-    }
-    std::cout<<", Error: ";
-    for (int i = 0; i < output_size; ++i) {
-        std::cout<<error.get()[i]<<" ";
-    }
-    std::cout<<", Loss: ";
-    for (int i = 0; i < output_size; ++i) {
-        std::cout<<loss<<" ";
-    }
-    std::cout<<std::endl;
+    std::cout<<", Loss: "<<loss<<std::endl;
 }
   
 void Output_Layer::backpropogate() {

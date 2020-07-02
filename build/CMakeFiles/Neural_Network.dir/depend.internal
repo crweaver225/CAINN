@@ -9,6 +9,7 @@ CMakeFiles/Neural_Network.dir/src/Fully_Connected_Layer.cpp.o
  ../include/Activation_Function.h
  ../include/Activation_Functions.h
  ../include/Fully_Connected_Layer.h
+ ../include/Loss.h
  ../include/Neural_Layer.h
  ../include/Tensor.h
  /home/christopher/Desktop/CAINN/src/Fully_Connected_Layer.cpp
@@ -16,14 +17,19 @@ CMakeFiles/Neural_Network.dir/src/Input_Layer.cpp.o
  ../include/Activation_Function.h
  ../include/Activation_Functions.h
  ../include/Input_Layer.h
+ ../include/Loss.h
  ../include/Neural_Layer.h
  ../include/Tensor.h
  /home/christopher/Desktop/CAINN/src/Input_Layer.cpp
+CMakeFiles/Neural_Network.dir/src/Loss.cpp.o
+ ../include/Loss.h
+ /home/christopher/Desktop/CAINN/src/Loss.cpp
 CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o
  ../include/Activation_Function.h
  ../include/Activation_Functions.h
  ../include/Fully_Connected_Layer.h
  ../include/Input_Layer.h
+ ../include/Loss.h
  ../include/Network_Saver.h
  ../include/Neural_Layer.h
  ../include/Neural_Network.h
@@ -34,6 +40,7 @@ CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o
 CMakeFiles/Neural_Network.dir/src/Neural_Layer.cpp.o
  ../include/Activation_Function.h
  ../include/Activation_Functions.h
+ ../include/Loss.h
  ../include/Neural_Layer.h
  ../include/Tensor.h
  /home/christopher/Desktop/CAINN/src/Neural_Layer.cpp
@@ -42,6 +49,7 @@ CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o
  ../include/Activation_Functions.h
  ../include/Fully_Connected_Layer.h
  ../include/Input_Layer.h
+ ../include/Loss.h
  ../include/Network_Saver.h
  ../include/Neural_Layer.h
  ../include/Neural_Network.h
@@ -54,6 +62,7 @@ CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o
  ../include/Activation_Functions.h
  ../include/Fully_Connected_Layer.h
  ../include/Input_Layer.h
+ ../include/Loss.h
  ../include/Network_Saver.h
  ../include/Neural_Layer.h
  ../include/Neural_Network.h
@@ -64,6 +73,7 @@ CMakeFiles/Neural_Network.dir/src/Neural_Network_Extension.cpp.o
 CMakeFiles/Neural_Network.dir/src/Output_Layer.cpp.o
  ../include/Activation_Function.h
  ../include/Activation_Functions.h
+ ../include/Loss.h
  ../include/Neural_Layer.h
  ../include/Output_Layer.h
  ../include/Tensor.h
@@ -71,5 +81,6 @@ CMakeFiles/Neural_Network.dir/src/Output_Layer.cpp.o
 CMakeFiles/Neural_Network.dir/src/Tensor.cpp.o
  ../include/Activation_Function.h
  ../include/Activation_Functions.h
+ ../include/Loss.h
  ../include/Tensor.h
  /home/christopher/Desktop/CAINN/src/Tensor.cpp

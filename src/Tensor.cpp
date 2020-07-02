@@ -108,21 +108,17 @@ void Tensor::matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
     }
     for (int d = 0; d < active_dimensions; ++d) {
         int dimension_location = d * product_dimension_size;
-        for (int i = 0; i < product_dimension_size; ++i) {
-            tensor[i + dimension_location] = af(tensor[i + dimension_location] + bias[i]);
-        }
+        af(tensor, bias, dimension_location, product_dimension_size);
     }
 }
-template void Tensor::matmul<float (*)(float)>(const Tensor&, Tensor&, float*, float (*)(float));
+template void Tensor::matmul<void (*)(float*, float*, int, int)>(const Tensor&, Tensor&, float*, void (*)(float*, float*, int, int));
 
 template<typename a_fd>
 void Tensor::applyDerivative(const Tensor& output, a_fd afd) {
     const int number_of_elements = dimensions * rows * columns;
-    for (int i = 0; i < number_of_elements; ++i) {
-        tensor[i] = afd(output.tensor[i]) * tensor[i];
-    }
+    afd(output.tensor, this->tensor, number_of_elements);
 }
-template void Tensor::applyDerivative<float (*)(float)>(const Tensor&, float (*)(float));
+template void Tensor::applyDerivative<void (*)(float*, float*, int)>(const Tensor&, void (*)(float*, float*, int));
 
 void Tensor::updateGradients(const Tensor &gradient, const Tensor &weights) {
     const int gradient_dimension_size = columns * rows;
@@ -171,12 +167,6 @@ void Tensor::resetTensor() {
 }
 
 void Tensor::setData(float *tensor) {
-    /*
-    int size = dimensions * rows * columns;
-    for (int i = 0; i < size; i++) {
-        this->tensor[i] = tensor[i];
-    }
-    */
     std::memcpy(this->tensor, tensor, dimensions * rows * columns * sizeof(float));
 }
 

@@ -7,6 +7,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/christopher/Desktop/CAINN/src/Activation_Functions.cpp" "/home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir/src/Activation_Functions.cpp.o"
   "/home/christopher/Desktop/CAINN/src/Fully_Connected_Layer.cpp" "/home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir/src/Fully_Connected_Layer.cpp.o"
   "/home/christopher/Desktop/CAINN/src/Input_Layer.cpp" "/home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir/src/Input_Layer.cpp.o"
+  "/home/christopher/Desktop/CAINN/src/Loss.cpp" "/home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir/src/Loss.cpp.o"
   "/home/christopher/Desktop/CAINN/src/Network_Saver.cpp" "/home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir/src/Network_Saver.cpp.o"
   "/home/christopher/Desktop/CAINN/src/Neural_Layer.cpp" "/home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir/src/Neural_Layer.cpp.o"
   "/home/christopher/Desktop/CAINN/src/Neural_Network.cpp" "/home/christopher/Desktop/CAINN/build/CMakeFiles/Neural_Network.dir/src/Neural_Network.cpp.o"
