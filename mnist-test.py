@@ -31,20 +31,20 @@ train_labels = train_labels[:40000].tolist()
 train_labels_one_hot = (lr==train_labels).astype(np.float)
 
 nn = Neural_Network()
+#nn.load_network('m-test.json')
+
 nn.add_input_layer(784)
-nn.add_fully_connected_layer(20, Activation_Function.Sigmoid)
-nn.add_fully_connected_layer(10, Activation_Function.Relu)
-nn.add_fully_connected_layer(5, Activation_Function.Relu)
-#nn.add_output_layer(1, Activation_Function.Relu)
+nn.add_fully_connected_layer(25, Activation_Function.Sigmoid)
+nn.add_fully_connected_layer(15, Activation_Function.Relu)
 nn.add_output_layer(10, Activation_Function.SoftMax)
 
 nn.build()
 nn.setLearningRate(0.01)
 nn.set_filepath('m-test.json')
-nn.print_loss_every_iterations(1)
+nn.print_loss_every_iterations(10)
 #nn.stop_training_automatically(True)
 
-nn.train(train_data, train_labels_one_hot, 128, 10, Loss.CrossEntropy)
+nn.train(train_data, train_labels_one_hot, 256, 200, Loss.CrossEntropy)
 nn.save_network()
 #nn.train(train_data, train_labels_one_hot,64,2)
 

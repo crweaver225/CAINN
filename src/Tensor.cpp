@@ -90,6 +90,45 @@ Tensor& Tensor::operator = (Tensor &&otherTensor) {
     return *this;
 }
 
+// Test
+template<typename a_f>
+void Tensor::matmul_inner(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af) {
+    int dimension_size = m1.rows * m1.columns;
+    int product_dimension_size = m1.rows * m2.columns;
+    int i_d = d * dimension_size;
+    int o_d = d * product_dimension_size;
+    for (int i = 0; i < m1.rows; ++i) {
+        for (int j = 0; j < m1.columns; ++j) {
+            for (int z = 0; z < m2.columns; ++z) {
+                tensor[o_d + (i * (m2.columns) + z)] += m1.tensor[i_d + ((i * m1.columns) + j)] * m2.tensor[(j * m2.columns) + z];
+            }
+        }
+    }
+    af(tensor, bias, o_d, product_dimension_size);
+}
+template void Tensor::matmul_inner<void (*)(float*, float*, int, int)>(const Tensor&, Tensor&, float*, int, void (*)(float*, float*, int, int));
+
+template<typename a_f>
+void Tensor::matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
+    resetTensor();
+    if (active_dimensions > 15) {
+        std::vector<std::thread> threads;
+        for (size_t i = 0; i < active_dimensions; ++i) {
+            threads.emplace_back(std::thread(&Tensor::matmul_inner<a_f>, this,std::ref(m1), std::ref(m2),bias, i,af));
+        }
+        for (auto &t : threads) {
+            t.join();
+        }
+    } else {
+        for (int i = 0; i < active_dimensions; i++) {
+            matmul_inner(m1, m2, bias, i, af);
+        }
+    }
+}
+template void Tensor::matmul<void (*)(float*, float*, int, int)>(const Tensor&, Tensor&, float*, void (*)(float*, float*, int, int));
+// End Test
+
+/*
 template<typename a_f>
 void Tensor::matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
     int dimension_size = m1.rows * m1.columns;
@@ -112,6 +151,7 @@ void Tensor::matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
     }
 }
 template void Tensor::matmul<void (*)(float*, float*, int, int)>(const Tensor&, Tensor&, float*, void (*)(float*, float*, int, int));
+*/
 
 template<typename a_fd>
 void Tensor::applyDerivative(const Tensor& output, a_fd afd) {
@@ -120,6 +160,42 @@ void Tensor::applyDerivative(const Tensor& output, a_fd afd) {
 }
 template void Tensor::applyDerivative<void (*)(float*, float*, int)>(const Tensor&, void (*)(float*, float*, int));
 
+
+// Test gradient update
+void Tensor::updateGradientInner(const Tensor &gradient, const Tensor &weights, int d) {
+    const int gradient_dimension_size = columns * rows;
+    const int previous_gradient_d_size = gradient.columns * gradient.rows;
+    for (int r = 0; r < weights.rows; ++r) {
+        for (int c = 0; c < gradient.columns; ++c) {
+            tensor[(d * gradient_dimension_size) + r] += gradient.tensor[(d * previous_gradient_d_size) + c] * weights.tensor[(r * gradient.columns) + c];
+        }
+    }
+}
+
+void Tensor::updateGradients(const Tensor &gradient, const Tensor &weights) {
+    const int gradient_dimension_size = columns * rows;
+    const int previous_gradient_d_size = gradient.columns * gradient.rows;
+    if (active_dimensions > 15) {
+        std::vector<std::thread> threads;
+        for (size_t i = 0; i < active_dimensions; ++i) {
+            threads.emplace_back(std::thread(&Tensor::updateGradientInner, this, std::ref(gradient), std::ref(weights), i));
+        }
+        for (auto &t : threads) {
+            t.join();
+        }
+    } else {
+        for (int i = 0; i < active_dimensions; i++) {
+            updateGradientInner(gradient, weights, i);
+        }
+    }
+    const int final_size = active_dimensions * rows * columns;
+    for (int i = 0; i < final_size; i++) {
+        tensor[i] = clip(tensor[i]);
+    }
+}
+// End test
+
+/*
 void Tensor::updateGradients(const Tensor &gradient, const Tensor &weights) {
     const int gradient_dimension_size = columns * rows;
     const int previous_gradient_d_size = gradient.columns * gradient.rows;
@@ -135,7 +211,8 @@ void Tensor::updateGradients(const Tensor &gradient, const Tensor &weights) {
         tensor[i] = clip(tensor[i]);
     }
 }
-
+*/
+/*
 void Tensor::updateWeights(const Tensor &gradient, const Tensor &output) {
     const int gradient_dimensions = output.dimensions;
     float averaged_gradient[columns * rows];
@@ -156,6 +233,42 @@ void Tensor::updateWeights(const Tensor &gradient, const Tensor &output) {
         tensor[i] += (averaged_gradient[i] / gradient_dimensions) * learning_rate;
     }
 }
+*/
+
+// Test weight update
+void Tensor::updateWeights_inner(const Tensor &gradient, const Tensor &output, const int d) {
+    const int gradient_dimensions = output.dimensions;
+    float averaged_gradient[columns * rows];
+    memset(averaged_gradient, 0.0f, columns * rows * sizeof(float));
+
+    const int gradient_index = d * gradient.columns * gradient.rows;
+    const int output_index = d * output.columns * output.rows;
+    for (int gradient_x = 0; gradient_x < gradient.columns; gradient_x++) {
+        for (int output_x = 0; output_x < output.columns; output_x++) {
+            averaged_gradient[(output_x * columns) + gradient_x] += gradient.tensor[gradient_index + gradient_x] * output.tensor[output_index + output_x];
+        }
+    }
+    for (int i = 0; i < columns * rows; ++i) {
+        tensor[i] += (averaged_gradient[i] / gradient_dimensions) * learning_rate;
+    }
+}
+
+void Tensor::updateWeights(const Tensor &gradient, const Tensor &output) {
+    if (output.active_dimensions > 15) {
+        std::vector<std::thread> threads;
+        for (size_t i = 0; i < output.active_dimensions; ++i) {
+            threads.emplace_back(std::thread(&Tensor::updateWeights_inner, this, std::ref(gradient), std::ref(output), i));
+        }
+        for (auto &t : threads) {
+            t.join();
+        }
+    } else {
+        for (int i = 0; i < output.active_dimensions; i++) {
+            updateWeights_inner(gradient, output, i);
+        }
+    }
+}
+// End test
 
 float Tensor::clip(float x) {
     float value = roundf(x * 100000) / 100000;

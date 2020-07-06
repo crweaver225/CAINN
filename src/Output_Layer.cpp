@@ -1,31 +1,36 @@
 #include "Output_Layer.h"
 
-Output_Layer::Output_Layer(std::vector<int> dimensions, Activation_Function af) : Neural_Layer(dimensions, af) {
-    std::cout<<"output layer constructor called"<<std::endl;
-}
+Output_Layer::Output_Layer(std::vector<int> dimensions, Activation_Function af) : Neural_Layer(dimensions, af) {}
 
-Output_Layer::~Output_Layer() {
-    std::cout<<"output layer deconstructor called"<<std::endl;
-}
+Output_Layer::~Output_Layer() {}
 
-Output_Layer::Output_Layer(const Output_Layer &output_layer) : Neural_Layer(output_layer.dimensions, output_layer.activation_function) {
-    std::cout<<"output layer copy constructor called"<<std::endl;
-}
+Output_Layer::Output_Layer(const Output_Layer &output_layer) : Neural_Layer(output_layer.dimensions, output_layer.activation_function) {}
 
 Output_Layer& Output_Layer::operator=(const Output_Layer &output_layer) {
-    std::cout<<"output layer copy assignment operator called"<<std::endl;
+    if (this == &output_layer) {
+        return *this;
+    }
+    Neural_Layer::operator=(output_layer);
+    loss = output_layer.loss;
+    float* new_error = new float[dimensions.front() * dimensions.back()];
+    std::memcpy(new_error, output_layer.error.get(), dimensions.front() * dimensions.back() * sizeof(float));
+    error = std::unique_ptr<float>(new_error);
+    return *this;
 }
 
-Output_Layer::Output_Layer(Output_Layer &&output_layer) : Neural_Layer{std::move(output_layer)}  {
-    std::cout<<"output layer move constructor called"<<std::endl;
-}
+Output_Layer::Output_Layer(Output_Layer &&output_layer) : Neural_Layer{std::move(output_layer)} {}
 
 Output_Layer& Output_Layer::operator=(Output_Layer &&output_layer) {
-    std::cout<<"output layer move assigment operator called"<<std::endl;
+     if (this == &output_layer) {
+        return *this;
+    }
+    Neural_Layer::operator=(std::move(output_layer));
+    loss = output_layer.loss;
+    error = std::move(output_layer.error);
+    return *this;
 }
 
 void Output_Layer::build(std::shared_ptr<Neural_Layer> previous_layer) {
-   // std::cout<<"Output layer build called"<<std::endl;
     this->previous_layer = previous_layer;
     this->weights = std::unique_ptr<Tensor>(new Tensor(previous_layer.get()->output_dimensions().back(), dimensions.back()));
     this->weights->assignRandomValues();

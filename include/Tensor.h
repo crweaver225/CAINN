@@ -7,6 +7,7 @@
 #include "Activation_Function.h"
 #include "Activation_Functions.h"
 #include "Loss.h"
+#include <thread>
 
 #ifndef TENSOR_H_
 #define TENSOR_H_
@@ -20,6 +21,11 @@ private:
     int columns;
     float *tensor;
     float clip(float x);
+
+    template<typename a_f>
+    void matmul_inner(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af);
+    void updateGradientInner(const Tensor &gradient, const Tensor &weights, int d);
+    void updateWeights_inner(const Tensor &gradient, const Tensor &output, const int d);
 
 public:
     Tensor(const int rows, const int columns);

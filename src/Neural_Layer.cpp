@@ -12,6 +12,7 @@ Neural_Layer::~Neural_Layer() {
 
 Neural_Layer::Neural_Layer(const Neural_Layer &neural_layer) {
     std::cout<<"Neural Layer copy constructor called"<<std::endl;
+    
 }
 
 Neural_Layer& Neural_Layer::operator = (const Neural_Layer &neural_layer) {
