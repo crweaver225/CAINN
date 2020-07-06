@@ -1,30 +1,5 @@
 #include "Neural_Network.h"
 
-
-Neural_Network::Neural_Network() {
-    std::cout<<"Initializing Neural Network"<<std::endl;
-}
-
-Neural_Network::~Neural_Network() {
-    std::cout<<"Deallocating Neural Network"<<std::endl;
-}
-
-Neural_Network::Neural_Network(const Neural_Network &neural_network) {
-    std::cout<<"Copy constructor called on Neural Network"<<std::endl;
-}
-
-Neural_Network& Neural_Network::operator = (const Neural_Network &neural_network) {
-    std::cout<<"Copy assignment operator called on Neural Network"<<std::endl;
-}
-
-Neural_Network::Neural_Network(Neural_Network &&neural_network) {
-    std::cout<<"Move constructor called on Neural Network"<<std::endl;
-}
-
-Neural_Network& Neural_Network::operator=(Neural_Network &&neural_network) {
-    std::cout<<"Move assignment operator called on Neural Network"<<std::endl;
-}
-
 void Neural_Network::addInputLayer(int dimension) {
     std::vector<int> input_vector{1, 1, dimension};
     std::shared_ptr<Input_layer> input_layer = std::shared_ptr<Input_layer>(new Input_layer(input_vector));

@@ -28,13 +28,6 @@ private:
 
 public:
 
-    Neural_Network();
-    ~Neural_Network();
-    Neural_Network(const Neural_Network &neural_network);
-    Neural_Network& operator = (const Neural_Network &neural_network);
-    Neural_Network(Neural_Network &&neural_network);
-    Neural_Network& operator = (Neural_Network &&neural_network);
-
     void addInputLayer(int dimension);
     void addFullyConnectedLayer(int neurons, int activation_function);
     void addOutputLayer(int neurons, int activation_function);

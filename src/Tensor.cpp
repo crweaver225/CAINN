@@ -3,7 +3,6 @@
 float Tensor::learning_rate = 0.1f;
 
 Tensor::Tensor(const int rows, const int columns) {
-  //  std::cout<<"Tensor constructor with "<<rows<<" rows and "<<columns<<" columns called"<<std::endl;
     this->dimensions = 1;
     this->active_dimensions = 1;
     this->rows = rows;
@@ -13,7 +12,6 @@ Tensor::Tensor(const int rows, const int columns) {
 }
 
 Tensor::Tensor(const int dimensions, const int rows, const int columns) {
-  //  std::cout<<"Tensor constructor with dimensions, rows, and columns called"<<std::endl;
     this->dimensions = dimensions;
     this->active_dimensions = dimensions;
     this->rows = rows;
@@ -23,7 +21,6 @@ Tensor::Tensor(const int dimensions, const int rows, const int columns) {
 }
 
 Tensor::Tensor(const int rows, const int columns, float *tensor) {
-   // std::cout<<"Tensor constructor with rows, columns, and data called"<<std::endl;
     this->dimensions = 1;
     this->active_dimensions = 1;
     this->rows = rows;
@@ -32,8 +29,6 @@ Tensor::Tensor(const int rows, const int columns, float *tensor) {
 }
 
 Tensor::Tensor(const int dimensions, const int rows, const int columns, float *tensor) {
-   // std::cout<<"Tensor constructor with dimensions, rows, columns, and data called"<<std::endl;
-    //std::cout<<dimensions<<","<<rows<<","<<columns<<std::endl;
     this->dimensions = dimensions;
     this->active_dimensions = dimensions;
     this->rows = rows;
@@ -42,12 +37,10 @@ Tensor::Tensor(const int dimensions, const int rows, const int columns, float *t
 }
 
 Tensor::~Tensor() {
-   // std::cout<<"Tensor destructor called"<<std::endl;
     delete [] tensor;
 }
 
 Tensor::Tensor(const Tensor &otherTensor) {
-   // std::cout<<"Tensor copy constructor called"<<std::endl;
     this->dimensions = otherTensor.dimensions;
     this->active_dimensions = otherTensor.dimensions;
     this->rows = otherTensor.rows;
@@ -57,7 +50,6 @@ Tensor::Tensor(const Tensor &otherTensor) {
 }
 
 Tensor& Tensor::operator = (const Tensor &otherTensor) {
-   // std::cout<<"Tensor copy assignment operator called"<<std::endl;
     if (this == &otherTensor) { return *this; }
     this->dimensions = otherTensor.dimensions;
     this->active_dimensions = otherTensor.dimensions;
@@ -69,7 +61,6 @@ Tensor& Tensor::operator = (const Tensor &otherTensor) {
 }
 
 Tensor::Tensor(Tensor &&otherTensor) {
-   // std::cout<<"Tensor move constructor called"<<std::endl;
     this->dimensions = otherTensor.dimensions;
     this->active_dimensions = otherTensor.dimensions;
     this->rows = otherTensor.rows;
@@ -79,7 +70,6 @@ Tensor::Tensor(Tensor &&otherTensor) {
 }
 
 Tensor& Tensor::operator = (Tensor &&otherTensor) {
-   // std::cout<<"Tensor move assignment operator called"<<std::endl;
     if (this == &otherTensor) { return *this; }
     this->dimensions = otherTensor.dimensions;
     this->active_dimensions = otherTensor.dimensions;
@@ -90,7 +80,6 @@ Tensor& Tensor::operator = (Tensor &&otherTensor) {
     return *this;
 }
 
-// Test
 template<typename a_f>
 void Tensor::matmul_inner(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af) {
     int dimension_size = m1.rows * m1.columns;
@@ -126,32 +115,7 @@ void Tensor::matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
     }
 }
 template void Tensor::matmul<void (*)(float*, float*, int, int)>(const Tensor&, Tensor&, float*, void (*)(float*, float*, int, int));
-// End Test
 
-/*
-template<typename a_f>
-void Tensor::matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
-    int dimension_size = m1.rows * m1.columns;
-    int product_dimension_size = m1.rows * m2.columns;
-    resetTensor();
-    for (int d = 0; d < active_dimensions; ++d) {
-        int i_d = d * dimension_size;
-        int o_d = d * product_dimension_size;
-        for (int i = 0; i < m1.rows; ++i) {
-            for (int j = 0; j < m1.columns; ++j) {
-                for (int z = 0; z < m2.columns; ++z) {
-                    tensor[o_d + (i * (m2.columns) + z)] += m1.tensor[i_d + ((i * m1.columns) + j)] * m2.tensor[(j * m2.columns) + z];
-                }
-            }
-        }
-    }
-    for (int d = 0; d < active_dimensions; ++d) {
-        int dimension_location = d * product_dimension_size;
-        af(tensor, bias, dimension_location, product_dimension_size);
-    }
-}
-template void Tensor::matmul<void (*)(float*, float*, int, int)>(const Tensor&, Tensor&, float*, void (*)(float*, float*, int, int));
-*/
 
 template<typename a_fd>
 void Tensor::applyDerivative(const Tensor& output, a_fd afd) {
@@ -160,8 +124,6 @@ void Tensor::applyDerivative(const Tensor& output, a_fd afd) {
 }
 template void Tensor::applyDerivative<void (*)(float*, float*, int)>(const Tensor&, void (*)(float*, float*, int));
 
-
-// Test gradient update
 void Tensor::updateGradientInner(const Tensor &gradient, const Tensor &weights, int d) {
     const int gradient_dimension_size = columns * rows;
     const int previous_gradient_d_size = gradient.columns * gradient.rows;
@@ -193,49 +155,7 @@ void Tensor::updateGradients(const Tensor &gradient, const Tensor &weights) {
         tensor[i] = clip(tensor[i]);
     }
 }
-// End test
 
-/*
-void Tensor::updateGradients(const Tensor &gradient, const Tensor &weights) {
-    const int gradient_dimension_size = columns * rows;
-    const int previous_gradient_d_size = gradient.columns * gradient.rows;
-    for (int d = 0; d < dimensions; ++d) {
-        for (int r = 0; r < weights.rows; ++r) {
-            for (int c = 0; c < gradient.columns; ++c) {
-                tensor[(d * gradient_dimension_size) + r] += gradient.tensor[(d * previous_gradient_d_size) + c] * weights.tensor[(r * gradient.columns) + c];
-            }
-        }
-    }
-    const int final_size = dimensions * rows * columns;
-    for (int i = 0; i < final_size; i++) {
-        tensor[i] = clip(tensor[i]);
-    }
-}
-*/
-/*
-void Tensor::updateWeights(const Tensor &gradient, const Tensor &output) {
-    const int gradient_dimensions = output.dimensions;
-    float averaged_gradient[columns * rows];
-    const int weight_dimension_size = columns * rows;
-    memset(averaged_gradient, 0.0f, weight_dimension_size * sizeof(float));
-    const int gradient_dimension_size = gradient.columns * gradient.rows;
-    const int output_dimension_size = output.columns * output.rows;
-    for (int d = 0; d < gradient_dimensions; ++d) {
-        const int gradient_index = d * gradient_dimension_size;
-        const int output_index = d * output_dimension_size;
-        for (int gradient_x = 0; gradient_x < gradient.columns; gradient_x++) {
-            for (int output_x = 0; output_x < output.columns; output_x++) {
-                averaged_gradient[(output_x * columns) + gradient_x] += gradient.tensor[gradient_index + gradient_x] * output.tensor[output_index + output_x];
-            }
-        }
-    }
-    for (int i = 0; i < weight_dimension_size; ++i) {
-        tensor[i] += (averaged_gradient[i] / gradient_dimensions) * learning_rate;
-    }
-}
-*/
-
-// Test weight update
 void Tensor::updateWeights_inner(const Tensor &gradient, const Tensor &output, const int d) {
     const int gradient_dimensions = output.dimensions;
     float averaged_gradient[columns * rows];
@@ -268,7 +188,6 @@ void Tensor::updateWeights(const Tensor &gradient, const Tensor &output) {
         }
     }
 }
-// End test
 
 float Tensor::clip(float x) {
     float value = roundf(x * 100000) / 100000;

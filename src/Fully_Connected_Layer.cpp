@@ -2,18 +2,6 @@
 
 Fully_Connected_Layer::Fully_Connected_Layer(std::vector<int> dimensions, Activation_Function af) : Neural_Layer(dimensions, af) {}
 
-Fully_Connected_Layer::Fully_Connected_Layer(const Fully_Connected_Layer &fully_connected_layer) : Neural_Layer(fully_connected_layer.dimensions, fully_connected_layer.activation_function) {}
-
-Fully_Connected_Layer& Fully_Connected_Layer::operator=(const Fully_Connected_Layer &fully_connected_layer) { 
-    if (this == &fully_connected_layer) {
-        return *this;
-    }
-    Neural_Layer::operator=(fully_connected_layer);
-    return *this;
-}
-
-Fully_Connected_Layer::Fully_Connected_Layer(Fully_Connected_Layer &&fully_connected_layer) : Neural_Layer{std::move(fully_connected_layer)} {}
-
 Fully_Connected_Layer& Fully_Connected_Layer::operator=(Fully_Connected_Layer &&fully_connected_layer) {
     if (this == &fully_connected_layer) {
         return *this;

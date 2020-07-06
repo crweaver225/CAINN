@@ -1,23 +1,11 @@
 #include "Neural_Layer.h"
 
 Neural_Layer::Neural_Layer(std::vector<int> dimensions, Activation_Function activation_function) {
-    std::cout<<"Neural Layer constructor called"<<std::endl;
     this->dimensions = dimensions;
     this->activation_function = activation_function;
 }
 
-Neural_Layer::~Neural_Layer() {
-    std::cout<<"Neural Layer destructor called"<<std::endl;
-}
-
-Neural_Layer::Neural_Layer(const Neural_Layer &neural_layer) {
-    std::cout<<"Neural Layer copy constructor called"<<std::endl;
-    
-}
-
-Neural_Layer& Neural_Layer::operator = (const Neural_Layer &neural_layer) {
-    std::cout<<"Neural Layer copy assignment operation called"<<std::endl;
-}
+Neural_Layer::~Neural_Layer() {}
 
 Neural_Layer::Neural_Layer(Neural_Layer &&neural_layer) {
     std::cout<<"Neural Layer move constructor called"<<std::endl;

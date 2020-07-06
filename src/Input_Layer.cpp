@@ -4,18 +4,6 @@ Input_layer::Input_layer(std::vector<int> dimensions) : Neural_Layer(dimensions,
 
 Input_layer::~Input_layer() {}
 
-Input_layer::Input_layer(const Input_layer &input_layer) : Neural_Layer( input_layer.dimensions, input_layer.activation_function) {}
-
-Input_layer& Input_layer::operator=(const Input_layer &input_layer) {
-    if (this == &input_layer) {
-        return *this;
-    }
-    Neural_Layer::operator=(input_layer);
-    return *this;
-}
-
-Input_layer::Input_layer(Input_layer &&input_layer) : Neural_Layer{std::move(input_layer)} {}
-
 Input_layer& Input_layer::operator=(Input_layer &&input_layer) {
     if (this == &input_layer) {
         return *this;

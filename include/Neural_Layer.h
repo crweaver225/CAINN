@@ -35,8 +35,8 @@ protected:
 public:
     Neural_Layer(std::vector<int> dimensions, Activation_Function activation_function);
     ~Neural_Layer();
-    Neural_Layer(const Neural_Layer &neural_layer);
-    Neural_Layer& operator = (const Neural_Layer &neural_layer);
+    Neural_Layer(const Neural_Layer &neural_layer) = delete;
+    Neural_Layer& operator = (const Neural_Layer &neural_layer) = delete;
     Neural_Layer(Neural_Layer &&neural_layer);
     Neural_Layer& operator=(Neural_Layer &&neural_layer);
 

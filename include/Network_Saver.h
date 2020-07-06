@@ -11,11 +11,6 @@ using json = nlohmann::json;
 class Neural_Network;
 
 class Network_Saver {
-  //  std::vector<int> network_layers;
-  //  std::vector<int> activation_functions;
-   // std::vector<int> neurons;
-   // std::vector<std::vector<float>> bias;
-   // std::vector<std::vector<float>> weights;
 
 public:
     void save_network(Neural_Network *neural_network, std::string &path);

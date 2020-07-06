@@ -4,20 +4,6 @@ Output_Layer::Output_Layer(std::vector<int> dimensions, Activation_Function af) 
 
 Output_Layer::~Output_Layer() {}
 
-Output_Layer::Output_Layer(const Output_Layer &output_layer) : Neural_Layer(output_layer.dimensions, output_layer.activation_function) {}
-
-Output_Layer& Output_Layer::operator=(const Output_Layer &output_layer) {
-    if (this == &output_layer) {
-        return *this;
-    }
-    Neural_Layer::operator=(output_layer);
-    loss = output_layer.loss;
-    float* new_error = new float[dimensions.front() * dimensions.back()];
-    std::memcpy(new_error, output_layer.error.get(), dimensions.front() * dimensions.back() * sizeof(float));
-    error = std::unique_ptr<float>(new_error);
-    return *this;
-}
-
 Output_Layer::Output_Layer(Output_Layer &&output_layer) : Neural_Layer{std::move(output_layer)} {}
 
 Output_Layer& Output_Layer::operator=(Output_Layer &&output_layer) {

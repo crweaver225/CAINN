@@ -53,7 +53,6 @@ void Network_Saver::load_network(Neural_Network *neural_network, std::string &pa
 
     for (int layer = 0; layer < network_layers.size(); layer++) {
         if (network_layers[layer] == 1) {
-           // int *i = new int[1];
             neural_network->addInputLayer(neurons[layer]);
         } else if (network_layers[layer] == 2) {
             neural_network->addFullyConnectedLayer(neurons[layer], activation_functions[layer]);
@@ -62,7 +61,6 @@ void Network_Saver::load_network(Neural_Network *neural_network, std::string &pa
         }
     }
     neural_network->build();
-
 
     int bias_index = 0;
     int weight_index = 0;
@@ -77,6 +75,5 @@ void Network_Saver::load_network(Neural_Network *neural_network, std::string &pa
             weight_index++;
         }
     }
-
 }
 
