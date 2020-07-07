@@ -71,7 +71,7 @@ void Output_Layer::calculateError(float **target, float regularization) {
             error.get()[current_dimensions + i_o] = (target[d][i_o] - output[current_dimensions + i_o]) - regularization;
         }
     }
-    loss = loss / dimension;
+    loss = loss / active_dimension;
 }
 
 auto Output_Layer::returnLossFunction() -> float (*)(const float*, float*, int, int) {
