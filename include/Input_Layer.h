@@ -1,6 +1,7 @@
 #include "Neural_Layer.h"
 
 class Input_layer: public Neural_Layer {
+private:
     std::unique_ptr<float> input_array;
 public:
     Input_layer(std::vector<int> dimensions);
