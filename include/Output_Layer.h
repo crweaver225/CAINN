@@ -6,6 +6,7 @@ private:
     std::unique_ptr<float> error;
     float loss;
     auto returnLossFunction() -> float (*)(const float*, float*, int, int);
+    int batches_in_iteration = 1;
 public:
     Output_Layer(std::vector<int> dimensions, Activation_Function af);
     ~Output_Layer();
