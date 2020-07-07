@@ -4,12 +4,12 @@
 This is my Udacity C++ capstone project. I choose option 1. This project is its own Neural Network builder inspired by the deep learning library Keras. The project, while written in C++, has a python wrapper around it so that users can access the project as an library in a python project. Please see the About section below for more information on the exact purpose of this project. 
 
 ### Requirements to run
-- Python 2.7 or higher
-- Cmake
+- Python 3.0 or higher
+- Cmake (https://cmake.org/install/)
 
 This project must be compiled to rub by following these steps. 
 
-- Remove all contents of the build directory
+- Create a "build" directory within the CAINN directory and CD into it
 - within the build directory, run cmake ..
 - within the build directory, run make
 
