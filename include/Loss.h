@@ -1,4 +1,5 @@
 #include <math.h>
+#include <cmath>
 #include <iostream>
 
 #ifndef LOSS_H_
