@@ -7,6 +7,9 @@ This project is designed to be a neural network trainer inspired by Tensorflow a
 - Execute the neural network
 - Save the neural network in JSON format
 
+A demo of the project in action can be found here:
+https://www.youtube.com/watch?v=stO8T83rQY0
+
 ### Requirements to run
 - Python 3.0 or higher
 - Cmake (https://cmake.org/install/)
@@ -17,17 +20,17 @@ This project must be compiled to run by following these steps.
 - within the build directory, run cmake ..
 - within the build directory, run make
 
-After that, you should be compiled and ready for run. This project does utilize one third party dependency, nlohmann/json. Cmake will automatically download and install this dependency when running the steps above in a way that is cross-platform compliant.
+After that, you should be compiled and ready to run. This project does utilize one third party dependency, nlohmann/json. Cmake will automatically download and install this dependency when running the steps above in a way that is cross-platform compliant.
 
 ## Example
-The library can be accessed using Python 2.7 or higher. Just import the library like so:
+The library can be accessed using Python 3.0 or higher. Just import the library like so:
 ```
 from Neural_Network import Neural_Network
 from Neural_Network import Activation_Function
 from Neural_Network import Loss
 ```
 
-Once imported a network can be setup to train as simply as this:
+Once imported, a network can be setup to train as simply as this:
 ```
 nn = Neural_Network()
 nn.add_input_layer(1)
@@ -37,7 +40,6 @@ nn.add_fully_connected_layer(10, Activation_Function.Relu)
 nn.add_output_layer(1, Activation_Function.Relu)
 nn.build()
 nn.setLearningRate(0.01)
-nn.train(train_data,train_results, 10 ,500, Loss.MSE)
 ```
 Training the network is then as simple as calling this function. The four parameters are:
 - the training examples
@@ -92,7 +94,7 @@ result = nn.execute([5.0])
 ### This project currently supports three kinds of loss fuctions
 - Mean squared error
     Loss.MSE
-- Absolute error
+- Mean Absolute error
     Loss.ASE
 - Cross Entropy
     Loss.CrossEntropy
