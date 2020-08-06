@@ -15,17 +15,17 @@
 class Tensor {
 
 private:
-    int dimensions;
-    int active_dimensions;
-    int rows;
-    int columns;
-    float *tensor;
+    int _dimensions;
+    int _activeDimensions;
+    int _rows;
+    int _columns;
+    float *_tensor;
     float clip(float x);
 
     template<typename a_f>
-    void matmul_inner(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af);
-    void updateGradientInner(const Tensor &gradient, const Tensor &weights, int d);
-    void updateWeights_inner(const Tensor &gradient, const Tensor &output, const int d);
+    void MatmulInner(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af);
+    void UpdateGradientInner(const Tensor &gradient, const Tensor &weights, int d);
+    void UpdateWeightsInner(const Tensor &gradient, const Tensor &output, const int d);
 
 public:
     Tensor(const int rows, const int columns);
@@ -38,31 +38,31 @@ public:
     Tensor(Tensor &&tensor);
     Tensor& operator = (Tensor &&tensor);
 
-    static float learning_rate;
+    static float _learningRate;
     
-    void setData(float *tensor);
-    void assignRandomValues();
+    void SetData(float *tensor);
+    void AssignRandomValues();
 
-    const float * returnData() const;
-    const float sumTheSquares() const;
+    const float * ReturnData() const;
+    const float SumTheSquares() const;
 
     template<typename a_f>
-    void matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af);
+    void Matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af);
 
-    void resetTensor();
-    void updateTensor(float *new_tensor);
-    void updateGradients(const Tensor &gradient, const Tensor &weights);
-    void updateWeights(const Tensor &gradient, const Tensor &output);
+    void ResetTensor();
+    void UpdateTensor(float *new_tensor);
+    void UpdateGradients(const Tensor &gradient, const Tensor &weights);
+    void UpdateWeights(const Tensor &gradient, const Tensor &output);
     
     template<typename a_fd>
-    void applyDerivative(const Tensor& output, a_fd afd);
+    void ApplyDerivative(const Tensor& output, a_fd afd);
 
-    void setActiveDimension(int batch_size);
-    const int returnActiveDimension() const;
+    void SetActiveDimension(int batch_size);
+    const int ReturnActiveDimension() const;
 
-    void print() const;
-    void printShape() const;
-    std::vector<int> shape() const;
+    void Print() const;
+    void PrintShape() const;
+    std::vector<int> Shape() const;
 };
 
 #endif /* TENSOR_H_ */

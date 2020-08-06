@@ -2,7 +2,7 @@
 
 class Input_layer: public Neural_Layer {
 private:
-    std::unique_ptr<float> input_array;
+    std::unique_ptr<float> _inputArray;
 public:
     Input_layer(std::vector<int> dimensions);
     ~Input_layer();
@@ -11,11 +11,11 @@ public:
     Input_layer(Input_layer &&input_layer);
     Input_layer& operator=(Input_layer &&input_layer);
 
-    void printMetaData() override;
-    void build(std::shared_ptr<Neural_Layer> previous_layer);
-    void addInput(float *input);
-    void addInputInBatches(const int dimensions, float **input);
-    void forward_propogate(){};
-    void backpropogate(){};
-    void setBatchDimensions(int batch_size) override;
+    void PrintMetaData() override;
+    void Build(std::shared_ptr<Neural_Layer> previous_layer);
+    void AddInput(float *input);
+    void AddInputInBatches(const int dimensions, float **input);
+    void ForwardPropogate(){};
+    void Backpropogate(){};
+    void SetBatchDimensions(int batch_size) override;
 };

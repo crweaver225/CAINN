@@ -15,33 +15,33 @@
 class Neural_Network {
 
 private:
-    std::vector<std::shared_ptr<Neural_Layer>> neural_layers;
-    void backpropogate();
-    void clearGradients();
-    const float calculateL2() const;
-    bool save_if_best = false;
-    bool stop_automatically = false;
-    float best_loss;
-    int print_loss_every_iterations;
-    std::string filePath;
+    std::vector<std::shared_ptr<Neural_Layer>> _neuralLayers;
+    void Backpropogate();
+    void ClearGradients();
+    const float CalculateL2() const;
+    bool _saveIfBest = false;
+    bool _stopAutomatically = false;
+    float _bestLoss;
+    int _printLossEveryIterations;
+    std::string _filePath;
     friend class Network_Saver;
 
 public:
 
-    void addInputLayer(int dimension);
-    void addFullyConnectedLayer(int neurons, int activation_function);
-    void addOutputLayer(int neurons, int activation_function);
-    void build();
-    void setLearningRate(float learning_rate);
-    const float* execute(float *input);
-    void train(float **input, float **targets, int batch_size, int epochs, int loss_function, int input_size);
-    void save_network();
-    void load_network(size_t len, const char* path);
-    const int output_dimensions() const;
-    void save_best_automatically(bool activate);
-    void stop_training_automatically(bool activate);
-    void set_filepath(const char* path);
-    void set_print_loss_ever_iterations(int iteration);
+    void AddInputLayer(int dimension);
+    void AddFullyConnectedLayer(int neurons, int activation_function);
+    void AddOutputLayer(int neurons, int activation_function);
+    void Build();
+    void SetLearningRate(float learning_rate);
+    const float* Execute(float *input);
+    void Train(float **input, float **targets, int batch_size, int epochs, int loss_function, int input_size);
+    void SaveNetwork();
+    void LoadNetwork(size_t len, const char* path);
+    const int OutputDimensions() const;
+    void SaveBestAutomatically(bool activate);
+    void StopTrainingAutomatically(bool activate);
+    void SetFilepath(const char* path);
+    void SetPrintLossEverIterations(int iteration);
 };
 
 #endif /* NEURAL_NETWORK_H_ */

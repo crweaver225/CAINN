@@ -11,25 +11,25 @@ class Neural_Layer {
 
 private:
     friend class Network_Saver;
-    void setBias(float *data);
+    void SetBias(float *data);
 protected:
-    std::unique_ptr<Tensor> weights;
-    std::unique_ptr<Tensor> gradient;
-    std::unique_ptr<float> bias;
-    std::shared_ptr<Neural_Layer> previous_layer;
-    std::vector<int> dimensions;
-    Activation_Function activation_function;
-    Loss loss_function;
+    std::unique_ptr<Tensor> _weights;
+    std::unique_ptr<Tensor> _gradient;
+    std::unique_ptr<float> _bias;
+    std::shared_ptr<Neural_Layer> _previousLayer;
+    std::vector<int> _dimensions;
+    Activation_Function _activationFunction;
+    Loss _lossFunction;
 
-    const Tensor* previous_layer_output();
-    Tensor* previous_layer_gradient();
+    const Tensor* PreviousLayerOutput();
+    Tensor* PreviousLayerGradient();
 
-    float* generateBiasValues(int size);
+    float* GenerateBiasValues(int size);
 
-    void buildGradient();
+    void BuildGradient();
     
-    auto returnActivationFunction() -> void (*)(float*, float*, int, int);
-    auto returnActivationFunctionDerivative() -> void (*)(float*, float*, int);
+    auto ReturnActivationFunction() -> void (*)(float*, float*, int, int);
+    auto ReturnActivationFunctionDerivative() -> void (*)(float*, float*, int);
 
 
 public:
@@ -40,36 +40,36 @@ public:
     Neural_Layer(Neural_Layer &&neural_layer);
     Neural_Layer& operator=(Neural_Layer &&neural_layer);
 
-    std::unique_ptr<Tensor> output_results;
+    std::unique_ptr<Tensor> _outputResults;
 
-    const float returnL2() const;
+    const float ReturnL2() const;
 
-    virtual void build(std::shared_ptr<Neural_Layer> previous_layer) = 0;
-    virtual void forward_propogate() = 0;
-    virtual void backpropogate() = 0;
+    virtual void Build(std::shared_ptr<Neural_Layer> previousLayer) = 0;
+    virtual void ForwardPropogate() = 0;
+    virtual void Backpropogate() = 0;
 
-    void clearGradient();
+    void ClearGradient();
 
-    virtual void printMetaData();
-    const std::vector<int>& output_dimensions();
-    virtual void setBatchDimensions(int batch_size);
-    void setActiveDimensions(int batch_size);
+    virtual void PrintMetaData();
+    const std::vector<int>& OutputDimensions();
+    virtual void SetBatchDimensions(int batch_size);
+    void SetActiveDimensions(int batch_size);
 
     // functions for input layer
-    virtual void addInput(float *input);
-    virtual void addInputInBatches(const int dimensions, float **input);
+    virtual void AddInput(float *input);
+    virtual void AddInputInBatches(const int dimensions, float **input);
 
     //functions for output layer
-    virtual void setLossFunction(Loss loss);
-    virtual void training(bool train);
-    virtual void calculateError(float **target, float regularization);
-    virtual void printError();
-    virtual void printFinalResults();
-    virtual void resetLoss();
-    virtual float returnLoss() const;
+    virtual void SetLossFunction(Loss loss);
+    virtual void Training(bool train);
+    virtual void CalculateError(float **target, float regularization);
+    virtual void PrintError();
+    virtual void PrintFinalResults();
+    virtual void ResetLoss();
+    virtual float ReturnLoss() const;
 
     // for network saver
-    Activation_Function returnActivationFunctionType() const;
+    Activation_Function ReturnActivationFunctionType() const;
 };
 
 #endif /* NEURAL_LAYER_H_ */

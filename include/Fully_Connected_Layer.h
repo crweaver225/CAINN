@@ -9,8 +9,8 @@ public:
     Fully_Connected_Layer& operator=(Fully_Connected_Layer &&fully_connected_layer);
     ~Fully_Connected_Layer();
 
-    void printMetaData() override;
-    void build(std::shared_ptr<Neural_Layer> previous_layer);
-    void forward_propogate();
-    void backpropogate();
+    void PrintMetaData() override;
+    void Build(std::shared_ptr<Neural_Layer> previous_layer);
+    void ForwardPropogate();
+    void Backpropogate();
 };

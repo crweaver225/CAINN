@@ -12,32 +12,32 @@ Input_layer& Input_layer::operator=(Input_layer &&input_layer) {
     return *this;
 }
 
-void Input_layer::printMetaData() {
-    std::cout<<"Input layer: (1,"<<dimensions[0]<<")"<<std::endl;
+void Input_layer::PrintMetaData() {
+    std::cout<<"Input layer: (1,"<<_dimensions[0]<<")"<<std::endl;
 }
 
-void Input_layer::build(std::shared_ptr<Neural_Layer> previous_layer) {
-    output_results = std::unique_ptr<Tensor>( new Tensor(1, dimensions.front(),dimensions.back()));
-    input_array = std::unique_ptr<float>(new float[output_dimensions().back() * this->dimensions[0]]);
+void Input_layer::Build(std::shared_ptr<Neural_Layer> previous_layer) {
+    _outputResults = std::unique_ptr<Tensor>( new Tensor(1, _dimensions.front(),_dimensions.back()));
+    _inputArray = std::unique_ptr<float>(new float[OutputDimensions().back() * this->_dimensions[0]]);
 }
 
-void Input_layer::addInput(float *input) {
-    output_results.get()->setData(input);
+void Input_layer::AddInput(float *input) {
+    _outputResults.get()->SetData(input);
 }
 
-void Input_layer::addInputInBatches(const int dimensions, float **input) {
-    int input_size = output_dimensions().back();
+void Input_layer::AddInputInBatches(const int dimensions, float **input) {
+    int input_size = OutputDimensions().back();
     for (int i = 0; i < dimensions; ++i) {
         for (int k = 0; k < input_size; ++k) {
-            input_array.get()[(i * input_size) + k] = input[i][k];
+            _inputArray.get()[(i * input_size) + k] = input[i][k];
         }
     }
-    output_results.get()->setData(input_array.get());
+    _outputResults.get()->SetData(_inputArray.get());
 }
 
-void Input_layer::setBatchDimensions(int batch_size) {
-    dimensions.front() = batch_size;
-    this->output_results = std::unique_ptr<Tensor>(new Tensor(batch_size, dimensions[1], dimensions[2]));
-    input_array = std::unique_ptr<float>(new float[output_dimensions().back() * batch_size]);
+void Input_layer::SetBatchDimensions(int batch_size) {
+    _dimensions.front() = batch_size;
+    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(batch_size, _dimensions[1], _dimensions[2]));
+    _inputArray = std::unique_ptr<float>(new float[OutputDimensions().back() * batch_size]);
 }
 

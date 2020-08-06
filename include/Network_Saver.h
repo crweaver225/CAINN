@@ -13,8 +13,8 @@ class Neural_Network;
 class Network_Saver {
 
 public:
-    void save_network(Neural_Network *neural_network, std::string &path);
-    void load_network(Neural_Network *neural_network, std::string &path);
+    void SaveNetwork(Neural_Network *neural_network, std::string &path);
+    void LoadNetwork(Neural_Network *neural_network, std::string &path);
 };
 
 #endif /* NETWORK_SAVER_H_ */

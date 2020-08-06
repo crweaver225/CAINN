@@ -3,10 +3,10 @@
 class Output_Layer: public Neural_Layer {
 
 private:
-    std::unique_ptr<float> error;
-    float loss;
-    auto returnLossFunction() -> float (*)(const float*, float*, int, int);
-    int batches_in_iteration = 1;
+    std::unique_ptr<float> _error;
+    float _loss;
+    auto ReturnLossFunction() -> float (*)(const float*, float*, int, int);
+    int _batchesInIteration = 1;
 public:
     Output_Layer(std::vector<int> dimensions, Activation_Function af);
     ~Output_Layer();
@@ -15,16 +15,16 @@ public:
     Output_Layer(Output_Layer &&output_layer);
     Output_Layer& operator=(Output_Layer &&output_layer);
 
-    void build(std::shared_ptr<Neural_Layer> previous_layer);
-    void printMetaData() override;
-    void training(bool train) override;
-    void forward_propogate() override;
-    void calculateError(float **target, float regularization);
-    void resetLoss() override;
-    float returnLoss() const override;
+    void Build(std::shared_ptr<Neural_Layer> previous_layer);
+    void PrintMetaData() override;
+    void Training(bool train) override;
+    void ForwardPropogate() override;
+    void CalculateError(float **target, float regularization);
+    void ResetLoss() override;
+    float ReturnLoss() const override;
 
-    void printFinalResults();
-    void printError();
-    void backpropogate();
+    void PrintFinalResults();
+    void PrintError();
+    void Backpropogate();
 
 };

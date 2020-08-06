@@ -12,29 +12,29 @@ Fully_Connected_Layer& Fully_Connected_Layer::operator=(Fully_Connected_Layer &&
 
 Fully_Connected_Layer::~Fully_Connected_Layer() {}
 
-void Fully_Connected_Layer::printMetaData() {
-    std::cout<<"fully connected layer: ("<<previous_layer.get()->output_dimensions().back()<<","<<dimensions.back()<<")"<<std::endl;
+void Fully_Connected_Layer::PrintMetaData() {
+    std::cout<<"fully connected layer: ("<<_previousLayer.get()->OutputDimensions().back()<<","<<_dimensions.back()<<")"<<std::endl;
 }
 
-void Fully_Connected_Layer::build(std::shared_ptr<Neural_Layer> previous_layer) {
-    this->previous_layer = previous_layer;
-    this->weights = std::unique_ptr<Tensor>(new Tensor(previous_layer.get()->output_dimensions().back(), dimensions.back()));
-    this->weights->assignRandomValues();
-    this->bias = std::unique_ptr<float>(generateBiasValues(dimensions.back()));
-    this->output_results = std::unique_ptr<Tensor>(new Tensor(1, previous_layer_output()->shape()[1], dimensions.back()));
+void Fully_Connected_Layer::Build(std::shared_ptr<Neural_Layer> previous_layer) {
+    this->_previousLayer = previous_layer;
+    this->_weights = std::unique_ptr<Tensor>(new Tensor(previous_layer.get()->OutputDimensions().back(), _dimensions.back()));
+    this->_weights->AssignRandomValues();
+    this->_bias = std::unique_ptr<float>(GenerateBiasValues(_dimensions.back()));
+    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(1, PreviousLayerOutput()->Shape()[1], _dimensions.back()));
 }
 
-void Fully_Connected_Layer::forward_propogate() {
-    output_results.get()->matmul(*previous_layer_output(), *weights.get(), bias.get(), returnActivationFunction());
+void Fully_Connected_Layer::ForwardPropogate() {
+    _outputResults.get()->Matmul(*PreviousLayerOutput(), *_weights.get(), _bias.get(), ReturnActivationFunction());
 }
 
-void Fully_Connected_Layer::backpropogate() {
-    gradient.get()->applyDerivative(*output_results.get(), returnActivationFunctionDerivative());
-    previous_layer_gradient()->updateGradients(*gradient.get(), *weights.get());
-    weights->updateWeights(*gradient.get(), *previous_layer_output());
-    const float *gradient_data = gradient.get()->returnData();
+void Fully_Connected_Layer::Backpropogate() {
+    _gradient.get()->ApplyDerivative(*_outputResults.get(), ReturnActivationFunctionDerivative());
+    PreviousLayerGradient()->UpdateGradients(*_gradient.get(), *_weights.get());
+    _weights->UpdateWeights(*_gradient.get(), *PreviousLayerOutput());
+    const float *gradient_data = _gradient.get()->ReturnData();
 
-    for (int b = 0; b < gradient.get()->shape()[2]; ++b) {
-        bias.get()[b] -= (bias.get()[b] * gradient_data[b]) * Tensor::learning_rate;
+    for (int b = 0; b < _gradient.get()->Shape()[2]; ++b) {
+        _bias.get()[b] -= (_bias.get()[b] * gradient_data[b]) * Tensor::_learningRate;
     }
 }
