@@ -1,4 +1,5 @@
 #include "Fully_Connected_Layer.h"
+#include <ctime>
 
 Fully_Connected_Layer::Fully_Connected_Layer(std::vector<int> dimensions, Activation_Function af) : Neural_Layer(dimensions, af) {}
 
@@ -25,16 +26,29 @@ void Fully_Connected_Layer::Build(std::shared_ptr<Neural_Layer> previous_layer) 
 }
 
 void Fully_Connected_Layer::ForwardPropogate() {
+    //clock_t time_req;
+    //time_req = clock();
     _outputResults.get()->Matmul(*PreviousLayerOutput(), *_weights.get(), _bias.get(), ReturnActivationFunction());
+   // time_req = clock() - time_req;
+   // std::cout<<"matmul on fully connected took: "<<(float)time_req/CLOCKS_PER_SEC<<" seconds"<<std::endl;
 }
 
 void Fully_Connected_Layer::Backpropogate() {
+  //  clock_t time_req;
+  //  time_req = clock();
     _gradient.get()->ApplyDerivative(*_outputResults.get(), ReturnActivationFunctionDerivative());
+   // time_req = clock() - time_req;
+   // std::cout<<"applying derivative on fully connected took: "<<(float)time_req/CLOCKS_PER_SEC<<" seconds"<<std::endl;
     PreviousLayerGradient()->UpdateGradients(*_gradient.get(), *_weights.get());
+    //time_req = clock() - time_req;
+    //std::cout<<"updating gradients on fully connected took: "<<(float)time_req/CLOCKS_PER_SEC<<" seconds"<<std::endl;
     _weights->UpdateWeights(*_gradient.get(), *PreviousLayerOutput());
+   // time_req = clock() - time_req;
+    //std::cout<<"updating weights on fully connected took: "<<(float)time_req/CLOCKS_PER_SEC<<" seconds"<<std::endl;
     const float *gradient_data = _gradient.get()->ReturnData();
-
     for (int b = 0; b < _gradient.get()->Shape()[2]; ++b) {
         _bias.get()[b] -= (_bias.get()[b] * gradient_data[b]) * Tensor::_learningRate;
     }
+   // time_req = clock() - time_req;
+   // std::cout<<"backpropogate on fully connected took: "<<(float)time_req/CLOCKS_PER_SEC<<" seconds"<<std::endl;
 }

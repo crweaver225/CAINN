@@ -87,7 +87,6 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
 
     std::unique_ptr<float*> batch_input = std::unique_ptr<float*>(new float*[batch_size]);
     std::unique_ptr<float*> batch_target = std::unique_ptr<float*>(new float*[batch_size]);
-
     for (int epoch = 0; epoch < epochs; ++epoch) {
         for (int inputs_for_batch = 0; inputs_for_batch < input_size; inputs_for_batch += batch_size) {
 
@@ -112,7 +111,6 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
             }
 
             _neuralLayers.back().get()->CalculateError(batch_target.get(), CalculateL2());
-        
             ClearGradients();
             Backpropogate();
         }
