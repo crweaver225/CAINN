@@ -128,6 +128,14 @@ template void Tensor::ApplyDerivative<void (*)(float*, float*, int)>(const Tenso
 void Tensor::UpdateGradientInner(const Tensor &gradient, const Tensor &weights, int d) {
     const int gradient_dimension_size = _columns * _rows * d;
     const int previous_gradient_d_size = gradient._columns * gradient._rows * d;
+    /*
+    std::cout<<"gradient shape: ";
+    gradient.PrintShape();
+    std::cout<<" * weights shape: ";
+    weights.PrintShape();
+    std::cout<<" = ";
+    PrintShape();
+    */
     for (int r = 0; r < weights._rows; ++r) {
         int tensor_index = gradient_dimension_size + r;
         int weight_index = gradient._columns * r;
@@ -161,18 +169,31 @@ void Tensor::UpdateGradients(const Tensor &gradient, const Tensor &weights) {
 
 void Tensor::UpdateWeightsInner(const Tensor &gradient, const Tensor &output, const int d) {
     const int gradient_dimensions = output._dimensions;
-    std::unique_ptr<float> averaged_gradient = std::unique_ptr<float>(new float[_columns * _rows]);
-    memset(averaged_gradient.get(), 0.0f, _columns * _rows * sizeof(float));
     const int gradient_index = d * gradient._columns * gradient._rows;
     const int output_index = d * output._columns * output._rows;
+    
+    for (int output_x = 0; output_x < output._columns; output_x++) {
+        int weight_row = output_x * _columns;
+        for (int gradient_x = 0; gradient_x < gradient._columns; gradient_x++) {
+            float new_value = ((output._tensor[output_x + output_index] * gradient._tensor[gradient_x + gradient_index]) / gradient_dimensions) * _learningRate;
+            _tensor[weight_row + gradient_x] += new_value;
+        }
+    }
+    
+    // Old logic for updating weights, significantly slower than above. Will look to remove soon
+    /*
+    std::unique_ptr<float> averaged_gradient = std::unique_ptr<float>(new float[_columns * _rows]);
+    memset(averaged_gradient.get(), 0.0f, _columns * _rows * sizeof(float));
     for (int gradient_x = 0; gradient_x < gradient._columns; gradient_x++) {
         for (int output_x = 0; output_x < output._columns; output_x++) {
             averaged_gradient.get()[(output_x * _columns) + gradient_x] += gradient._tensor[gradient_index + gradient_x] * output._tensor[output_index + output_x];
         }
     }
+    
     for (int i = 0; i < _columns * _rows; ++i) {
         _tensor[i] += (averaged_gradient.get()[i] / gradient_dimensions) * _learningRate;
     }
+    */
 }
 
 void Tensor::UpdateWeights(const Tensor &gradient, const Tensor &output) {
@@ -309,7 +330,6 @@ void Tensor::MatmulDimension(const Tensor &m1, Tensor &m2, float *bias, int d, a
             }
         }
     }
-    
     
     const int m1_row_uncovered = m1._rows % 8;
     const int m1_column_uncovered = m1._columns % 8;

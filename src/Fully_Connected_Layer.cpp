@@ -34,17 +34,17 @@ void Fully_Connected_Layer::ForwardPropogate() {
 }
 
 void Fully_Connected_Layer::Backpropogate() {
-  //  clock_t time_req;
-  //  time_req = clock();
+   // clock_t time_req;
+    //time_req = clock();
     _gradient.get()->ApplyDerivative(*_outputResults.get(), ReturnActivationFunctionDerivative());
-   // time_req = clock() - time_req;
-   // std::cout<<"applying derivative on fully connected took: "<<(float)time_req/CLOCKS_PER_SEC<<" seconds"<<std::endl;
+  //  time_req = clock() - time_req;
+    //std::cout<<"applying derivative on fully connected took: "<<(float)time_req/CLOCKS_PER_SEC<<" seconds"<<std::endl;
     PreviousLayerGradient()->UpdateGradients(*_gradient.get(), *_weights.get());
-    //time_req = clock() - time_req;
+   // time_req = clock() - time_req;
     //std::cout<<"updating gradients on fully connected took: "<<(float)time_req/CLOCKS_PER_SEC<<" seconds"<<std::endl;
     _weights->UpdateWeights(*_gradient.get(), *PreviousLayerOutput());
    // time_req = clock() - time_req;
-    //std::cout<<"updating weights on fully connected took: "<<(float)time_req/CLOCKS_PER_SEC<<" seconds"<<std::endl;
+   // std::cout<<"updating weights on fully connected took: "<<(float)time_req/CLOCKS_PER_SEC<<" seconds"<<std::endl;
     const float *gradient_data = _gradient.get()->ReturnData();
     for (int b = 0; b < _gradient.get()->Shape()[2]; ++b) {
         _bias.get()[b] -= (_bias.get()[b] * gradient_data[b]) * Tensor::_learningRate;
