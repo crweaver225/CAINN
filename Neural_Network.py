@@ -1,12 +1,12 @@
-
 from enum import Enum
 import ctypes
-import os
+
 
 class Loss(Enum):
     MSE = 0
     ASE = 1
     CrossEntropy = 2
+
 
 class Activation_Function(Enum):
     Sigmoid = 0
@@ -18,6 +18,7 @@ class Activation_Function(Enum):
     Maxpool = 6
     Flatten = 7
 
+
 class Layer_Types(Enum):
     Fully_Connected = "Fully_Connected"
     Convoluted = "Convoluted"
@@ -25,15 +26,18 @@ class Layer_Types(Enum):
     Maxpool = "Maxpool"
     Flatten = "Flatten"
     Input = "Input"
+    Dropout = "Dropout"
+
 
 lib = ctypes.cdll.LoadLibrary('./build/libNeural_Network.so')
+
 
 class Neural_Network(object):
     def __init__(self):
         lib.Neural_Network_new.argtypes = [ctypes.c_void_p]
         lib.Neural_Network_new.restype = ctypes.c_void_p
 
-        lib.Neural_Network_build.argtypes =  [ctypes.c_void_p]
+        lib.Neural_Network_build.argtypes = [ctypes.c_void_p]
         lib.Neural_Network_build.restype = ctypes.c_void_p
 
         lib.Neural_Network_add_input_layer.argtypes = [ctypes.c_void_p, ctypes.c_int]
@@ -41,6 +45,9 @@ class Neural_Network(object):
 
         lib.Neural_Network_add_fully_connected_layer.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
         lib.Neural_Network_add_fully_connected_layer.restype = ctypes.c_void_p
+
+        lib.Neural_Network_add_dropout_layer.argtypes = [ctypes.c_void_p, ctypes.c_float]
+        lib.Neural_Network_add_dropout_layer.restype = ctypes.c_void_p
 
         lib.Neural_Network_add_output_layer.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
         lib.Neural_Network_add_output_layer.restype = ctypes.c_void_p
@@ -51,7 +58,9 @@ class Neural_Network(object):
         lib.Neural_Network_set_learning_rate.argtypes = [ctypes.c_void_p, ctypes.c_float]
         lib.Neural_Network_set_learning_rate.restype = ctypes.c_void_p
 
-        lib.Neural_Network_train.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.POINTER(ctypes.c_float)), ctypes.POINTER(ctypes.POINTER(ctypes.c_float)),ctypes.c_int,ctypes.c_int,ctypes.c_int,ctypes.c_int]
+        lib.Neural_Network_train.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.POINTER(ctypes.c_float)),
+                                             ctypes.POINTER(ctypes.POINTER(ctypes.c_float)), ctypes.c_int, ctypes.c_int,
+                                             ctypes.c_int, ctypes.c_int]
         lib.Neural_Network_train.restype = ctypes.c_void_p
 
         lib.Neural_Network_set_filepath.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
@@ -77,6 +86,9 @@ class Neural_Network(object):
 
         self.obj = lib.Neural_Network_new(1)
 
+    def __del__(self):
+        del self.obj
+
     def setLearningRate(self, learning_rate):
         lib.Neural_Network_set_learning_rate(self.obj, learning_rate)
 
@@ -89,6 +101,9 @@ class Neural_Network(object):
     def add_fully_connected_layer(self, neurons, activation_function):
         lib.Neural_Network_add_fully_connected_layer(self.obj, neurons, activation_function.value)
 
+    def add_dropout_layer(self, dropped):
+        lib.Neural_Network_add_dropout_layer(self.obj, dropped)
+
     def add_output_layer(self, neurons, activation_function):
         lib.Neural_Network_add_output_layer(self.obj, neurons, activation_function.value)
 
@@ -99,15 +114,16 @@ class Neural_Network(object):
         final_array = [array_pointer[i] for i in range(output_size)]
         return final_array
 
-    def train(self, input, targets, batch_size, epochs, loss_function = Loss.MSE):
+    def train(self, input, targets, batch_size, epochs, loss_function=Loss.MSE):
         cpp_inputs = []
         cpp_targets = []
-        for index in range(0,len(input)):
+        for index in range(0, len(input)):
             cpp_inputs.append((ctypes.c_float * len(input[index]))(*input[index]))
             cpp_targets.append((ctypes.c_float * len(targets[index]))(*targets[index]))
         cpp_inputs_pointer = (ctypes.POINTER(ctypes.c_float) * len(input))(*cpp_inputs)
         cpp_inputs_targets = (ctypes.POINTER(ctypes.c_float) * len(input))(*cpp_targets)
-        lib.Neural_Network_train(self.obj, cpp_inputs_pointer, cpp_inputs_targets, batch_size, epochs, loss_function.value, len(input))
+        lib.Neural_Network_train(self.obj, cpp_inputs_pointer, cpp_inputs_targets, batch_size, epochs,
+                                 loss_function.value, len(input))
 
     def set_filepath(self, path):
         cString = ctypes.create_string_buffer(len(path))
@@ -120,7 +136,7 @@ class Neural_Network(object):
     def load_network(self, path):
         s = ctypes.create_string_buffer(len(path))
         path_string_ptr = ctypes.c_char_p(path.encode('utf-8'))
-        lib.Neural_Network_load_network(self.obj,len(s), path_string_ptr)
+        lib.Neural_Network_load_network(self.obj, len(s), path_string_ptr)
 
     def save_best_automatically(self, activate):
         lib.Neural_Network_save_best_automatically(self.obj, activate)

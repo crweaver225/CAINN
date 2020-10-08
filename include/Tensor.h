@@ -23,15 +23,16 @@ private:
     float *_tensor;
     float clip(float x);
     
-
-    /*
+    
     template<typename a_f>
     void MatmulInner(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af);
-    */
     
+    
+    /*
     template<typename a_f>
     void MatmulDimension(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af);
     void MatmulInner(const Tensor &m1, Tensor &m2, int a_row, int a_column, int b_row, int b_columm, int dimension);
+    */
     
     void UpdateGradientInner(const Tensor &gradient, const Tensor &weights, int d);
     void UpdateWeightsInner(const Tensor &gradient, const Tensor &output, const int d);
@@ -49,7 +50,9 @@ public:
 
     static float _learningRate;
     
+    void updateNeuron(int index, float value);
     void SetData(float *tensor);
+    void TransferDataFrom(const Tensor *tensor);
     void AssignRandomValues();
 
     const float * ReturnData() const;

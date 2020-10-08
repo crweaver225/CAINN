@@ -80,7 +80,7 @@ Tensor& Tensor::operator = (Tensor &&otherTensor) {
     return *this;
 }
 
-/*
+// Old matmul
 template<typename a_f>
 void Tensor::MatmulInner(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af) {
     int dimension_size = m1._rows * m1._columns;
@@ -116,7 +116,7 @@ void Tensor::Matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
     }
 }
 template void Tensor::Matmul<void (*)(float*, float*, int, int)>(const Tensor&, Tensor&, float*, void (*)(float*, float*, int, int));
-*/
+
 
 template<typename a_fd>
 void Tensor::ApplyDerivative(const Tensor& output, a_fd afd) {
@@ -128,14 +128,7 @@ template void Tensor::ApplyDerivative<void (*)(float*, float*, int)>(const Tenso
 void Tensor::UpdateGradientInner(const Tensor &gradient, const Tensor &weights, int d) {
     const int gradient_dimension_size = _columns * _rows * d;
     const int previous_gradient_d_size = gradient._columns * gradient._rows * d;
-    /*
-    std::cout<<"gradient shape: ";
-    gradient.PrintShape();
-    std::cout<<" * weights shape: ";
-    weights.PrintShape();
-    std::cout<<" = ";
-    PrintShape();
-    */
+
     for (int r = 0; r < weights._rows; ++r) {
         int tensor_index = gradient_dimension_size + r;
         int weight_index = gradient._columns * r;
@@ -179,21 +172,6 @@ void Tensor::UpdateWeightsInner(const Tensor &gradient, const Tensor &output, co
             _tensor[weight_row + gradient_x] += new_value;
         }
     }
-    
-    // Old logic for updating weights, significantly slower than above. Will look to remove soon
-    /*
-    std::unique_ptr<float> averaged_gradient = std::unique_ptr<float>(new float[_columns * _rows]);
-    memset(averaged_gradient.get(), 0.0f, _columns * _rows * sizeof(float));
-    for (int gradient_x = 0; gradient_x < gradient._columns; gradient_x++) {
-        for (int output_x = 0; output_x < output._columns; output_x++) {
-            averaged_gradient.get()[(output_x * _columns) + gradient_x] += gradient._tensor[gradient_index + gradient_x] * output._tensor[output_index + output_x];
-        }
-    }
-    
-    for (int i = 0; i < _columns * _rows; ++i) {
-        _tensor[i] += (averaged_gradient.get()[i] / gradient_dimensions) * _learningRate;
-    }
-    */
 }
 
 void Tensor::UpdateWeights(const Tensor &gradient, const Tensor &output) {
@@ -227,6 +205,20 @@ void Tensor::SetData(float *tensor) {
 
 const float * Tensor::ReturnData() const {
     return _tensor;
+}
+
+void Tensor::TransferDataFrom(const Tensor *tensor) {
+    std::memcpy(this->_tensor, tensor->ReturnData(),  _dimensions * _rows * _columns * sizeof(float));
+}
+
+void Tensor::updateNeuron(int index, float value) {
+    if (_activeDimensions > 1) {
+        for (int activeDimension = 0; activeDimension < _activeDimensions; activeDimension++) {
+            _tensor[index + (_rows * _columns)] = value;
+        }
+    } else {
+        _tensor[index] = value;
+    }
 }
 
 void Tensor::SetActiveDimension(int batch_size) {
@@ -294,7 +286,7 @@ std::vector<int> Tensor::Shape() const{
     return shape_array;
 }
 
-
+/*
 template<typename a_f>
 void Tensor::Matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
     ResetTensor();
@@ -313,7 +305,6 @@ void Tensor::Matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
     }
 }
 template void Tensor::Matmul<void (*)(float*, float*, int, int)>(const Tensor&, Tensor&, float*, void (*)(float*, float*, int, int));
-
 
 template<typename a_f>
 void Tensor::MatmulDimension(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af) {
@@ -628,3 +619,4 @@ void Tensor::MatmulInner(const Tensor &m1, Tensor &m2, int a_row, int a_column, 
     ymmC = _mm256_load_ps((float *) (_tensor + (((_columns * (a_row + 7)) + b_columm) + o_d)));
     _mm256_store_ps((float *) (_tensor + (((_columns * (a_row + 7)) + b_columm) + o_d)), ymm0 + ymmC);
 }
+*/

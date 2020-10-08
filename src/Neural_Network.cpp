@@ -12,6 +12,13 @@ void Neural_Network::AddFullyConnectedLayer(int neurons, int activation_function
     _neuralLayers.push_back(full_connected_layer);
 }
 
+void Neural_Network::AddDropoutLayer(float dropped) {
+    std::vector<int> dropout_vector{1,1,1};
+    std::shared_ptr<Dropout_Layer> dropout_layer = std::shared_ptr<Dropout_Layer>(new Dropout_Layer(dropout_vector, dropped));
+    _neuralLayers.push_back(dropout_layer);
+    _droppoutLayerExists = true;
+}
+
 void Neural_Network::AddOutputLayer(int neurons, int activation_function) {
     std::vector<int> output_vector{1, 1, neurons};
     std::cout<<activation_function<<std::endl;
@@ -87,7 +94,13 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
 
     std::unique_ptr<float*> batch_input = std::unique_ptr<float*>(new float*[batch_size]);
     std::unique_ptr<float*> batch_target = std::unique_ptr<float*>(new float*[batch_size]);
+    
     for (int epoch = 0; epoch < epochs; ++epoch) {
+
+        if (_droppoutLayerExists) {
+            randomizeDropout();
+        }
+
         for (int inputs_for_batch = 0; inputs_for_batch < input_size; inputs_for_batch += batch_size) {
 
             int final_batch_size = batch_size;
@@ -109,7 +122,6 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
                 _neuralLayers[i].get()->SetActiveDimensions(final_batch_size);
                 _neuralLayers[i].get()->ForwardPropogate();
             }
-
             _neuralLayers.back().get()->CalculateError(batch_target.get(), CalculateL2());
             ClearGradients();
             Backpropogate();
@@ -137,12 +149,21 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
         }
         _neuralLayers.back().get()->ResetLoss();
     }
-
+   
     for (int i = 0; i < _neuralLayers.size(); ++i) {
         _neuralLayers[i].get()->SetBatchDimensions(1);
         _neuralLayers[i].get()->Training(false);
     }
     std::cout<<"Training complete"<<std::endl;
+}
+
+void Neural_Network::randomizeDropout() {
+    for (int i = _neuralLayers.size() - 1; i > 0; --i) {
+        Dropout_Layer *dl = dynamic_cast<Dropout_Layer*>(_neuralLayers[i].get());
+        if (dl) {
+            dl->randomizeDropped();
+        }
+    }
 }
 
 void Neural_Network::Backpropogate() {

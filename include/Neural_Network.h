@@ -8,6 +8,7 @@
 #include <limits>
 #include "Input_Layer.h"
 #include "Fully_Connected_Layer.h"
+#include "Dropout_Layer.h"
 #include "Output_Layer.h"
 #include "Network_Saver.h"
 
@@ -19,9 +20,11 @@ private:
     void Backpropogate();
     void ClearGradients();
     const float CalculateL2() const;
+    void randomizeDropout();
     bool _saveIfBest = false;
     bool _stopAutomatically = false;
     float _bestLoss;
+    bool _droppoutLayerExists = false;
     int _printLossEveryIterations;
     std::string _filePath;
     friend class Network_Saver;
@@ -30,6 +33,7 @@ public:
 
     void AddInputLayer(int dimension);
     void AddFullyConnectedLayer(int neurons, int activation_function);
+    void AddDropoutLayer(float dropped);
     void AddOutputLayer(int neurons, int activation_function);
     void Build();
     void SetLearningRate(float learning_rate);
