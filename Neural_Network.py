@@ -17,6 +17,7 @@ class Activation_Function(Enum):
     SoftMax = 5
     Maxpool = 6
     Flatten = 7
+    Global_Maxpool = 8
 
 
 class Layer_Types(Enum):
@@ -24,6 +25,7 @@ class Layer_Types(Enum):
     Convoluted = "Convoluted"
     Recurrent = "Recurrent"
     Maxpool = "Maxpool"
+    Global_Maxpool = "Global_Maxpool"
     Flatten = "Flatten"
     Input = "Input"
     Dropout = "Dropout"
@@ -48,6 +50,12 @@ class Neural_Network(object):
 
         lib.Neural_Network_add_dropout_layer.argtypes = [ctypes.c_void_p, ctypes.c_float]
         lib.Neural_Network_add_dropout_layer.restype = ctypes.c_void_p
+
+        lib.Neural_Network_add_flatten_layer.argtypes = [ctypes.c_void_p]
+        lib.Neural_Network_add_flatten_layer.restype = ctypes.c_void_p
+
+        lib.Neural_Network_add_embedding_layer.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
+        lib.Neural_Network_add_embedding_layer.restype = ctypes.c_void_p
 
         lib.Neural_Network_add_output_layer.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
         lib.Neural_Network_add_output_layer.restype = ctypes.c_void_p
@@ -103,6 +111,12 @@ class Neural_Network(object):
 
     def add_dropout_layer(self, dropped):
         lib.Neural_Network_add_dropout_layer(self.obj, dropped)
+
+    def add_flatten_layer(self):
+        lib.Neural_Network_add_flatten_layer(self.obj)
+
+    def add_embedding_layer(self, unique_words_size, output):
+        lib.Neural_Network_add_embedding_layer(self.obj, unique_words_size, output)
 
     def add_output_layer(self, neurons, activation_function):
         lib.Neural_Network_add_output_layer(self.obj, neurons, activation_function.value)

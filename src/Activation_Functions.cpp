@@ -13,7 +13,8 @@ void Activation_Functions::sigmoid(float* x, float *bias, int location, int size
 
 void Activation_Functions::relu(float* x, float *bias, int location, int size) {
     for (int i = 0; i < size; i++) {
-        x[location + i] = std::max((x[location + i] + bias[i]) * 0.001f, x[location + i] + bias[i]);
+        //x[location + i] = std::max((x[location + i] + bias[i]) * 0.001f, x[location + i] + bias[i]);
+        x[location + i] = std::max(0.0f, x[location + i] + bias[i]);
     }
 }
 

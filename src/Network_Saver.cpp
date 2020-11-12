@@ -21,6 +21,12 @@ void Network_Saver::SaveNetwork(Neural_Network *neural_network, std::string &pat
             network_layers.push_back(3);
             std::vector<int> weight_shape = x.get()->_weights.get()->Shape();
             weights.push_back(std::vector<float>(x.get()->_weights.get()->ReturnData() , x.get()->_weights.get()->ReturnData() + (weight_shape[1] * weight_shape[2])));
+        } else if (dynamic_cast<Embedding_Layer*>(x.get()) != nullptr) {
+            network_layers.push_back(4);
+            std::vector<int> weight_shape = x.get()->_weights.get()->Shape();
+            weights.push_back(std::vector<float>(x.get()->_weights.get()->ReturnData() , x.get()->_weights.get()->ReturnData() + (weight_shape[1] * weight_shape[2])));
+        } else if (dynamic_cast<Flatten_Layer*>(x.get()) != nullptr) {
+            network_layers.push_back(5);
         }
         activation_functions.push_back(x.get()->ReturnActivationFunctionType());
         neurons.push_back(x.get()->OutputDimensions().back());
@@ -58,6 +64,10 @@ void Network_Saver::LoadNetwork(Neural_Network *neural_network, std::string &pat
             neural_network->AddFullyConnectedLayer(neurons[layer], activation_functions[layer]);
         } else if (network_layers[layer] == 3) {
             neural_network->AddOutputLayer(neurons[layer], activation_functions[layer]);
+        } else if (network_layers[layer] == 4) {
+            neural_network->AddEmbeddingLayer(weights[1].size(), neurons[layer]);
+        } else if (network_layers[layer] == 5) {
+            neural_network->AddFlattenLayer();
         }
     }
     neural_network->Build();
@@ -71,6 +81,9 @@ void Network_Saver::LoadNetwork(Neural_Network *neural_network, std::string &pat
             neural_network->_neuralLayers[layer].get()->_weights.get()->SetData(weights[weight_index].data());
             weight_index++;
         } else if (network_layers[layer] == 3) {
+            neural_network->_neuralLayers[layer].get()->_weights.get()->SetData(weights[weight_index].data());
+            weight_index++;
+        } else if (network_layers[layer] == 4) {
             neural_network->_neuralLayers[layer].get()->_weights.get()->SetData(weights[weight_index].data());
             weight_index++;
         }

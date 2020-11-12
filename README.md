@@ -57,6 +57,14 @@ by setting the neural networks file path, you can either call on the network to 
 nn.set_filepath('temp-net.json')
 nn.save_network()
 ```
+You can add a dropout layer to your network to help ensure a more robust training process. The layer will turn off a percentage of neurons from the previous layer to itself. The layer takes one argument which is a float representing the percentage of neurons to randomly turn off per iteration. 
+```
+nn.add_dropout_layer(0.2)
+```
+An embedding layer can help turn sparse input into dense vector representations that are far more effcient for the neural network to handle. Generally these are seen with natural language processing. An embedding layer can be added by passing in the number of possible inputs, and the output size of the network. The layer will be able to figure out the rest on its own when the build() function is called. 
+```
+nn.add_embedding_layer(len(input_size), 100)
+```
 or you can tell the network to save after any iteration where the loss is less than previous iterations.
 ```
 nn.save_best_automatically(True)
@@ -83,6 +91,10 @@ result = nn.execute([5.0])
     - add_fully_connected_layer()
 - Output layer
     - add_output_layer()
+- Dropout layer
+    add_dropout_layer()
+- Embedding layer
+    add_embedding_layer()
 
 ### This project currently supports five types of activation functions
 - Sigmoid

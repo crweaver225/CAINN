@@ -79,7 +79,7 @@ Tensor& Tensor::operator = (Tensor &&otherTensor) {
     otherTensor._tensor = nullptr;
     return *this;
 }
-
+/*
 // Old matmul
 template<typename a_f>
 void Tensor::MatmulInner(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af) {
@@ -116,7 +116,7 @@ void Tensor::Matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
     }
 }
 template void Tensor::Matmul<void (*)(float*, float*, int, int)>(const Tensor&, Tensor&, float*, void (*)(float*, float*, int, int));
-
+*/
 
 template<typename a_fd>
 void Tensor::ApplyDerivative(const Tensor& output, a_fd afd) {
@@ -190,6 +190,17 @@ void Tensor::UpdateWeights(const Tensor &gradient, const Tensor &output) {
     }
 }
 
+void Tensor::flatten() {
+    int newColumns = _rows * _columns;
+    _rows = 1;
+    _columns = newColumns;
+}
+
+void Tensor::reshape(int rows, int columns) {
+    _rows = rows;
+    _columns = columns;
+}
+
 float Tensor::clip(float x) {
     float value = roundf(x * 100000) / 100000;
     return std::max(-0.1f, std::min(value, 0.1f));
@@ -207,6 +218,41 @@ const float * Tensor::ReturnData() const {
     return _tensor;
 }
 
+const float * Tensor::returnRow(int row) const {
+    float *returnData = new float[_columns];
+    int start_index = row * _columns;
+    for (int i = 0; i < _columns; i++) {
+        returnData[i] = _tensor[start_index + i];
+    }
+    return returnData;
+}
+
+const float *Tensor::returnRow(int batch, int row) const{
+    float *returnData = new float[_columns];
+    int start_index = (_rows * _columns * batch) + (row * _columns);//row * _columns * batch;
+    for (int i = 0; i < _columns; i++) {
+        returnData[i] = _tensor[start_index + i];
+    }
+    return returnData;
+}
+
+const float * Tensor::returnColumn(int column) const {
+    float *returnData = new float[_rows];
+    for (int i = 0; i < _rows; i++) {
+        returnData[i] = _tensor[(i * _columns) + column];
+    }
+    return returnData;
+}
+
+const float *Tensor::returnColumn(int batch, int column) const {
+    float *returnData = new float[_rows];
+    int start_index = batch * _rows * _columns;
+    for (int i = 0; i < _rows; i++) {
+        returnData[i] = _tensor[(start_index + (i * _columns)) + column];
+    }
+    return returnData;
+}
+
 void Tensor::TransferDataFrom(const Tensor *tensor) {
     std::memcpy(this->_tensor, tensor->ReturnData(),  _dimensions * _rows * _columns * sizeof(float));
 }
@@ -214,11 +260,15 @@ void Tensor::TransferDataFrom(const Tensor *tensor) {
 void Tensor::updateNeuron(int index, float value) {
     if (_activeDimensions > 1) {
         for (int activeDimension = 0; activeDimension < _activeDimensions; activeDimension++) {
-            _tensor[index + (_rows * _columns)] = value;
+            _tensor[index + (_rows * _columns * activeDimension)] = value;
         }
     } else {
         _tensor[index] = value;
     }
+}
+
+void Tensor::updateNeuron(int batch, int index, float value) {
+    _tensor[index + (_rows * _columns * batch)] = value;
 }
 
 void Tensor::SetActiveDimension(int batch_size) {
@@ -238,6 +288,7 @@ void Tensor::AssignRandomValues() {
         _tensor[i] = dis(gen);
     }
 }
+
 
 const float Tensor::SumTheSquares() const {
     float finalValue = 0.0f;
@@ -272,6 +323,7 @@ void Tensor::Print() const {
         }
     }
     std::cout<<"]"<<std::endl;
+    std::cout<<std::endl;
 }
 
 void Tensor::PrintShape() const {
@@ -286,7 +338,8 @@ std::vector<int> Tensor::Shape() const{
     return shape_array;
 }
 
-/*
+
+// New matmul logic
 template<typename a_f>
 void Tensor::Matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
     ResetTensor();
@@ -619,4 +672,3 @@ void Tensor::MatmulInner(const Tensor &m1, Tensor &m2, int a_row, int a_column, 
     ymmC = _mm256_load_ps((float *) (_tensor + (((_columns * (a_row + 7)) + b_columm) + o_d)));
     _mm256_store_ps((float *) (_tensor + (((_columns * (a_row + 7)) + b_columm) + o_d)), ymm0 + ymmC);
 }
-*/

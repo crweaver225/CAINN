@@ -13,7 +13,7 @@ Input_layer& Input_layer::operator=(Input_layer &&input_layer) {
 }
 
 void Input_layer::PrintMetaData() {
-    std::cout<<"Input layer: (1,"<<_dimensions[0]<<")"<<std::endl;
+    std::cout<<"Input layer: ("<<_dimensions[1]<<","<<_dimensions[2]<<")"<<std::endl;
 }
 
 void Input_layer::Build(std::shared_ptr<Neural_Layer> previous_layer) {

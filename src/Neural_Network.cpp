@@ -19,9 +19,19 @@ void Neural_Network::AddDropoutLayer(float dropped) {
     _droppoutLayerExists = true;
 }
 
+void Neural_Network::AddFlattenLayer() {
+    std::shared_ptr<Flatten_Layer> flatten_layer = std::shared_ptr<Flatten_Layer>(new Flatten_Layer());
+    _neuralLayers.push_back(flatten_layer);
+}
+
+void Neural_Network::AddEmbeddingLayer(int unique_words_length, int output) {
+    std::vector<int> embedding_vector{1, unique_words_length, output};
+    std::shared_ptr<Embedding_Layer> embedding_layer = std::shared_ptr<Embedding_Layer>(new Embedding_Layer(embedding_vector));
+    _neuralLayers.push_back(embedding_layer);
+}
+
 void Neural_Network::AddOutputLayer(int neurons, int activation_function) {
     std::vector<int> output_vector{1, 1, neurons};
-    std::cout<<activation_function<<std::endl;
     std::shared_ptr<Output_Layer> output_layer = std::shared_ptr<Output_Layer>(new Output_Layer(output_vector, (Activation_Function)activation_function));
     _neuralLayers.push_back(output_layer);
 }
@@ -39,11 +49,11 @@ void Neural_Network::SaveNetwork() {
     network_saver.SaveNetwork(this, this->_filePath);
  }
 
-  void Neural_Network::LoadNetwork(size_t len, const char* path) {
+void Neural_Network::LoadNetwork(size_t len, const char* path) {
     std::string path_str(path);
     Network_Saver network_saver;
     network_saver.LoadNetwork(this, path_str);
- }
+}
 
 const int Neural_Network::OutputDimensions() const {
     return _neuralLayers.back()->OutputDimensions().back();
@@ -149,7 +159,6 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
         }
         _neuralLayers.back().get()->ResetLoss();
     }
-   
     for (int i = 0; i < _neuralLayers.size(); ++i) {
         _neuralLayers[i].get()->SetBatchDimensions(1);
         _neuralLayers[i].get()->Training(false);

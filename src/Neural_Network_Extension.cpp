@@ -16,6 +16,8 @@ extern "C" {
   void Neural_Network_add_input_layer(Neural_Network* neural_nerwork, int dimension) {return neural_nerwork->AddInputLayer(dimension);}
   void Neural_Network_add_fully_connected_layer(Neural_Network* neural_nerwork, int neurons, int activation_function) {return neural_nerwork->AddFullyConnectedLayer(neurons, activation_function);}
   void Neural_Network_add_dropout_layer(Neural_Network* neural_network, float dropped) {return neural_network->AddDropoutLayer(dropped);}
+  void Neural_Network_add_flatten_layer(Neural_Network* neural_network) {return neural_network->AddFlattenLayer();}
+  void Neural_Network_add_embedding_layer(Neural_Network* neural_network, int unique_words_length, int output) {return neural_network->AddEmbeddingLayer(unique_words_length, output);}
   void Neural_Network_add_output_layer(Neural_Network* neural_nerwork, int neurons, int activation_function) {return neural_nerwork->AddOutputLayer(neurons, activation_function);}
   const float * Neural_Network_execute(Neural_Network* neural_nerwork, float* input) {return neural_nerwork->Execute(input);}
   void Neural_Network_train(Neural_Network* neural_nerwork, float **input, float **targets, int batch_size, int epochs, int loss_function, int input_size) {return neural_nerwork->Train(input,targets,batch_size,epochs,loss_function,input_size);}

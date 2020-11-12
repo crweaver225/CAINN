@@ -11,7 +11,8 @@
 #include "Dropout_Layer.h"
 #include "Output_Layer.h"
 #include "Network_Saver.h"
-
+#include "Flatten_Layer.h"
+#include "Embedding_Layer.h"
 
 class Neural_Network {
 
@@ -35,6 +36,8 @@ public:
     void AddFullyConnectedLayer(int neurons, int activation_function);
     void AddDropoutLayer(float dropped);
     void AddOutputLayer(int neurons, int activation_function);
+    void AddFlattenLayer();
+    void AddEmbeddingLayer(int unique_words_length, int output);
     void Build();
     void SetLearningRate(float learning_rate);
     const float* Execute(float *input);
