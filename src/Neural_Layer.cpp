@@ -70,6 +70,8 @@ auto Neural_Layer::ReturnActivationFunction() -> void (*)(float*,float*, int, in
         return Activation_Functions::sigmoid;
     } else if (_activationFunction == Activation_Function::Relu) {
         return Activation_Functions::relu;
+    } else if (_activationFunction == Activation_Function::Leaky_Relu) {
+        return Activation_Functions::leaky_relu;
     } else if (_activationFunction == Activation_Function::SoftMax) {
         return Activation_Functions::softmax;
     } else {
@@ -82,6 +84,8 @@ auto Neural_Layer::ReturnActivationFunctionDerivative() -> void (*)(float*, floa
         return Activation_Functions::sigmoid_d;
     } else if (_activationFunction == Activation_Function::Relu) {
         return Activation_Functions::relu_d;
+    } else if (_activationFunction == Activation_Function::Leaky_Relu) {
+        return Activation_Functions::leaky_relu_d;
     } else if (_activationFunction == Activation_Function::SoftMax) {
         return Activation_Functions::softmax_d;
     } else {
@@ -95,7 +99,7 @@ void Neural_Layer::SetActiveDimensions(int batch_size) {
 
 void Neural_Layer::SetBatchDimensions(int batch_size) {
     _dimensions.front() = batch_size;
-    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(batch_size, _previousLayer.get()->_outputResults.get()->Shape()[1], _dimensions.back()));
+    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(batch_size, _previousLayer.get()->_outputResults.get()->Shape()[1], _previousLayer.get()->_outputResults.get()->Shape()[2], _dimensions.back()));
 }
 
 const float Neural_Layer::ReturnL2() const {
@@ -107,7 +111,7 @@ void Neural_Layer::ClearGradient() {
 }
 
 void Neural_Layer::BuildGradient() {
-    this->_gradient = std::unique_ptr<Tensor>(new Tensor(this->_dimensions.front(), 1, this->_dimensions.back()));
+    this->_gradient = std::unique_ptr<Tensor>(new Tensor(this->_dimensions.front(), this->_dimensions[1], this->_dimensions[2], this->_dimensions.back()));
 }
 
 Activation_Function Neural_Layer::ReturnActivationFunctionType() const {

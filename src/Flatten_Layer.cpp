@@ -1,6 +1,6 @@
 #include "Flatten_Layer.h"
 
-Flatten_Layer::Flatten_Layer() : Neural_Layer(std::vector<int>{1,1,1}, Activation_Function::Pass) {}
+Flatten_Layer::Flatten_Layer() : Neural_Layer(std::vector<int>{1,1,1,1}, Activation_Function::Pass) {}
 
 Flatten_Layer& Flatten_Layer::operator=(Flatten_Layer &&flatten_layer) {
     if (this == &flatten_layer) {
@@ -17,10 +17,10 @@ void Flatten_Layer::PrintMetaData()  {
 }
 
 void Flatten_Layer::Build(std::shared_ptr<Neural_Layer> previous_layer) {
-    _dimensions.back() =  previous_layer.get()->OutputDimensions()[1] * previous_layer.get()->OutputDimensions().back();
+    _dimensions.back() = previous_layer.get()->OutputDimensions()[1] * previous_layer.get()->OutputDimensions()[2] * previous_layer.get()->OutputDimensions().back();
     this->_previousLayer = previous_layer;
     this->_weights = std::unique_ptr<Tensor>(new Tensor(1, 1));
-    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(1, 1, previous_layer.get()->OutputDimensions()[1] * previous_layer.get()->OutputDimensions().back()));
+    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(1, _dimensions.back()));
 }
 
 void Flatten_Layer::ForwardPropogate() {
@@ -29,18 +29,18 @@ void Flatten_Layer::ForwardPropogate() {
 }
 
 void Flatten_Layer::Backpropogate()  {
-    _gradient.get()->reshape(_previousLayer.get()->OutputDimensions()[1], _previousLayer.get()->OutputDimensions().back());
+    _gradient.get()->reshape(_previousLayer.get()->OutputDimensions()[1], _previousLayer.get()->OutputDimensions()[2], _previousLayer.get()->OutputDimensions().back());
     PreviousLayerGradient()->TransferDataFrom(_gradient.get());
 }
 
 void Flatten_Layer::SetBatchDimensions(int batch_size) {
      _dimensions.front() = batch_size;
-     this->_outputResults = std::unique_ptr<Tensor>(new Tensor(batch_size, 1, _previousLayer.get()->OutputDimensions()[1] * _previousLayer.get()->OutputDimensions().back()));
+     this->_outputResults = std::unique_ptr<Tensor>(new Tensor(batch_size, 1, 1, _dimensions.back()));
 }
 
 void Flatten_Layer::Training(bool train) {
     if (train) {
-        this->_gradient = std::unique_ptr<Tensor>(new Tensor(this->_dimensions.front(), 1,  _previousLayer.get()->OutputDimensions()[1] * _previousLayer.get()->OutputDimensions().back()));
+        this->_gradient = std::unique_ptr<Tensor>(new Tensor(this->_dimensions.front(), 1, 1, _dimensions.back()));
     } else {
         _gradient.reset();
     }

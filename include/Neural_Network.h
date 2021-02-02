@@ -13,6 +13,7 @@
 #include "Network_Saver.h"
 #include "Flatten_Layer.h"
 #include "Embedding_Layer.h"
+#include "Maxpool_Layer.h"
 
 class Neural_Network {
 
@@ -21,9 +22,11 @@ private:
     void Backpropogate();
     void ClearGradients();
     const float CalculateL2() const;
-    void randomizeDropout();
+    void RandomizeDropout();
+    void ShuffleTrainingData(float **input, float **targets, int input_size);
     bool _saveIfBest = false;
     bool _stopAutomatically = false;
+    bool _shuffleDataPerEpoch = false;
     float _bestLoss;
     bool _droppoutLayerExists = false;
     int _printLossEveryIterations;
@@ -32,8 +35,9 @@ private:
 
 public:
 
-    void AddInputLayer(int dimension);
+    void AddInputLayer(int *dimension, int size);
     void AddFullyConnectedLayer(int neurons, int activation_function);
+    void AddMaxpoolLayer(int kernals, int stride);
     void AddDropoutLayer(float dropped);
     void AddOutputLayer(int neurons, int activation_function);
     void AddFlattenLayer();
@@ -46,9 +50,11 @@ public:
     void LoadNetwork(size_t len, const char* path);
     const int OutputDimensions() const;
     void SaveBestAutomatically(bool activate);
+    void ShuffleTrainingDataPerEpoch(bool activate);
     void StopTrainingAutomatically(bool activate);
     void SetFilepath(const char* path);
     void SetPrintLossEverIterations(int iteration);
+    void SetShuffleDataFlag(bool activate);
 };
 
 #endif /* NEURAL_NETWORK_H_ */

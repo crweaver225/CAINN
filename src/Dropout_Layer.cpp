@@ -17,7 +17,7 @@ Dropout_Layer::~Dropout_Layer() {};
 
 void Dropout_Layer::SetBatchDimensions(int batch_size) {
     _dimensions.front() = batch_size;
-    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(batch_size, _previousLayer.get()->OutputDimensions()[1], _previousLayer.get()->OutputDimensions().back()));
+    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(batch_size,1, _previousLayer.get()->OutputDimensions()[2], _previousLayer.get()->OutputDimensions().back()));
 }
 
 void Dropout_Layer::Build(std::shared_ptr<Neural_Layer> previous_layer) {
@@ -25,7 +25,7 @@ void Dropout_Layer::Build(std::shared_ptr<Neural_Layer> previous_layer) {
     this->_weights = std::unique_ptr<Tensor>(new Tensor(1, 1));
     _neurons = previous_layer.get()->OutputDimensions().back();
     _dimensions = previous_layer.get()->OutputDimensions();
-    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(1, previous_layer.get()->OutputDimensions()[1], previous_layer.get()->OutputDimensions().back()));
+    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(previous_layer.get()->OutputDimensions()[2], previous_layer.get()->OutputDimensions().back()));
 }
 
 void Dropout_Layer::randomizeDropped() {
@@ -61,3 +61,6 @@ void Dropout_Layer::Training(bool train) {
     }
 }
 
+float Dropout_Layer::returnPercentageDropped() const {
+    return _percentage;
+}

@@ -21,4 +21,6 @@ public:
     void SetBatchDimensions(int batch_size) override;
     void randomizeDropped();
     void Training(bool train) override;
+
+    float returnPercentageDropped() const;
 };

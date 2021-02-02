@@ -51,7 +51,7 @@ public:
     void ClearGradient();
 
     virtual void PrintMetaData();
-    const std::vector<int>& OutputDimensions();
+    virtual const std::vector<int>& OutputDimensions();
     virtual void SetBatchDimensions(int batch_size);
     void SetActiveDimensions(int batch_size);
 

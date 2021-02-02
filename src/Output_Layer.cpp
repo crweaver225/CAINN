@@ -22,7 +22,7 @@ void Output_Layer::Build(std::shared_ptr<Neural_Layer> previous_layer) {
     this->_weights->AssignRandomValues();
     this->_bias = std::unique_ptr<float>(new float[_dimensions.back()]);
     memset(_bias.get(), 0.0f, _dimensions.back() * sizeof(float));
-    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(1, PreviousLayerOutput()->Shape()[1], _dimensions.back()));
+    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(1, PreviousLayerOutput()->Shape()[1],PreviousLayerOutput()->Shape()[2], _dimensions.back()));
 }
 
 void Output_Layer::Training(bool train) {
@@ -70,7 +70,7 @@ void Output_Layer::CalculateError(float **target, float regularization) {
         int current_dimensions = d * output_size;
         temp_loss += lf(output, target[d], current_dimensions, output_size);
         for (int i_o = 0; i_o < output_size; ++ i_o) {
-            _error.get()[current_dimensions + i_o] = (target[d][i_o] - output[current_dimensions + i_o]) - regularization;
+            _error.get()[current_dimensions + i_o] = (target[d][i_o] - output[current_dimensions + i_o]);// - regularization;
         }
     }
     _loss += temp_loss / (float)active_dimension;

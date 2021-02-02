@@ -22,7 +22,7 @@ void Fully_Connected_Layer::Build(std::shared_ptr<Neural_Layer> previous_layer) 
     this->_weights = std::unique_ptr<Tensor>(new Tensor(previous_layer.get()->OutputDimensions().back(), _dimensions.back()));
     this->_weights->AssignRandomValues();
     this->_bias = std::unique_ptr<float>(GenerateBiasValues(_dimensions.back()));
-    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(1, PreviousLayerOutput()->Shape()[1], _dimensions.back()));
+    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(1, _dimensions.back()));
 }
 
 void Fully_Connected_Layer::ForwardPropogate() {
