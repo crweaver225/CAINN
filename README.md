@@ -33,7 +33,7 @@ from Neural_Network import Loss
 Once imported, a network can be setup to train as simply as this:
 ```
 nn = Neural_Network()
-nn.add_input_layer(1)
+nn.add_input_layer([1])
 nn.add_fully_connected_layer(20, Activation_Function.Sigmoid)
 nn.add_fully_connected_layer(40, Activation_Function.Relu)
 nn.add_fully_connected_layer(10, Activation_Function.Relu)
@@ -81,10 +81,14 @@ After loading or training a network, you can then execute your network at any ti
 ```
 result = nn.execute([5.0])
 ```
+To help ensure the network does not learn a pattern within your training data and better generalizes, you can set the following flag to true to get the network to shuffle the training data after each epoch.
+```
+nn.shuffle_training_data(True)
+```
 
 ## Supported types
 
-### This project currently supports three types of layers
+### This project currently supports these layers
 - Input layer
     - add_input_layer()
 - Fully connected layer
@@ -95,6 +99,11 @@ result = nn.execute([5.0])
     add_dropout_layer()
 - Embedding layer
     add_embedding_layer()
+- Flatten Layer
+    add_flatten_layer()
+- Maxpool Layer
+    add_maxpool_layer()
+	
 
 ### This project currently supports five types of activation functions
 - Sigmoid
