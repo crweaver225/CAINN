@@ -170,10 +170,13 @@ void Tensor::UpdateGradients(const Tensor &gradient, const Tensor &weights) {
         }
     }
     
+    /// Disabling gradient clipping. I think it is extra over-head that doesnt bring much benefit
+    /*
     const int final_size = _activeDimensions * _channels * _rows * _columns;
     for (int i = 0; i < final_size; i++) {
         _tensor[i] = clip(_tensor[i]);
     }
+    */
     
 }
 
