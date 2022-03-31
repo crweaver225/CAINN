@@ -36,9 +36,11 @@ void Activation_Functions::softmax(float* x, float *bias, int location, int size
         x[location + i] = exp(x[location + i] - max_value);
         y_sum += x[location + i];
     }
+    
+    float min_value = std::numeric_limits<float>::min();
     for (int i = 0; i < size; i++) {
         x[location + i] = x[location + i] / y_sum;
-        x[location + i] = std::min(0.99f, x[location + i]);
+        x[location + i] = std::min(1.0f - min_value, std::max(min_value, x[location + i]));
     }
 }
  

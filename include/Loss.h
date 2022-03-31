@@ -1,6 +1,7 @@
 #include <math.h>
 #include <cmath>
 #include <iostream>
+#include <limits>
 
 #ifndef LOSS_H_
 #define LOSS_H_

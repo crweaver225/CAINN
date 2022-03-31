@@ -286,10 +286,6 @@ void Tensor::ResetTensor() {
 }
 
 void Tensor::SetData(float *tensor) {
-    //std::cout<<"set data size: "<<_dimensions * _channels * _rows * _columns<<std::endl;
-    for (int i = 0; i < _dimensions * _channels * _rows * _columns; i++) {
-       // std::cout<<tensor[i]<<",";
-    }
     std::memcpy(this->_tensor, tensor, _dimensions * _channels * _rows * _columns * sizeof(float));
 }
 
@@ -344,7 +340,7 @@ void Tensor::AssignRandomValues() {
     int matrixSize = _dimensions * _channels * _rows * _columns;
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(-0.1,0.1);
+    std::uniform_real_distribution<> dis(-0.01,0.01);
     for (int i = 0; i < matrixSize; ++i) {
         _tensor[i] = dis(gen);
     }
