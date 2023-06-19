@@ -1,10 +1,12 @@
 #include "Input_Layer.h"
 
-Input_layer::Input_layer(std::vector<int> dimensions) : Neural_Layer(dimensions, Activation_Function::Pass) {}
+Input_layer::Input_layer(Dimensions dimensions) : Neural_Layer(dimensions, Activation_Function::Pass) {}
 
-Input_layer::~Input_layer() {}
+Input_layer::~Input_layer() {std::cout<<"Input_Layer destructor called\n";}
 
-Input_layer& Input_layer::operator=(Input_layer &&input_layer) {
+Input_layer::Input_layer(Input_layer &&input_layer)  noexcept : Neural_Layer{std::move(input_layer)} {}
+
+Input_layer& Input_layer::operator=(Input_layer &&input_layer) noexcept  {
     if (this == &input_layer) {
         return *this;
     }
@@ -13,31 +15,38 @@ Input_layer& Input_layer::operator=(Input_layer &&input_layer) {
 }
 
 void Input_layer::PrintMetaData() {
-    std::cout<<"Input layer: ("<<_dimensions[1]<<","<<_dimensions[2]<<","<<_dimensions[3]<<")"<<std::endl;
+    std::cout<<"Input layer: ("<<_dimensions.channels<<","<<_dimensions.rows<<","<<_dimensions.columns<<")"<<std::endl;
 }
 
-void Input_layer::Build(std::shared_ptr<Neural_Layer> previous_layer) {
-    _outputResults = std::unique_ptr<Tensor>( new Tensor(_dimensions[1], _dimensions[2],_dimensions[3]));
-    _inputArray = std::unique_ptr<float>(new float[_dimensions[1] * _dimensions[2] * _dimensions[3]]);
+void Input_layer::Build(Neural_Layer const *previousLayer) {
+    _previousLayer_Dimensions = previousLayer->ReturnDimensions();
+    _output = std::make_unique<Tensor>(Tensor(_dimensions.channels, _dimensions.rows,_dimensions.columns));
+    _inputArray = std::unique_ptr<float>(new float[_dimensions.channels * _dimensions.rows * _dimensions.columns]);
 }
 
-void Input_layer::AddInput(float *input) {
-    _outputResults.get()->SetData(input);
+Tensor const* Input_layer::ForwardPropogate(Tensor const* input) {
+    return input;
 }
 
-void Input_layer::AddInputInBatches(const int dimensions, float **input) {
-   int input_size = _dimensions[1] * _dimensions[2] * _dimensions[3];
+Tensor const* Input_layer::AddInput(float *input) {
+    _output.get()->SetData(input);
+    return _output.get();
+}
+
+Tensor const* Input_layer::AddInputInBatches(const int dimensions, float **input) {
+   int input_size = _dimensions.channels * _dimensions.rows * _dimensions.columns;
    for (int i = 0; i < dimensions; ++i) {
        for (int k = 0; k < input_size; ++k) {
            _inputArray.get()[(i * input_size) + k] = input[i][k];
        }
    }
-    _outputResults.get()->SetData(_inputArray.get());
+    _output.get()->SetData(_inputArray.get());
+    return _output.get();
 }
 
 void Input_layer::SetBatchDimensions(int batch_size) {
-    _dimensions.front() = batch_size;
-    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(batch_size, _dimensions[1], _dimensions[2], _dimensions[3]));
-    _inputArray = std::unique_ptr<float>(new float[batch_size * _dimensions[1] * _dimensions[2] * _dimensions[3]]);
+    _dimensions.dimensions = batch_size;
+    _previousLayer_Dimensions.dimensions = batch_size;
+    _output = std::make_unique<Tensor>(Tensor(batch_size, _dimensions.channels, _dimensions.rows, _dimensions.columns));
+    _inputArray = std::unique_ptr<float>(new float[batch_size * _dimensions.channels * _dimensions.rows * _dimensions.columns]);
 }
-

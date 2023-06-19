@@ -1,18 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 project(Neural_Network)
+#set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++17 -O3 -ffast-math -mavx -march=native")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++17 -O3 -mavx -march=native")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O3 -mavx")
 
-EXECUTE_PROCESS( COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCHITECTURE )
-message( STATUS "Architecture: ${CMAKE_SYSTEM_NAME}" )
-
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++17 -O3 -ffast-math")
-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O3")
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++17 -O3 -ffast-math -mavx -march=native")
-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O3 -mavx")
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 include_directories(include)
 file(GLOB SOURCES "src/*cpp")

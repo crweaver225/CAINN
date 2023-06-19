@@ -9,18 +9,18 @@ private:
     std::vector<int> _outputDimensions;
 
 public:
-    Maxpool_Layer(std::vector<int> dimensions);
+    Maxpool_Layer(Dimensions dimensions);
     Maxpool_Layer(const Maxpool_Layer &maxpool_layer) = delete;
     Maxpool_Layer& operator=(const Maxpool_Layer &maxpool_layer) = delete;
-    Maxpool_Layer(Maxpool_Layer &&maxpool_layer);
-    Maxpool_Layer &operator=(Maxpool_Layer &&maxpool_layer);
+    Maxpool_Layer(Maxpool_Layer &&maxpool_layer) noexcept;
+    Maxpool_Layer &operator=(Maxpool_Layer &&maxpool_layer) noexcept;
     ~Maxpool_Layer();
 
-    const std::vector<int>& OutputDimensions() override;
+    //const std::vector<int>& OutputDimensions() override;
     void PrintMetaData() override;
-    void Build(std::shared_ptr<Neural_Layer> previous_layer) override;
-    void ForwardPropogate() override;
-    void Backpropogate() override;
+    void Build(Neural_Layer const* previousLayer) override;
+    Tensor const* ForwardPropogate(Tensor const* input) override;
+    Tensor* Backpropogate(Tensor* gradient) override;
     void SetBatchDimensions(int batch_size) override;
     void Training(bool train) override;
 

@@ -1,11 +1,18 @@
 #include "Dropout_Layer.h"
 
 
-Dropout_Layer::Dropout_Layer(std::vector<int> dimensions, float percentDropped) : Neural_Layer(dimensions, Activation_Function::Pass) {
+Dropout_Layer::Dropout_Layer(Dimensions dimensions, float percentDropped) : Neural_Layer(dimensions, Activation_Function::Pass) {
     _percentage = percentDropped;
+    std::cout<<"Dropout Layer constructor\n";
 }
 
-Dropout_Layer& Dropout_Layer::operator=(Dropout_Layer &&dropout_layer) {
+Dropout_Layer::Dropout_Layer(Dropout_Layer &&dropout_layer) noexcept  : Neural_Layer{std::move(dropout_layer)} {
+    this->_percentage = dropout_layer._percentage;
+    this->_neurons = dropout_layer._neurons;
+    this->_droppedNeurons = dropout_layer._droppedNeurons;
+}
+
+Dropout_Layer& Dropout_Layer::operator=(Dropout_Layer &&dropout_layer) noexcept {
     if (this == &dropout_layer) {
         return *this;
     }
@@ -13,19 +20,28 @@ Dropout_Layer& Dropout_Layer::operator=(Dropout_Layer &&dropout_layer) {
     return *this;
 }
 
-Dropout_Layer::~Dropout_Layer() {};
+Dropout_Layer::~Dropout_Layer() {std::cout<<"Dropout layer destructor called \n"; }
 
 void Dropout_Layer::SetBatchDimensions(int batch_size) {
-    _dimensions.front() = batch_size;
-    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(batch_size,1, _previousLayer.get()->OutputDimensions()[2], _previousLayer.get()->OutputDimensions().back()));
+    _dimensions.dimensions = batch_size;
+    _previousLayer_Dimensions.dimensions = batch_size;
+    _output = std::make_unique<Tensor>(Tensor(batch_size, 1, 
+                                            _dimensions.rows, 
+                                            _dimensions.columns
+                                            ));
 }
 
-void Dropout_Layer::Build(std::shared_ptr<Neural_Layer> previous_layer) {
-    this->_previousLayer = previous_layer;
-    this->_weights = std::unique_ptr<Tensor>(new Tensor(1, 1));
-    _neurons = previous_layer.get()->OutputDimensions().back();
-    _dimensions = previous_layer.get()->OutputDimensions();
-    this->_outputResults = std::unique_ptr<Tensor>(new Tensor(previous_layer.get()->OutputDimensions()[2], previous_layer.get()->OutputDimensions().back()));
+void Dropout_Layer::Build(Neural_Layer const* previousLayer) {
+    _previousLayer_Dimensions = previousLayer->ReturnDimensions();
+    _weights = std::make_unique<Tensor>(Tensor(1,1));
+    _dimensions = _previousLayer_Dimensions;
+    _neurons = _dimensions.rows * _dimensions.columns;
+    _output = std::make_unique<Tensor>(Tensor(
+                                        _dimensions.dimensions, 
+                                        _dimensions.channels, 
+                                        _dimensions.rows,
+                                        _dimensions.columns
+                                        ));
 }
 
 void Dropout_Layer::randomizeDropped() {
@@ -38,24 +54,26 @@ void Dropout_Layer::randomizeDropped() {
     }
 }
 
-void Dropout_Layer::ForwardPropogate() {
-    _outputResults.get()->TransferDataFrom(PreviousLayerOutput());
+Tensor const* Dropout_Layer::ForwardPropogate(Tensor const* input) {
+    _input = input;
+    _output.get()->TransferDataFrom(input);
     for (int neuron : _droppedNeurons) {
-        _outputResults.get()->updateNeuron(neuron, 0.0);
+        _output.get()->updateNeuron(neuron, 0.0);
     }
+    return _output.get();
 }
 
-void Dropout_Layer::Backpropogate() {
-    PreviousLayerGradient()->TransferDataFrom(_gradient.get());
+Tensor* Dropout_Layer::Backpropogate(Tensor* gradient) {
+    return gradient;
 }
 
 void Dropout_Layer::PrintMetaData() {
-    std::cout<<"dropout layer: ("<<_percentage * 100 <<"% dropped)"<<std::endl;
+    std::cout<<"dropout layer: ("<<_percentage * 100 <<"% dropped)\n";
 }
 
 void Dropout_Layer::Training(bool train) {
     if (train) {
-        BuildGradient();
+        this->_gradient = std::make_unique<Tensor>(Tensor(1,1));
     } else {
         _droppedNeurons.clear();
     }

@@ -14,11 +14,16 @@
 #include "Flatten_Layer.h"
 #include "Embedding_Layer.h"
 #include "Maxpool_Layer.h"
+#include "Dimensions.h"
 
 class Neural_Network {
 
 private:
-    std::vector<std::shared_ptr<Neural_Layer>> _neuralLayers;
+    std::vector<std::unique_ptr<Neural_Layer>> _neuralLayers;
+    
+    Input_layer *_input_layer;
+    Output_Layer *_output_layer;
+    
     void Backpropogate();
     void ClearGradients();
     const float CalculateL2() const;
@@ -31,6 +36,10 @@ private:
     bool _droppoutLayerExists = false;
     int _printLossEveryIterations;
     std::string _filePath;
+
+    std::vector<Neural_Layer *> network() const; 
+
+
     friend class Network_Saver;
 
 public:
@@ -58,3 +67,4 @@ public:
 };
 
 #endif /* NEURAL_NETWORK_H_ */
+

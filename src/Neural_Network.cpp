@@ -1,53 +1,42 @@
 #include "Neural_Network.h"
 
 void Neural_Network::AddInputLayer(int *dimension, int size) {
-
-   std::vector<int> input_vector{1,1,1,1};
-    if (size == 1) {
-        input_vector = {1,1,1,dimension[0]};
+   Dimensions dimensions;
+   if (size == 1) {
+        dimensions = {1,1,1,dimension[0]};
     } else if (size == 2) {
-        input_vector = {1,1,dimension[0], dimension[1]};
+        dimensions = {1,1,dimension[0], dimension[1]};
     } else if (size == 3) {
-        input_vector = {1,dimension[0], dimension[1], dimension[2]};
+        dimensions = {1,dimension[0], dimension[1], dimension[2]};
     }
-    std::shared_ptr<Input_layer> input_layer = std::shared_ptr<Input_layer>(new Input_layer(input_vector));
-    _neuralLayers.push_back(input_layer);
+    _neuralLayers.push_back(std::make_unique<Input_layer>(Input_layer(dimensions)));
 }
 
 void Neural_Network::AddFullyConnectedLayer(int neurons, int activation_function) {
-    std::vector<int> dense_vector{1,1,1,neurons};
-    std::shared_ptr<Fully_Connected_Layer> full_connected_layer = std::shared_ptr<Fully_Connected_Layer>(new Fully_Connected_Layer(dense_vector, (Activation_Function)activation_function));
-    _neuralLayers.push_back(full_connected_layer);
+    _neuralLayers.push_back(std::make_unique<Fully_Connected_Layer>(Fully_Connected_Layer(Dimensions{1,1,1,neurons}, 
+        (Activation_Function)activation_function)));
 }
 
 void Neural_Network::AddMaxpoolLayer(int kernals, int stride) {
-    std::vector<int> maxpool_vector{1,1,kernals,stride};
-    std::shared_ptr<Maxpool_Layer> maxpool_layer = std::shared_ptr<Maxpool_Layer>(new Maxpool_Layer(maxpool_vector));
-    _neuralLayers.push_back(maxpool_layer);
+    _neuralLayers.push_back(std::make_unique<Maxpool_Layer>(Maxpool_Layer(Dimensions{1,1,kernals,stride})));
 }
 
 void Neural_Network::AddDropoutLayer(float dropped) {
-    std::vector<int> dropout_vector{1,1,1,1};
-    std::shared_ptr<Dropout_Layer> dropout_layer = std::shared_ptr<Dropout_Layer>(new Dropout_Layer(dropout_vector, dropped));
-    _neuralLayers.push_back(dropout_layer);
+    _neuralLayers.push_back(std::make_unique<Dropout_Layer>(Dropout_Layer({1,1,1,1}, dropped)));
     _droppoutLayerExists = true;
 }
 
 void Neural_Network::AddFlattenLayer() {
-    std::shared_ptr<Flatten_Layer> flatten_layer = std::shared_ptr<Flatten_Layer>(new Flatten_Layer());
-    _neuralLayers.push_back(flatten_layer);
+    _neuralLayers.push_back(std::make_unique<Flatten_Layer>(Flatten_Layer()));
 }
 
 void Neural_Network::AddEmbeddingLayer(int unique_words_length, int output) {
-    std::vector<int> embedding_vector{1, 1, unique_words_length, output};
-    std::shared_ptr<Embedding_Layer> embedding_layer = std::shared_ptr<Embedding_Layer>(new Embedding_Layer(embedding_vector));
-    _neuralLayers.push_back(embedding_layer);
+    _neuralLayers.push_back(std::make_unique<Embedding_Layer>(Embedding_Layer(Dimensions{1, 1, unique_words_length, output})));
 }
 
 void Neural_Network::AddOutputLayer(int neurons, int activation_function) {
-    std::vector<int> output_vector{1, 1, 1, neurons};
-    std::shared_ptr<Output_Layer> output_layer = std::shared_ptr<Output_Layer>(new Output_Layer(output_vector, (Activation_Function)activation_function));
-    _neuralLayers.push_back(output_layer);
+    _neuralLayers.push_back(std::make_unique<Output_Layer>(Output_Layer(Dimensions{1, 1, 1, neurons}, 
+        (Activation_Function)activation_function)));
 }
 
 void Neural_Network::SetLearningRate(float learning_rate) {
@@ -71,7 +60,7 @@ void Neural_Network::LoadNetwork(size_t len, const char* path) {
 }
 
 const int Neural_Network::OutputDimensions() const {
-    return _neuralLayers.back()->OutputDimensions().back();
+    return _neuralLayers.back()->ReturnDimensions().columns;
 }
 
 void Neural_Network::SetFilepath(const char* path) {
@@ -91,35 +80,58 @@ void Neural_Network::StopTrainingAutomatically(bool activate) {
 }
 
 void Neural_Network::Build() {
-    _neuralLayers[0]->Build(_neuralLayers[0]);
-    for (int i = 1; i < _neuralLayers.size(); ++i) {
-        _neuralLayers[i]->Build(_neuralLayers[i-1]);
-    }
-    for (int i = 0; i < _neuralLayers.size(); ++i) {
-        _neuralLayers[i]->PrintMetaData();
+
+    _input_layer = dynamic_cast<Input_layer*>(_neuralLayers[0].get());
+    if (_input_layer != nullptr) {
+
+        this->_output_layer = dynamic_cast<Output_Layer*>(_neuralLayers.back().get());
+        if (_output_layer != nullptr) {
+
+            _input_layer->Build(_neuralLayers[0].get());
+
+            for (int i = 1; i < _neuralLayers.size(); ++i) {
+                 _neuralLayers[i]->Build(_neuralLayers[i-1].get());
+            }
+
+            for (int i = 0; i < _neuralLayers.size(); ++i) {
+                _neuralLayers[i]->PrintMetaData();
+            }
+
+        } else {
+            std::cout<<"ERROR ~ All Neural Networks must end with an output layer"<<std::endl;
+        }
+    } else {
+        std::cout<<"ERROR ~ All Neural Networks must start with an input layer"<<std::endl;
     }
 }
 
 const float* Neural_Network::Execute(float *input) {
-    _neuralLayers[0]->AddInput(input);
+    Tensor const* output = _input_layer->AddInput(input);
     for (int i = 0; i < _neuralLayers.size(); ++i) {
-        _neuralLayers[i]->ForwardPropogate();
+        output = _neuralLayers[i]->ForwardPropogate(output);
     }
-    return _neuralLayers.back().get()->_outputResults.get()->ReturnData();
+    return output->ReturnData();
 }
 
 void Neural_Network::Train(float **input, float **targets, int batch_size, int epochs, int loss_function, int input_size) {
 
-    this->_bestLoss = std::numeric_limits<float>::max();
+    _bestLoss = std::numeric_limits<float>::max();
 
-    _neuralLayers.back().get()->SetLossFunction((Loss)loss_function);
+   _output_layer->SetLossFunction((Loss)loss_function);
 
     for (int i = 0; i < _neuralLayers.size(); ++i) {
         _neuralLayers[i].get()->SetBatchDimensions(batch_size);
         _neuralLayers[i].get()->Training(true);
     }
 
-    std::cout<<"Starting to train neural network..."<<"Number of epochs: "<<epochs<<" Batch size: "<<batch_size<<", input size: "<<input_size<<std::endl;
+    std::cout<<"Starting to train neural network..."
+            <<"Number of epochs: "
+            <<epochs
+            <<" Batch size: "
+            <<batch_size
+            <<", input size: "
+            <<input_size
+            <<"\n";
 
     std::unique_ptr<float*> batch_input = std::unique_ptr<float*>(new float*[batch_size]);
     std::unique_ptr<float*> batch_target = std::unique_ptr<float*>(new float*[batch_size]);
@@ -143,23 +155,24 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
                 batch_target.get()[b] = targets[inputs_for_batch + b];
             }
 
-            _neuralLayers[0].get()->AddInputInBatches(final_batch_size, batch_input.get());
+            Tensor const* output = _input_layer->AddInputInBatches(final_batch_size, batch_input.get());
 
-            for (int i = 0; i < _neuralLayers.size(); ++i) {
-                _neuralLayers[i].get()->SetActiveDimensions(final_batch_size);
-                _neuralLayers[i].get()->ForwardPropogate();
+            for (int i = 1; i < _neuralLayers.size(); ++i) {
+                _neuralLayers[i]->SetActiveDimensions(final_batch_size);
+                output = _neuralLayers[i]->ForwardPropogate(output);
             }
-            _neuralLayers.back().get()->CalculateError(batch_target.get(), CalculateL2());
+
+            _output_layer->CalculateError(batch_target.get(), CalculateL2());
             ClearGradients();
             Backpropogate();
         }
 
         if (epoch % this->_printLossEveryIterations == 0) {
             std::cout<<" iteration: "<<epoch + 1<<" ";
-            _neuralLayers.back().get()->PrintError();
+            _output_layer->PrintError();
         }
 
-        float loss = _neuralLayers.back().get()->ReturnLoss();
+        float loss = _output_layer->ReturnLoss();
 
         if (_saveIfBest) {
             if (loss < _bestLoss) {
@@ -179,13 +192,14 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
             ShuffleTrainingData(input, targets, input_size);
         }
 
-        _neuralLayers.back().get()->ResetLoss();
+       _output_layer->ResetLoss();
     }
-
+    
     for (int i = 0; i < _neuralLayers.size(); ++i) {
         _neuralLayers[i].get()->SetBatchDimensions(1);
         _neuralLayers[i].get()->Training(false);
     }
+    
     std::cout<<"Training complete"<<std::endl;
 }
 
@@ -200,6 +214,14 @@ void Neural_Network::ShuffleTrainingData(float **input, float **targets, int inp
     }
 }
 
+std::vector<Neural_Layer *> Neural_Network::network() const {
+    std::vector<Neural_Layer *> network_layers{};
+    for (int i = 1; i < _neuralLayers.size(); ++i) {
+        network_layers.push_back(_neuralLayers[i].get());
+    }
+    return network_layers;
+}
+
 void Neural_Network::RandomizeDropout() {
     if (_droppoutLayerExists) {
         for (int i = _neuralLayers.size() - 1; i > 0; --i) {
@@ -212,8 +234,9 @@ void Neural_Network::RandomizeDropout() {
 }
 
 void Neural_Network::Backpropogate() {
+    Tensor *gradient = _output_layer->ReturnError();
     for (int i = _neuralLayers.size() - 1; i > 0; --i) {
-        _neuralLayers[i].get()->Backpropogate();
+        gradient = _neuralLayers[i].get()->Backpropogate(gradient);
     }
 }
 
@@ -226,7 +249,7 @@ void Neural_Network::ClearGradients() {
 const float Neural_Network::CalculateL2() const {
     float l2_value = 0.0f;
     for (int i = _neuralLayers.size() - 1; i > 0; i--) {
-        l2_value += _neuralLayers[i]->ReturnL2();
+        //l2_value += _neuralLayers[i]->ReturnL2();
     }
     return l2_value;
 }

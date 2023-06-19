@@ -11,47 +11,47 @@ void Network_Saver::SaveNetwork(Neural_Network *neural_network, std::string &pat
     std::vector<std::vector<int>> dimensions;
     std::vector<float> dropped;
 
-    for (std::shared_ptr<Neural_Layer> x : neural_network->_neuralLayers) {
-        if (dynamic_cast<Input_layer*>(x.get()) != nullptr) {
+    for (Neural_Layer* x : neural_network->network()) {
+        if (dynamic_cast<Input_layer*>(x) != nullptr) {
             network_layers.push_back(1);
-            dimensions.push_back(x->_dimensions);
+            dimensions.push_back(x->_dimensions.vector());
             dropped.push_back(0.0f);
-        } else if (dynamic_cast<Fully_Connected_Layer*>(x.get()) != nullptr) {
+        } else if (dynamic_cast<Fully_Connected_Layer*>(x) != nullptr) {
             network_layers.push_back(2);
-            bias.push_back(std::vector<float>(x.get()->_bias.get(), x.get()->_bias.get() + x.get()->_dimensions.back()));
-            std::vector<int> weight_shape = x.get()->_weights.get()->Shape();
-            weights.push_back(std::vector<float>(x.get()->_weights.get()->ReturnData() , x.get()->_weights.get()->ReturnData() + (weight_shape[2] * weight_shape[3])));
-            dimensions.push_back(x->_dimensions);
+            bias.push_back(std::vector<float>(x->_bias.get(), x->_bias.get() + x->_dimensions.columns));
+            Dimensions weight_dimensions = x->_weights->dimensions();
+            weights.push_back(std::vector<float>(x->_weights.get()->ReturnData() , x->_weights.get()->ReturnData() + (weight_dimensions.rows * weight_dimensions.columns)));
+            dimensions.push_back(x->_dimensions.vector());
             dropped.push_back(0.0f);
-        } else if (dynamic_cast<Output_Layer*>(x.get()) != nullptr) {
+        } else if (dynamic_cast<Output_Layer*>(x) != nullptr) {
             network_layers.push_back(3);
-            std::vector<int> weight_shape = x.get()->_weights.get()->Shape();
-            weights.push_back(std::vector<float>(x.get()->_weights.get()->ReturnData() , x.get()->_weights.get()->ReturnData() + (weight_shape[2] * weight_shape[3])));
-            dimensions.push_back(x->_dimensions);
+            Dimensions weight_shape = x->_weights->dimensions();
+            weights.push_back(std::vector<float>(x->_weights.get()->ReturnData() , x->_weights.get()->ReturnData() + (weight_shape.rows * weight_shape.columns)));
+            dimensions.push_back(x->_dimensions.vector());
             dropped.push_back(0.0f);
-        } else if (dynamic_cast<Embedding_Layer*>(x.get()) != nullptr) {
+        } else if (dynamic_cast<Embedding_Layer*>(x) != nullptr) {
             network_layers.push_back(4);
-            std::vector<int> weight_shape = x.get()->_weights.get()->Shape();
-            weights.push_back(std::vector<float>(x.get()->_weights.get()->ReturnData() , x.get()->_weights.get()->ReturnData() + (weight_shape[2] * weight_shape[3])));
-            dimensions.push_back(x->_dimensions);
+            Dimensions weight_shape = x->_weights->dimensions();
+            weights.push_back(std::vector<float>(x->_weights.get()->ReturnData() , x->_weights.get()->ReturnData() + (weight_shape.rows * weight_shape.columns)));
+            dimensions.push_back(x->_dimensions.vector());
             dropped.push_back(0.0f);
-        } else if (dynamic_cast<Flatten_Layer*>(x.get()) != nullptr) {
+        } else if (dynamic_cast<Flatten_Layer*>(x) != nullptr) {
             network_layers.push_back(5);
-            dimensions.push_back(x->_dimensions);
+            dimensions.push_back(x->_dimensions.vector());
             dropped.push_back(0.0f);
-        } else if (dynamic_cast<Maxpool_Layer*>(x.get()) != nullptr) {
-            Maxpool_Layer *mpool_layer = dynamic_cast<Maxpool_Layer*>(x.get());
+        } else if (dynamic_cast<Maxpool_Layer*>(x) != nullptr) {
+            Maxpool_Layer *mpool_layer = dynamic_cast<Maxpool_Layer*>(x);
             network_layers.push_back(6);
             std::vector<int> dimension = {mpool_layer->returnStride(), mpool_layer->returnFilterSize()};
             dimensions.push_back(dimension);
             dropped.push_back(0.0f);
-        } else if (dynamic_cast<Dropout_Layer*>(x.get()) != nullptr) {
-            Dropout_Layer *dropout_layer = dynamic_cast<Dropout_Layer*>(x.get());
+        } else if (dynamic_cast<Dropout_Layer*>(x) != nullptr) {
+            Dropout_Layer *dropout_layer = dynamic_cast<Dropout_Layer*>(x);
             network_layers.push_back(7);
             dropped.push_back(dropout_layer->returnPercentageDropped());
         }
-        activation_functions.push_back(x.get()->ReturnActivationFunctionType());
-        neurons.push_back(x.get()->OutputDimensions().back());
+        activation_functions.push_back(x->ReturnActivationFunctionType());
+        neurons.push_back(x->ReturnDimensions().columns);
     }
 
     json network_json;
@@ -119,4 +119,5 @@ void Network_Saver::LoadNetwork(Neural_Network *neural_network, std::string &pat
         }
     }
 }
+
 

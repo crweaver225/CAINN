@@ -54,9 +54,9 @@ Tensor::~Tensor() {
     delete [] _tensor;
 }
 
-Tensor::Tensor(const Tensor &otherTensor) {
+Tensor::Tensor(const Tensor &otherTensor) noexcept  {
     this->_dimensions = otherTensor._dimensions;
-    this->_activeDimensions = otherTensor._dimensions;
+    this->_activeDimensions = otherTensor._activeDimensions;
     this->_rows = otherTensor._rows;
     this->_columns = otherTensor._columns;
     this->_channels = otherTensor._channels;
@@ -64,10 +64,10 @@ Tensor::Tensor(const Tensor &otherTensor) {
     *this->_tensor = *(otherTensor.ReturnData());
 }
 
-Tensor& Tensor::operator = (const Tensor &otherTensor) {
+Tensor& Tensor::operator = (const Tensor &otherTensor) noexcept  {
     if (this == &otherTensor) { return *this; }
     this->_dimensions = otherTensor._dimensions;
-    this->_activeDimensions = otherTensor._dimensions;
+    this->_activeDimensions = otherTensor._activeDimensions;
     this->_rows = otherTensor._rows;
     this->_columns = otherTensor._columns;
     this->_channels = otherTensor._channels;
@@ -76,9 +76,9 @@ Tensor& Tensor::operator = (const Tensor &otherTensor) {
     return *this;
 }
 
-Tensor::Tensor(Tensor &&otherTensor) {
+Tensor::Tensor(Tensor &&otherTensor) noexcept  {
     this->_dimensions = otherTensor._dimensions;
-    this->_activeDimensions = otherTensor._dimensions;
+    this->_activeDimensions = otherTensor._activeDimensions;
     this->_rows = otherTensor._rows;
     this->_columns = otherTensor._columns;
     this->_channels = otherTensor._channels;
@@ -86,10 +86,10 @@ Tensor::Tensor(Tensor &&otherTensor) {
     otherTensor._tensor = nullptr;
 }
 
-Tensor& Tensor::operator = (Tensor &&otherTensor) {
+Tensor& Tensor::operator = (Tensor &&otherTensor) noexcept  {
     if (this == &otherTensor) { return *this; }
     this->_dimensions = otherTensor._dimensions;
-    this->_activeDimensions = otherTensor._dimensions;
+    this->_activeDimensions = otherTensor._activeDimensions;
     this->_rows = otherTensor._rows;
     this->_columns = otherTensor._columns;
     this->_channels = otherTensor._channels;
@@ -121,7 +121,7 @@ void Tensor::Matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af) {
     if (_activeDimensions > 15) {
         std::vector<std::thread> threads;
         for (size_t i = 0; i < _activeDimensions; ++i) {
-            threads.emplace_back(std::thread(&Tensor::MatmulInner<a_f>, this,std::ref(m1), std::ref(m2),bias, i,af));
+            threads.emplace_back(std::thread(&Tensor::MatmulInner<a_f>, this, std::ref(m1), std::ref(m2),bias, i,af));
         }
         for (auto &t : threads) {
             t.join();
@@ -215,22 +215,22 @@ std::vector<int> Tensor::Maxpool(const Tensor &input, int filter_size, int strid
     std::vector<int> highestIndexReturn;
     std::map<int,float> maxQuadrant;
     std::map<int,int> highestIndex;
-    std::vector<int> inputSize = input.Shape();
+    Dimensions inputSize = input.dimensions();
 
     for (int dimension = 0; dimension < _activeDimensions; dimension ++) {
 
-        int inputDimensionIndex = dimension * inputSize[1] * inputSize[2] * inputSize[3];
+        int inputDimensionIndex = dimension * inputSize.channels * inputSize.rows * inputSize.columns;
         int outputDimensionIndex = dimension * _channels * _rows * _columns;
 
         for (int channel = 0; channel < _channels; channel ++) {
-            int inputChannelIndex = channel * inputSize[2] * inputSize[3];
+            int inputChannelIndex = channel * inputSize.rows * inputSize.columns;
             int outputChannelIndex = channel * _rows * _columns;
             for (int filterHeight = 0; filterHeight < filter_size; filterHeight ++) {
                 for (int filterWidth = 0; filterWidth < filter_size; filterWidth ++) {
-                    for (int imageHeight = 0; imageHeight <= inputSize[2] - filter_size; imageHeight += stride) {
-                        int inputHeightIndex = (imageHeight + filterHeight) * inputSize[3];
+                    for (int imageHeight = 0; imageHeight <= inputSize.rows - filter_size; imageHeight += stride) {
+                        int inputHeightIndex = (imageHeight + filterHeight) * inputSize.columns;
                         int calcValue = filterWidth + imageHeight + filterHeight + (filterHeight * _columns);
-                        for (int imageWidth = 0; imageWidth <= inputSize[3] - filter_size; imageWidth += stride) {
+                        for (int imageWidth = 0; imageWidth <= inputSize.columns - filter_size; imageWidth += stride) {
                             int quadrant = (outputDimensionIndex + outputChannelIndex + inputHeightIndex  + imageWidth + filterWidth) - calcValue;
                             int imageIndex = inputDimensionIndex + inputChannelIndex + imageHeight + imageWidth + filterWidth;
                             if (maxQuadrant.find(quadrant) == maxQuadrant.end()) {
@@ -277,15 +277,15 @@ void Tensor::clipData() {
 }
 
 float Tensor::clip(float x) {
-    float value = roundf(x * 100000) / 100000;
-    return std::max(-0.1f, std::min(value, 0.1f));
+    float value = roundf(x * 10000) / 10000;
+    return std::max(-0.001f, std::min(value, 0.001f));
 }
 
 void Tensor::ResetTensor() {
     memset(_tensor, 0.0f, _dimensions * _channels * _rows * _columns * sizeof(float));
 }
 
-void Tensor::SetData(float *tensor) {
+void Tensor::SetData(const float *tensor) {
     std::memcpy(this->_tensor, tensor, _dimensions * _channels * _rows * _columns * sizeof(float));
 }
 
@@ -310,7 +310,7 @@ const float *Tensor::returnColumn(int batch, int column) const {
     return returnData;
 }
 
-void Tensor::TransferDataFrom(const Tensor *tensor) {
+void Tensor::TransferDataFrom(Tensor const* tensor) {
     std::memcpy(this->_tensor, tensor->ReturnData(),  _activeDimensions * _channels * _rows * _columns * sizeof(float));
 }
 
@@ -388,6 +388,22 @@ void Tensor::PrintShape() const {
     std::cout<<"("<<_dimensions<<","<<_channels<<","<<_rows<<","<<_columns<<")"<<std::endl;
 }
 
+const Dimensions Tensor::dimensions() const {
+    return Dimensions{_dimensions, _channels, _rows, _columns};
+}
+
+const int Tensor::NumberOfRows() const {
+    return _rows;
+}
+const int Tensor::NumberOfColumns() const {
+    return _columns;
+}
+
+const int Tensor::NumberOfChannels() const {
+    return _channels;
+}
+
+/*
 std::vector<int> Tensor::Shape() const{
     std::vector<int> shape_array(4);
     shape_array[0] = _dimensions;
@@ -396,3 +412,4 @@ std::vector<int> Tensor::Shape() const{
     shape_array[3] = _columns;
     return shape_array;
 }
+*/

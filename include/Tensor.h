@@ -10,6 +10,7 @@
 #include <thread>
 #include <x86intrin.h>
 #include <map>
+#include "Dimensions.h"
 
 #ifndef TENSOR_H_
 #define TENSOR_H_
@@ -39,10 +40,10 @@ public:
     Tensor(const int dimensions, const int channels, const int rows, const int columns);
     Tensor(const int dimensions, const int channels, const int rows, const int columns, float *tensor);
     ~Tensor();
-    Tensor(const Tensor &Tensor);
-    Tensor& operator = (const Tensor &tensor);
-    Tensor(Tensor &&tensor);
-    Tensor& operator = (Tensor &&tensor);
+    Tensor(const Tensor &Tensor) noexcept;
+    Tensor& operator = (const Tensor &tensor) noexcept;
+    Tensor(Tensor &&tensor) noexcept;
+    Tensor& operator = (Tensor &&tensor) noexcept;
 
     static float _learningRate;
 
@@ -50,11 +51,11 @@ public:
     
     void updateNeuron(int index, float value);
     void updateNeuron(int batch, int index, float value);
-    void SetData(float *tensor);
-    void TransferDataFrom(const Tensor *tensor);
+    void SetData(const float *tensor);
+    void TransferDataFrom(Tensor const* tensor);
     void AssignRandomValues();
 
-    const float * ReturnData() const;
+    const float *ReturnData() const;
     const float *returnColumn(int column) const;
     const float *returnColumn(int batch, int column) const;
     const float SumTheSquares() const;
@@ -80,7 +81,11 @@ public:
 
     void Print() const;
     void PrintShape() const;
-    std::vector<int> Shape() const;
+
+    const Dimensions dimensions() const;
+    const int NumberOfRows() const;
+    const int NumberOfColumns() const;
+    const int NumberOfChannels() const;
 };
 
 #endif /* TENSOR_H_ */

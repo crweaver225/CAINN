@@ -3,28 +3,31 @@
 class Output_Layer: public Neural_Layer {
 
 private:
-    std::unique_ptr<float> _error;
+    std::unique_ptr<Tensor> _error;
     float _loss;
     auto ReturnLossFunction() -> float (*)(const float*, float*, int, int);
     int _batchesInIteration = 1;
 public:
-    Output_Layer(std::vector<int> dimensions, Activation_Function af);
+    Output_Layer(Dimensions dimensions, Activation_Function af);
     ~Output_Layer();
     Output_Layer(const Output_Layer &output_layer) = delete;
     Output_Layer& operator=(const Output_Layer &output_layer) = delete;
-    Output_Layer(Output_Layer &&output_layer);
-    Output_Layer& operator=(Output_Layer &&output_layer);
+    Output_Layer(Output_Layer &&output_layer) noexcept;
+    Output_Layer& operator=(Output_Layer &&output_layer) noexcept;
 
-    void Build(std::shared_ptr<Neural_Layer> previous_layer);
+    void Build(Neural_Layer const* previousLayer) override;
+    Tensor const* ForwardPropogate(Tensor const* input) override;
+    Tensor* Backpropogate(Tensor* gradient) override;
+
+    void SetLossFunction(Loss loss);
     void PrintMetaData() override;
     void Training(bool train) override;
-    void ForwardPropogate() override;
     void CalculateError(float **target, float regularization);
-    void ResetLoss() override;
-    float ReturnLoss() const override;
+    void ResetLoss();
+    float ReturnLoss() const;
+    Tensor* ReturnError() const;
+    void SetActiveDimensions(int batch_size) override;
 
     void PrintFinalResults();
     void PrintError();
-    void Backpropogate();
-
 };

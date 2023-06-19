@@ -42,7 +42,6 @@ class Neural_Network(object):
         lib.Neural_Network_build.argtypes = [ctypes.c_void_p]
         lib.Neural_Network_build.restype = ctypes.c_void_p
 
-        #lib.Neural_Network_add_input_layer.argtypes = [ctypes.c_void_p, ctypes.c_int]
         lib.Neural_Network_add_input_layer.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_int), ctypes.c_int]
         lib.Neural_Network_add_input_layer.restype = ctypes.c_void_p
 
