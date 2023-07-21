@@ -17,10 +17,6 @@ void Neural_Network::AddFullyConnectedLayer(int neurons, int activation_function
         (Activation_Function)activation_function)));
 }
 
-void Neural_Network::AddMaxpoolLayer(int kernals, int stride) {
-    _neuralLayers.push_back(std::make_unique<Maxpool_Layer>(Maxpool_Layer(Dimensions{1,1,kernals,stride})));
-}
-
 void Neural_Network::AddDropoutLayer(float dropped) {
     _neuralLayers.push_back(std::make_unique<Dropout_Layer>(Dropout_Layer({1,1,1,1}, dropped)));
     _droppoutLayerExists = true;
@@ -51,6 +47,10 @@ void Neural_Network::SaveNetwork() {
     std::cout<<"saving network..."<<std::endl;
     Network_Saver network_saver;
     network_saver.SaveNetwork(this, this->_filePath);
+ }
+
+ void Neural_Network::TurnOnRegularization(bool activate) {
+    _applyL2Regularization = activate;
  }
 
 void Neural_Network::LoadNetwork(size_t len, const char* path) {
@@ -162,7 +162,7 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
                 output = _neuralLayers[i]->ForwardPropogate(output);
             }
 
-            _output_layer->CalculateError(batch_target.get(), CalculateL2());
+            _output_layer->CalculateError(batch_target.get(), _applyL2Regularization ? CalculateL2() : 0.0f);
             ClearGradients();
             Backpropogate();
         }
@@ -205,9 +205,14 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
 
 void Neural_Network::ShuffleTrainingData(float **input, float **targets, int input_size) {
     std::cout<<"Shuffling data ..."<<std::endl;
+
     std::vector<int> myvector;
     for (int i=0; i<input_size; ++i) myvector.push_back(i);
-    std::random_shuffle ( myvector.begin(), myvector.end() );
+
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle ( myvector.begin(), myvector.end(), g);
+
     for (int i = 0; i < input_size - 2; i++) {
         std::swap(input[myvector[i]], input[myvector[i + 1]]);
         std::swap(targets[myvector[i]], targets[myvector[i + 1]]);
@@ -249,7 +254,7 @@ void Neural_Network::ClearGradients() {
 const float Neural_Network::CalculateL2() const {
     float l2_value = 0.0f;
     for (int i = _neuralLayers.size() - 1; i > 0; i--) {
-        //l2_value += _neuralLayers[i]->ReturnL2();
+        l2_value += _neuralLayers[i]->ReturnL2();
     }
     return l2_value;
 }

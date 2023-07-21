@@ -2,7 +2,7 @@
 
 Input_layer::Input_layer(Dimensions dimensions) : Neural_Layer(dimensions, Activation_Function::Pass) {}
 
-Input_layer::~Input_layer() {std::cout<<"Input_Layer destructor called\n";}
+Input_layer::~Input_layer() {}
 
 Input_layer::Input_layer(Input_layer &&input_layer)  noexcept : Neural_Layer{std::move(input_layer)} {}
 

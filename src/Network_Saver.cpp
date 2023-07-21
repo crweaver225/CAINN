@@ -39,12 +39,6 @@ void Network_Saver::SaveNetwork(Neural_Network *neural_network, std::string &pat
             network_layers.push_back(5);
             dimensions.push_back(x->_dimensions.vector());
             dropped.push_back(0.0f);
-        } else if (dynamic_cast<Maxpool_Layer*>(x) != nullptr) {
-            Maxpool_Layer *mpool_layer = dynamic_cast<Maxpool_Layer*>(x);
-            network_layers.push_back(6);
-            std::vector<int> dimension = {mpool_layer->returnStride(), mpool_layer->returnFilterSize()};
-            dimensions.push_back(dimension);
-            dropped.push_back(0.0f);
         } else if (dynamic_cast<Dropout_Layer*>(x) != nullptr) {
             Dropout_Layer *dropout_layer = dynamic_cast<Dropout_Layer*>(x);
             network_layers.push_back(7);
@@ -94,9 +88,7 @@ void Network_Saver::LoadNetwork(Neural_Network *neural_network, std::string &pat
             neural_network->AddEmbeddingLayer(weights[1].size(), neurons[layer]);
         } else if (network_layers[layer] == 5) {
             neural_network->AddFlattenLayer();
-        } else if (network_layers[layer] == 6) {
-            neural_network->AddMaxpoolLayer(dimensions[layer][0], dimensions[layer][1]);
-        } else if (network_layers[layer] == 7) {
+        }   else if (network_layers[layer] == 7) {
             neural_network->AddDropoutLayer(dropped[layer]);
         }
     }

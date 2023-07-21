@@ -43,7 +43,6 @@ public:
     Neural_Layer& operator = (const Neural_Layer &neural_layer) = delete;
     Neural_Layer(Neural_Layer &&neural_layer) noexcept;
     Neural_Layer& operator=(Neural_Layer &&neural_layer) noexcept;
-
     
     const Dimensions ReturnDimensions() const;
     const float ReturnL2() const;

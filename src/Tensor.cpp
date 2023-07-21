@@ -170,13 +170,7 @@ void Tensor::UpdateGradients(const Tensor &gradient, const Tensor &weights) {
         }
     }
     
-    /// Disabling gradient clipping. I think it is extra over-head that doesnt bring much benefit
-    /*
-    const int final_size = _activeDimensions * _channels * _rows * _columns;
-    for (int i = 0; i < final_size; i++) {
-        _tensor[i] = clip(_tensor[i]);
-    }
-    */
+    clipData();
     
 }
 
@@ -210,52 +204,6 @@ void Tensor::UpdateWeights(const Tensor &gradient, const Tensor &output) {
     }
 }
 
-std::vector<int> Tensor::Maxpool(const Tensor &input, int filter_size, int stride) {
-
-    std::vector<int> highestIndexReturn;
-    std::map<int,float> maxQuadrant;
-    std::map<int,int> highestIndex;
-    Dimensions inputSize = input.dimensions();
-
-    for (int dimension = 0; dimension < _activeDimensions; dimension ++) {
-
-        int inputDimensionIndex = dimension * inputSize.channels * inputSize.rows * inputSize.columns;
-        int outputDimensionIndex = dimension * _channels * _rows * _columns;
-
-        for (int channel = 0; channel < _channels; channel ++) {
-            int inputChannelIndex = channel * inputSize.rows * inputSize.columns;
-            int outputChannelIndex = channel * _rows * _columns;
-            for (int filterHeight = 0; filterHeight < filter_size; filterHeight ++) {
-                for (int filterWidth = 0; filterWidth < filter_size; filterWidth ++) {
-                    for (int imageHeight = 0; imageHeight <= inputSize.rows - filter_size; imageHeight += stride) {
-                        int inputHeightIndex = (imageHeight + filterHeight) * inputSize.columns;
-                        int calcValue = filterWidth + imageHeight + filterHeight + (filterHeight * _columns);
-                        for (int imageWidth = 0; imageWidth <= inputSize.columns - filter_size; imageWidth += stride) {
-                            int quadrant = (outputDimensionIndex + outputChannelIndex + inputHeightIndex  + imageWidth + filterWidth) - calcValue;
-                            int imageIndex = inputDimensionIndex + inputChannelIndex + imageHeight + imageWidth + filterWidth;
-                            if (maxQuadrant.find(quadrant) == maxQuadrant.end()) {
-                                maxQuadrant[quadrant] = input._tensor[imageIndex];
-                                highestIndex[quadrant] = imageIndex;
-                            } else {
-                                if (input._tensor[imageIndex] > maxQuadrant[quadrant]) {
-                                    maxQuadrant[quadrant] = input._tensor[imageIndex];
-                                    highestIndex[quadrant] = imageIndex;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    int outputSize = _activeDimensions * _channels * _rows * _columns;
-    for (int i = 0; i < outputSize; i++) {
-        _tensor[i] = maxQuadrant[i];
-        highestIndexReturn.push_back(highestIndex[i]);
-    }
-    return highestIndexReturn;
-}
-
 void Tensor::flatten() {
     int newColumns = _channels * _rows * _columns;
     _channels = 1;
@@ -277,8 +225,7 @@ void Tensor::clipData() {
 }
 
 float Tensor::clip(float x) {
-    float value = roundf(x * 10000) / 10000;
-    return std::max(-0.001f, std::min(value, 0.001f));
+    return std::max(-0.1f, std::min(x, 0.1f));
 }
 
 void Tensor::ResetTensor() {
@@ -352,7 +299,7 @@ const float Tensor::SumTheSquares() const {
     for (int i = 0; i < number_of_elements; i++) {
         finalValue += std::pow(_tensor[i],2);
     }
-    return (0.1f* finalValue) / (10 * _dimensions * _rows * _columns);
+    return (0.01f* finalValue) / (10 * _dimensions * _rows * _columns);
 }
 
 void Tensor::UpdateTensor(float *new_tensor) {
@@ -402,14 +349,3 @@ const int Tensor::NumberOfColumns() const {
 const int Tensor::NumberOfChannels() const {
     return _channels;
 }
-
-/*
-std::vector<int> Tensor::Shape() const{
-    std::vector<int> shape_array(4);
-    shape_array[0] = _dimensions;
-    shape_array[1] = _channels;
-    shape_array[2] = _rows;
-    shape_array[3] = _columns;
-    return shape_array;
-}
-*/

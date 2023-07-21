@@ -20,7 +20,7 @@ Dropout_Layer& Dropout_Layer::operator=(Dropout_Layer &&dropout_layer) noexcept 
     return *this;
 }
 
-Dropout_Layer::~Dropout_Layer() {std::cout<<"Dropout layer destructor called \n"; }
+Dropout_Layer::~Dropout_Layer() { }
 
 void Dropout_Layer::SetBatchDimensions(int batch_size) {
     _dimensions.dimensions = batch_size;

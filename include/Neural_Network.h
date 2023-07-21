@@ -13,7 +13,6 @@
 #include "Network_Saver.h"
 #include "Flatten_Layer.h"
 #include "Embedding_Layer.h"
-#include "Maxpool_Layer.h"
 #include "Dimensions.h"
 
 class Neural_Network {
@@ -33,6 +32,7 @@ private:
     bool _stopAutomatically = false;
     bool _shuffleDataPerEpoch = false;
     float _bestLoss;
+    bool _applyL2Regularization = false;
     bool _droppoutLayerExists = false;
     int _printLossEveryIterations;
     std::string _filePath;
@@ -51,6 +51,7 @@ public:
     void AddOutputLayer(int neurons, int activation_function);
     void AddFlattenLayer();
     void AddEmbeddingLayer(int unique_words_length, int output);
+    void AddConvolutionalLayer(int depth, int kernel_size, int stride);
     void Build();
     void SetLearningRate(float learning_rate);
     const float* Execute(float *input);
@@ -64,6 +65,7 @@ public:
     void SetFilepath(const char* path);
     void SetPrintLossEverIterations(int iteration);
     void SetShuffleDataFlag(bool activate);
+    void TurnOnRegularization(bool activate);
 };
 
 #endif /* NEURAL_NETWORK_H_ */

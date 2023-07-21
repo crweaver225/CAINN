@@ -6,7 +6,7 @@ Neural_Layer::Neural_Layer(Dimensions dimensions, Activation_Function activation
     this->_activationFunction = activation_function;
 }
 
-Neural_Layer::~Neural_Layer() { std::cout<<"Neural_Layer destructor called\n";}
+Neural_Layer::~Neural_Layer() { }
 
 Neural_Layer::Neural_Layer(Neural_Layer &&neural_layer)  noexcept  {
     _output = std::move(neural_layer._output);

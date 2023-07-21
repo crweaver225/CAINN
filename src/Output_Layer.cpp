@@ -2,7 +2,7 @@
 
 Output_Layer::Output_Layer(Dimensions dimensions, Activation_Function af) : Neural_Layer(dimensions, af) {}
 
-Output_Layer::~Output_Layer() {std::cout<<"Output_Layer destructor called\n";}
+Output_Layer::~Output_Layer() {}
 
 Output_Layer::Output_Layer(Output_Layer &&output_layer) noexcept  : Neural_Layer{std::move(output_layer)} {}
 
@@ -92,7 +92,7 @@ void Output_Layer::CalculateError(float **target, float regularization) {
         int current_dimensions = d * output_size;
         temp_loss += lf(output, target[d], current_dimensions, output_size);
         for (int i_o = 0; i_o < output_size; ++ i_o) {
-           _error->updateNeuron(d, i_o, (target[d][i_o] - output[current_dimensions + i_o]));
+           _error->updateNeuron(d, i_o, (target[d][i_o] - output[current_dimensions + i_o]) + regularization);
         }
     }
     _loss += temp_loss / (float)active_dimension;

@@ -13,7 +13,7 @@ Fully_Connected_Layer& Fully_Connected_Layer::operator=(Fully_Connected_Layer &&
     return *this;
  }
 
-Fully_Connected_Layer::~Fully_Connected_Layer() {std::cout<<"Fully_Connected_Layer destructor called\n";}
+Fully_Connected_Layer::~Fully_Connected_Layer() {}
 
 void Fully_Connected_Layer::PrintMetaData() {
     std::cout<<"fully connected layer: ("

@@ -63,9 +63,6 @@ class Neural_Network(object):
         lib.Neural_Network_execute.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_float)]
         lib.Neural_Network_execute.restype = ctypes.POINTER(ctypes.c_float)
 
-        lib.Neural_Network_add_maxpool_layer.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
-        lib.Neural_Network_add_maxpool_layer.restype = ctypes.c_void_p
-
         lib.Neural_Network_set_learning_rate.argtypes = [ctypes.c_void_p, ctypes.c_float]
         lib.Neural_Network_set_learning_rate.restype = ctypes.c_void_p
 
@@ -98,6 +95,9 @@ class Neural_Network(object):
         lib.Neural_Network_shuffle_training_date_per_epoch.argtypes = [ctypes.c_void_p, ctypes.c_bool]
         lib.Neural_Network_shuffle_training_date_per_epoch.restype = ctypes.c_void_p
 
+        lib.Neural_Network_apply_l2_regularization.argtypes = [ctypes.c_void_p, ctypes.c_bool]
+        lib.Neural_Network_apply_l2_regularization.restype = ctypes.c_void_p
+
         self.obj = lib.Neural_Network_new(1)
 
     def __del__(self):
@@ -110,17 +110,12 @@ class Neural_Network(object):
         lib.Neural_Network_build(self.obj)
 
     def add_input_layer(self, dimensions):
+        print("adding input layer")
         int_pointers = (ctypes.c_int * len(dimensions))(*dimensions)
         lib.Neural_Network_add_input_layer(self.obj, int_pointers, len(dimensions))
 
     def add_fully_connected_layer(self, neurons, activation_function):
         lib.Neural_Network_add_fully_connected_layer(self.obj, neurons, activation_function.value)
-
-    def add_convolutional_layer(self, filters, kernals, stride):
-        lib.Neural_Network_add_convolutional_layer(self.obj, filters, kernals, stride)
-
-    def add_maxpool_layer(self,kernals,stride):
-        lib.Neural_Network_add_maxpool_layer(self.obj, kernals, stride)
 
     def add_dropout_layer(self, dropped):
         lib.Neural_Network_add_dropout_layer(self.obj, dropped)
@@ -167,6 +162,9 @@ class Neural_Network(object):
 
     def save_best_automatically(self, activate):
         lib.Neural_Network_save_best_automatically(self.obj, activate)
+
+    def turn_on_l2_regularization(self, activate):
+        lib.Neural_Network_apply_l2_regularization(self.obj, activate)
 
     def stop_training_automatically(self, activate):
         lib.Neural_Network_stop_training_automatically(self.obj, activate)

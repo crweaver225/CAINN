@@ -63,8 +63,6 @@ public:
     template<typename a_f>
     void Matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af);
 
-    std::vector<int> Maxpool(const Tensor &input, int filter_size, int stride);
-
     void ResetTensor();
     void UpdateTensor(float *new_tensor);
     void UpdateGradients(const Tensor &gradient, const Tensor &weights);
