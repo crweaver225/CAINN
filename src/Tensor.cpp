@@ -225,7 +225,7 @@ void Tensor::clipData() {
 }
 
 float Tensor::clip(float x) {
-    return std::max(-0.1f, std::min(x, 0.1f));
+    return std::max(-1.0f, std::min(x, 1.0f));
 }
 
 void Tensor::ResetTensor() {
@@ -285,9 +285,10 @@ const int Tensor::ReturnActiveDimension() const {
 
 void Tensor::AssignRandomValues() {
     int matrixSize = _dimensions * _channels * _rows * _columns;
+    float range = std::sqrt(6.0 / (_rows + _columns));
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(-0.01,0.01);
+    std::uniform_real_distribution<> dis(-range,range);
     for (int i = 0; i < matrixSize; ++i) {
         _tensor[i] = dis(gen);
     }
