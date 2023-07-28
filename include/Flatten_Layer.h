@@ -2,7 +2,6 @@
 
 class Flatten_Layer: public Neural_Layer {
     
-
 public:
     Flatten_Layer();
     Flatten_Layer(const Flatten_Layer &flatten_layer) = delete;

@@ -4,8 +4,10 @@
 namespace Activation_Functions {
 
     void sigmoid(float* x, float *bias, int location, int size);
+    void relu(float* x, int location, int size);
     void relu(float* x, float *bias, int location, int size);
     void leaky_relu(float* x, float *bias, int location, int size);
+    void leaky_relu(float* x, int location, int size);
     void softmax(float* x, float* bias, int location, int size);
     void pass(float* x, float *bias, int location, int size);
     void sigmoid_d(float* output, float* derivative, int size);

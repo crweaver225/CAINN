@@ -49,8 +49,9 @@ public:
 
     void clipData();
     
-    void updateNeuron(int index, float value);
-    void updateNeuron(int batch, int index, float value);
+    void changeNeuron(int index, float value);
+    void setNeuron(int index, float value);
+    void setNeuron(int batch, int index, float value);
     void SetData(const float *tensor);
     void TransferDataFrom(Tensor const* tensor);
     void AssignRandomValues();
@@ -63,12 +64,20 @@ public:
     template<typename a_f>
     void Matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af);
 
+    // Convolution functions
+    void UpdateKernel(const Tensor &input, const Tensor &gradient, int stride);
+    void Convolve(const Tensor &input, const Tensor &kernel, int stride);
+    void Backward(const Tensor &gradient, const Tensor &kernel, int stride);
+
+    std::vector<int> Maxpool(const Tensor &input, int filter_size, int stride);
+
     void ResetTensor();
     void UpdateTensor(float *new_tensor);
     void UpdateGradients(const Tensor &gradient, const Tensor &weights);
     void UpdateWeights(const Tensor &gradient, const Tensor &output);
 
     void flatten();
+    void reshape(int dimension, int channels, int rows, int columns);
     void reshape(int channels, int rows, int columns);
     
     template<typename a_fd>
@@ -84,6 +93,8 @@ public:
     const int NumberOfRows() const;
     const int NumberOfColumns() const;
     const int NumberOfChannels() const;
+    const int NumberOfElements() const;
+    const int NumberOfDimensions() const;
 };
 
 #endif /* TENSOR_H_ */

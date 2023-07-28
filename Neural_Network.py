@@ -98,6 +98,12 @@ class Neural_Network(object):
         lib.Neural_Network_apply_l2_regularization.argtypes = [ctypes.c_void_p, ctypes.c_bool]
         lib.Neural_Network_apply_l2_regularization.restype = ctypes.c_void_p
 
+        lib.Neural_Network_add_convolutional_layer.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int, ctypes.c_int]
+        lib.Neural_Network_add_convolutional_layer.restype = ctypes.c_void_p
+
+        lib.Neural_Network_add_maxpool_layer.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
+        lib.Neural_Network_add_maxpool_layer.restype = ctypes.c_void_p
+
         self.obj = lib.Neural_Network_new(1)
 
     def __del__(self):
@@ -110,12 +116,17 @@ class Neural_Network(object):
         lib.Neural_Network_build(self.obj)
 
     def add_input_layer(self, dimensions):
-        print("adding input layer")
         int_pointers = (ctypes.c_int * len(dimensions))(*dimensions)
         lib.Neural_Network_add_input_layer(self.obj, int_pointers, len(dimensions))
 
     def add_fully_connected_layer(self, neurons, activation_function):
         lib.Neural_Network_add_fully_connected_layer(self.obj, neurons, activation_function.value)
+
+    def add_convolutional_layer(self, kernels, kernel_size, stride):
+        lib.Neural_Network_add_convolutional_layer(self.obj, kernels, kernel_size, stride)
+
+    def add_maxpool_layer(self, kernel_size, stride):
+        lib.Neural_Network_add_maxpool_layer(self.obj, kernel_size, stride)
 
     def add_dropout_layer(self, dropped):
         lib.Neural_Network_add_dropout_layer(self.obj, dropped)

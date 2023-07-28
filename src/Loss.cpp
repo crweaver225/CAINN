@@ -18,7 +18,9 @@ float Loss_Function::crossentropy(const float *output, float *target, int locati
     float return_loss = 0.0f;
     float loss_min = std::numeric_limits<float>::min();
     for (int i = 0; i < size; ++i) {
-        return_loss -= (target[i] * log10(output[location + i])) + ((1 - target[i]) * (log10(std::max(1 - output[location + i], loss_min))));
+        if (output[location + i] < 1.0f && output[location + i] > 0.0f) {
+            return_loss -= target[i] * log10(output[location + i]);
+        }
     }
     return return_loss;
 }

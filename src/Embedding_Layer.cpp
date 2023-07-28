@@ -40,12 +40,12 @@ Tensor const* Embedding_Layer::ForwardPropogate(Tensor const* input){
         for (int index = 0; index < previousLayerShape.columns; index ++) {
             if (inputData[batchStartingPoint + index] == 0) {
                 for (int rowValue = 0; rowValue < _dimensions.columns; rowValue++) {
-                    _output->updateNeuron(batch, (index * _dimensions.columns) + rowValue, 0.0f);
+                    _output->setNeuron(batch, (index * _dimensions.columns) + rowValue, 0.0f);
                 }
             } else {
                 int current_row = inputData[index + batchStartingPoint];
                 for (int rowValue = 0; rowValue < _dimensions.columns; rowValue++) {
-                    _output->updateNeuron(batch, (index * _dimensions.columns) + rowValue, embedded_weights[(current_row * _weights.get()->NumberOfColumns()) + rowValue]);
+                    _output->setNeuron(batch, (index * _dimensions.columns) + rowValue, embedded_weights[(current_row * _weights.get()->NumberOfColumns()) + rowValue]);
                 }
             }
         }
@@ -64,29 +64,12 @@ Tensor* Embedding_Layer::Backpropogate(Tensor* gradient){
                 if (input_value != 0) {
                     int current_weight_index = (_weights.get()->NumberOfColumns() * input_value) + i;
                     float current_weight_value = _weights.get()->ReturnData()[current_weight_index];
-                    _weights.get()->updateNeuron(current_weight_index, current_weight_value + ((gradientData[gradientIndex + i] * _weights.get()->_learningRate)));
+                    _weights.get()->setNeuron(current_weight_index, current_weight_value + ((gradientData[gradientIndex + i] * _weights.get()->_learningRate)));
                 }
             }
         }
     }
     return _gradient.get();
-    /*
-    const float *inputData = PreviousLayerOutput()->ReturnData(); 
-    const float *gradientData = _gradient.get()->ReturnData();
-    for (int batch = 0; batch < _dimensions.front(); batch++) { 
-        for (int index = 0; index < _dimensions[2]; index ++) { 
-            int gradientIndex = ((batch * (_dimensions[3] * index)) + (_dimensions[3] * index));
-            for (int i = 0; i < _dimensions[3]; i++) { 
-                int input_value = inputData[(_dimensions[2] * batch) + index];
-                if (input_value != 0) {
-                    int current_weight_index = (_weights.get()->Shape()[3] * input_value) + i;
-                    float current_weight_value = _weights.get()->ReturnData()[current_weight_index];
-                    _weights.get()->updateNeuron(current_weight_index, current_weight_value + ((gradientData[gradientIndex + i] * _weights.get()->_learningRate)));
-                }
-            }
-        }
-    }
-    */
 }
 
 void Embedding_Layer::Training(bool train) {

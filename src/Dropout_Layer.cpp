@@ -3,7 +3,6 @@
 
 Dropout_Layer::Dropout_Layer(Dimensions dimensions, float percentDropped) : Neural_Layer(dimensions, Activation_Function::Pass) {
     _percentage = percentDropped;
-    std::cout<<"Dropout Layer constructor\n";
 }
 
 Dropout_Layer::Dropout_Layer(Dropout_Layer &&dropout_layer) noexcept  : Neural_Layer{std::move(dropout_layer)} {
@@ -58,7 +57,7 @@ Tensor const* Dropout_Layer::ForwardPropogate(Tensor const* input) {
     _input = input;
     _output.get()->TransferDataFrom(input);
     for (int neuron : _droppedNeurons) {
-        _output.get()->updateNeuron(neuron, 0.0);
+        _output.get()->setNeuron(neuron, 0.0);
     }
     return _output.get();
 }

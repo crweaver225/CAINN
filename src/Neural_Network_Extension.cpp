@@ -16,6 +16,8 @@ extern "C" {
   void Neural_Network_save_network(Neural_Network* neural_network) {return neural_network->SaveNetwork();}
   void Neural_Network_set_learning_rate(Neural_Network* neural_network, float learning_rate) {return neural_network->SetLearningRate(learning_rate);}
   void Neural_Network_build(Neural_Network* neural_nerwork) {return neural_nerwork->Build();}
+  void Neural_Network_add_convolutional_layer(Neural_Network* neural_nerwork, int kernels, int kernel_size, int stride) {return neural_nerwork->AddConvolutionalLayer(kernels, kernel_size, stride);}
+  void Neural_Network_add_maxpool_layer(Neural_Network* neural_nerwork, int kernel_size, int stride) {return neural_nerwork->AddMaxpoolLayer(kernel_size, stride);}
   void Neural_Network_add_input_layer(Neural_Network* neural_nerwork, int* dimension, int size) {return neural_nerwork->AddInputLayer(dimension, size);}
   void Neural_Network_add_fully_connected_layer(Neural_Network* neural_nerwork, int neurons, int activation_function) {return neural_nerwork->AddFullyConnectedLayer(neurons, activation_function);}
   void Neural_Network_add_dropout_layer(Neural_Network* neural_network, float dropped) {return neural_network->AddDropoutLayer(dropped);}

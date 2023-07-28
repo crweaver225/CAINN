@@ -32,6 +32,10 @@ Tensor const* Flatten_Layer::ForwardPropogate(Tensor const* input){
 }
 
 Tensor* Flatten_Layer::Backpropogate(Tensor* gradient)  {
+    gradient->reshape(_previousLayer_Dimensions.dimensions, 
+                        _previousLayer_Dimensions.channels, 
+                        _previousLayer_Dimensions.rows, 
+                        _previousLayer_Dimensions.columns);
     return gradient;
 }
 

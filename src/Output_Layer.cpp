@@ -92,7 +92,7 @@ void Output_Layer::CalculateError(float **target, float regularization) {
         int current_dimensions = d * output_size;
         temp_loss += lf(output, target[d], current_dimensions, output_size);
         for (int i_o = 0; i_o < output_size; ++ i_o) {
-           _error->updateNeuron(d, i_o, (target[d][i_o] - output[current_dimensions + i_o]) + regularization);
+           _error->setNeuron(d, i_o, (target[d][i_o] - output[current_dimensions + i_o]) + regularization);
         }
     }
     _loss += temp_loss / (float)active_dimension;

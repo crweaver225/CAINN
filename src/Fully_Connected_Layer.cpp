@@ -47,7 +47,6 @@ Tensor* Fully_Connected_Layer::Backpropogate(Tensor* gradient) {
     }
 
     _gradient->UpdateGradients(*gradient, *_weights);
-
     _weights->UpdateWeights(*gradient, *_input);
     
     return _gradient.get();
