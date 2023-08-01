@@ -71,7 +71,7 @@ public:
     void Convolve(const Tensor &input, const Tensor &kernel, int stride);
     void Backward(const Tensor &gradient, const Tensor &kernel, int stride);
 
-    std::vector<int> Maxpool(const Tensor &input, int filter_size, int stride);
+    void Maxpool(const Tensor &input, int filter_size, int stride, std::vector<int> &maxpool_indexes);
 
     void ResetTensor();
     void UpdateTensor(float *new_tensor);

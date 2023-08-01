@@ -560,11 +560,9 @@ void Tensor::ConvolveInner(const Tensor &input, const Tensor &kernel, int stride
 
 // ### Maxpool Methods ###
 
-std::vector<int> Tensor::Maxpool(const Tensor &input, int filter_size, int stride) {
+void Tensor::Maxpool(const Tensor &input, int filter_size, int stride, std::vector<int> &maxpool_indexes) {
     
     ResetTensor();
-
-    std::vector<int> maxIndex{};
 
     int input_channels_size = input.NumberOfChannels();
     int input_rows_size = input.NumberOfRows();
@@ -611,11 +609,12 @@ std::vector<int> Tensor::Maxpool(const Tensor &input, int filter_size, int strid
                                         (row * _columns) + 
                                         column;
                     _tensor[output_index] = max_value;
-                    maxIndex.push_back(max_index);
 
+                    if (maxpool_indexes.size() > 1) {
+                        maxpool_indexes.push_back(max_index);
+                    }
                 }
             }
         }
     }
-    return maxIndex;
 }

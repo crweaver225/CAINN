@@ -34,25 +34,37 @@ void Maxpool_Layer::Build(Neural_Layer const* previousLayer)  {
     _dimensions.channels = _previousLayer_Dimensions.channels;
     _dimensions.rows = outputDimension;
     _dimensions.columns = outputDimension;
+
+    _maxpooledIndexes = std::vector<int>(0, 0);
 }
 
 Tensor const* Maxpool_Layer::ForwardPropogate(Tensor const* input) {
-    this->_maxpooledIndexes = _output->Maxpool(*input, _kernel_size, _stride);
+    _maxpooledIndexes.assign(_maxpooledIndexes.size(), 0);
+    _output->Maxpool(*input, _kernel_size, _stride, _maxpooledIndexes);
     return _output.get();
 }
 
 Tensor* Maxpool_Layer::Backpropogate(Tensor* gradient) {
-    _gradient->ResetTensor();
     const float *gradientData =  gradient->ReturnData();
     const int output_size =  _dimensions.channels * _dimensions.rows * _dimensions.columns;
     for (int index = 0; index < output_size; index ++) {
         _gradient->changeNeuron(_maxpooledIndexes[index], gradientData[index]);
     }
-    _maxpooledIndexes.clear();
     return _gradient.get();
 }
 
 void Maxpool_Layer::SetBatchDimensions(int batch_size) {
     _dimensions.dimensions = batch_size;
     _output = std::make_unique<Tensor>(Tensor(batch_size,  _dimensions.channels, _dimensions.rows, _dimensions.columns));
+}
+
+void Maxpool_Layer::Training(bool train) {
+    if (train) {
+        BuildGradient();
+        _maxpooledIndexes = std::vector<int>(_dimensions.dimensions * _dimensions.channels * _dimensions.rows * _dimensions.columns, 0);
+    } else {
+        _gradient.reset();
+        _maxpooledIndexes.clear();
+    }
+
 }
