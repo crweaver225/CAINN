@@ -103,6 +103,8 @@ nn.shuffle_training_data(True)
     add_flatten_layer()
 - Maxpool Layer
     add_maxpool_layer()
+- Convolutional Layer
+    add_convolutional_layer()
 	
 
 ### This project currently supports five types of activation functions

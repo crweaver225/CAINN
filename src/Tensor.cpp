@@ -271,7 +271,7 @@ void Tensor::TransferDataFrom(Tensor const* tensor) {
 void Tensor::changeNeuron(int index, float value) {
     if (_activeDimensions > 1) {
         for (int activeDimension = 0; activeDimension < _activeDimensions; activeDimension++) {
-            _tensor[index + (_rows * _columns * activeDimension)] += value;
+            _tensor[index + (_channels * _rows * _columns * activeDimension)] += value;
         }
     } else {
         _tensor[index] += value;
@@ -281,7 +281,7 @@ void Tensor::changeNeuron(int index, float value) {
 void Tensor::setNeuron(int index, float value) {
     if (_activeDimensions > 1) {
         for (int activeDimension = 0; activeDimension < _activeDimensions; activeDimension++) {
-            _tensor[index + (_rows * _columns * activeDimension)] = value;
+            _tensor[index + (_channels * _rows * _columns * activeDimension)] = value;
         }
     } else {
         _tensor[index] = value;
@@ -471,9 +471,24 @@ void Tensor::UpdateKernel(const Tensor &input, const Tensor &gradient, int strid
 }
 
 void Tensor::Convolve(const Tensor &input, const Tensor &kernel, int stride) {
-
     ResetTensor();
-  
+    if (_activeDimensions > 15) {
+        std::vector<std::thread> threads;
+        for (size_t i = 0; i < _activeDimensions; ++i) {
+            threads.emplace_back(std::thread(&Tensor::ConvolveInner, this, std::ref(input), std::ref(kernel), stride, i));
+        }
+        for (auto &t : threads) {
+            t.join();
+        }
+    } else {
+        for (int i = 0; i < _activeDimensions; i++) {
+            ConvolveInner(input, kernel, stride, i);
+        }
+    }
+}
+
+void Tensor::ConvolveInner(const Tensor &input, const Tensor &kernel, int stride, const int d) {
+
     int kernel_row_size = kernel.NumberOfRows();
     int kernel_column_size = kernel.NumberOfColumns();
     int kernel_channel_size = kernel.NumberOfChannels();
@@ -484,53 +499,54 @@ void Tensor::Convolve(const Tensor &input, const Tensor &kernel, int stride) {
 
     int dimension_size = input_channels_size * input_rows_size * input_columns_size;
 
-    for (int batch_dimension = 0; batch_dimension < _activeDimensions; batch_dimension++) {
         
-        int start_dimension_value = batch_dimension * dimension_size;
-        int output_dimension_value = batch_dimension * (_channels * _rows * _columns);
+    int start_dimension_value = d * dimension_size;
+    int output_dimension_value = d * (_channels * _rows * _columns);
       
-        /// Loop through output matrix
-        for (int output_channel_index = 0; output_channel_index < _channels; ++output_channel_index) {
+    /// Loop through output matrix
+    for (int output_channel_index = 0; output_channel_index < _channels; ++output_channel_index) {
 
-            int output_channel = output_channel_index * _rows * _columns;
-            int kernel_depth_index = output_channel_index * kernel_channel_size * kernel_row_size * kernel_column_size;
+        int output_channel = output_channel_index * _rows * _columns;
+        int kernel_depth_index = output_channel_index * kernel_channel_size * kernel_row_size * kernel_column_size;
 
-            for (int output_row_index = 0; output_row_index < _rows; ++output_row_index) {
-                int output_row = output_row_index * _columns;
-                for (int output_column_index = 0; output_column_index < _columns; ++output_column_index) {
+        for (int output_row_index = 0; output_row_index < _rows; ++output_row_index) {
+            int output_row = output_row_index * _columns;
+            for (int output_column_index = 0; output_column_index < _columns; ++output_column_index) {
 
-                    int output_index = output_dimension_value + 
-                                      output_channel + 
-                                      output_row +
-                                      output_column_index;
+                int output_index = output_dimension_value + 
+                                    output_channel + 
+                                    output_row +
+                                    output_column_index;
 
-                    /// Loop through kernel
-                    for (int kernel_channel_index = 0; kernel_channel_index < kernel_channel_size; ++kernel_channel_index) {
-                        int kernel_channel = kernel_channel_index * kernel_row_size * kernel_column_size;
-                        for (int kernel_row_index = 0; kernel_row_index < kernel_row_size; ++kernel_row_index) {
-                            int kernel_row = kernel_row_index * kernel_column_size;
-                            for (int kernel_column_index = 0; kernel_column_index < kernel_column_size; ++kernel_column_index) {
+                /// Loop through kernel
+                for (int kernel_channel_index = 0; kernel_channel_index < kernel_channel_size; ++kernel_channel_index) {
+                    
+                    int kernel_channel = kernel_channel_index * kernel_row_size * kernel_column_size;
+                    int input_depth_index = kernel_channel_index;
 
-                                /// Calculate input index
-                                int input_depth_index = kernel_channel_index;
-                                int input_row_index = (output_row_index * stride) + kernel_row_index;
-                                int input_col_index = (output_column_index * stride) + kernel_column_index;
+                    for (int kernel_row_index = 0; kernel_row_index < kernel_row_size; ++kernel_row_index) {
 
-                                // Check if the current index is within the input boundaries
-                                if (input_depth_index >= 0 && input_depth_index < input_channels_size &&
-                                    input_row_index >= 0 && input_row_index < input_rows_size && 
-                                    input_col_index >= 0 && input_col_index < input_columns_size) {
+                        int kernel_row = kernel_row_index * kernel_column_size;
+                        int input_row_index = (output_row_index * stride) + kernel_row_index;
+
+                        for (int kernel_column_index = 0; kernel_column_index < kernel_column_size; ++kernel_column_index) {
+
+                            int input_col_index = (output_column_index * stride) + kernel_column_index;
+
+                            // Check if the current index is within the input boundaries
+                            if (input_depth_index >= 0 && input_depth_index < input_channels_size &&
+                                input_row_index >= 0 && input_row_index < input_rows_size && 
+                                input_col_index >= 0 && input_col_index < input_columns_size) {
                           
-                                    int input_index = start_dimension_value + ((input_depth_index * input_rows_size * input_columns_size) + ((input_row_index * input_columns_size) + input_col_index));
-                                    int kernel_index =  kernel_depth_index + 
-                                                        kernel_channel + 
-                                                        kernel_row + 
-                                                        kernel_column_index;
+                                int input_index = start_dimension_value + ((input_depth_index * input_rows_size * input_columns_size) + ((input_row_index * input_columns_size) + input_col_index));
+                                int kernel_index =  kernel_depth_index + 
+                                                    kernel_channel + 
+                                                    kernel_row + 
+                                                    kernel_column_index;
                                    
-                                    _tensor[output_index] += 
-                                        input._tensor[input_index] * 
-                                        kernel._tensor[kernel_index];
-                                }
+                                _tensor[output_index] += 
+                                    input._tensor[input_index] * 
+                                    kernel._tensor[kernel_index];
                             }
                         }
                     }
@@ -538,8 +554,8 @@ void Tensor::Convolve(const Tensor &input, const Tensor &kernel, int stride) {
             }
         }
     }
-    const int number_of_elements = _activeDimensions * _channels * _rows * _columns;
-    Activation_Functions::relu(_tensor, 0, number_of_elements);
+    const int number_of_elements = _channels * _rows * _columns;
+    Activation_Functions::relu(_tensor, d * number_of_elements, number_of_elements);
 }
 
 // ### Maxpool Methods ###

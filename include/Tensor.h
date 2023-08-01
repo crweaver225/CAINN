@@ -30,6 +30,8 @@ private:
     template<typename a_f>
     void MatmulInner(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af);
 
+    void ConvolveInner(const Tensor &input, const Tensor &kernel, int stride, const int d);
+
     void UpdateGradientInner(const Tensor &gradient, const Tensor &weights, int d);
     void UpdateWeightsInner(const Tensor &gradient, const Tensor &output, const int d);
 

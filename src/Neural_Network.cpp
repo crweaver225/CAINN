@@ -8,6 +8,8 @@ void Neural_Network::AddInputLayer(int *dimension, int size) {
         dimensions = {1,1,dimension[0], dimension[1]};
     } else if (size == 3) {
         dimensions = {1,dimension[0], dimension[1], dimension[2]};
+    } else if (size == 4) {
+        dimensions = {dimension[0],dimension[1], dimension[2], dimension[3]};
     }
     _neuralLayers.push_back(std::make_unique<Input_layer>(Input_layer(dimensions)));
 }
@@ -229,7 +231,7 @@ void Neural_Network::ShuffleTrainingData(float **input, float **targets, int inp
 
 std::vector<Neural_Layer *> Neural_Network::network() const {
     std::vector<Neural_Layer *> network_layers{};
-    for (int i = 1; i < _neuralLayers.size(); ++i) {
+    for (int i = 0; i < _neuralLayers.size(); ++i) {
         network_layers.push_back(_neuralLayers[i].get());
     }
     return network_layers;

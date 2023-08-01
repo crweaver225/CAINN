@@ -87,11 +87,11 @@ void Network_Saver::LoadNetwork(Neural_Network *neural_network, std::string &pat
     std::vector<std::vector<float>> bias =  network_json["bias"].get<std::vector<std::vector<float>>>();
     std::vector<std::vector<float>> weights = network_json["weights"].get<std::vector<std::vector<float>>>();
     std::vector<std::vector<int>> dimensions = network_json["dimensions"].get<std::vector<std::vector<int>>>();
-    std::vector<float> dropped = network_json["dropped"].get<std::vector<float>>();
+    std::vector<float> dropped = network_json["dropped"].get<std::vector<float>>();\
 
     for (int layer = 0; layer < network_layers.size(); layer++) {
         if (network_layers[layer] == 1) {
-            neural_network->AddInputLayer(&dimensions[layer][0], dimensions.size());
+            neural_network->AddInputLayer(&dimensions[layer][0], dimensions[layer].size());
         } else if (network_layers[layer] == 2) {
             neural_network->AddFullyConnectedLayer(neurons[layer], activation_functions[layer]);
         } else if (network_layers[layer] == 3) {
@@ -109,7 +109,7 @@ void Network_Saver::LoadNetwork(Neural_Network *neural_network, std::string &pat
         } 
     }
     neural_network->Build();
-
+    
     int bias_index = 0;
     int weight_index = 0;
     for (int layer = 0; layer < network_layers.size(); layer++) {
