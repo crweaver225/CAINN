@@ -141,7 +141,7 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
             <<batch_size
             <<", input size: "
             <<input_size
-            <<"\n";
+            <<std::endl;
 
     std::unique_ptr<float*> batch_input = std::unique_ptr<float*>(new float*[batch_size]);
     std::unique_ptr<float*> batch_target = std::unique_ptr<float*>(new float*[batch_size]);

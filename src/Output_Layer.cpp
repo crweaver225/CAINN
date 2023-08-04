@@ -115,7 +115,7 @@ auto Output_Layer::ReturnLossFunction() -> float (*)(const float*, float*, int, 
 void Output_Layer::PrintError() {
     std::cout <<", Loss: "
             << _loss / _batchesInIteration
-            <<"\n";
+            <<std::endl;
 }
   
 Tensor* Output_Layer::Backpropogate(Tensor* gradient) {

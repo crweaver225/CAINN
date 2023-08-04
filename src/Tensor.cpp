@@ -269,13 +269,7 @@ void Tensor::TransferDataFrom(Tensor const* tensor) {
 }
 
 void Tensor::changeNeuron(int index, float value) {
-    if (_activeDimensions > 1) {
-        for (int activeDimension = 0; activeDimension < _activeDimensions; activeDimension++) {
-            _tensor[index + (_channels * _rows * _columns * activeDimension)] += value;
-        }
-    } else {
-        _tensor[index] += value;
-    }
+    _tensor[index] += value;
 }
 
 void Tensor::setNeuron(int index, float value) {
@@ -302,7 +296,7 @@ const int Tensor::ReturnActiveDimension() const {
 
 void Tensor::AssignRandomValues() {
     int matrixSize = _dimensions * _channels * _rows * _columns;
-    float range = std::sqrt(6.0 / (_rows + _columns));
+    float range = std::sqrt(6.0 / (_dimensions + _channels + _rows + _columns));
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(-range,range);
@@ -395,13 +389,15 @@ void Tensor::Backward(const Tensor &gradient, const Tensor &kernel, int stride) 
                     for (int channel = 0; channel < kernel_channel_size; channel++) {
                         for (int row = 0; row < kernel_row_size; row++) {
                             for (int column = 0; column < kernel_column_size; column++) {
-
+                                
+                                int flipped_channel = kernel_channel_size - channel - 1;
                                 int flipped_row = kernel_row_size - row - 1;
                                 int flipped_column = kernel_column_size - column - 1;
 
                                 int kernel_index = (dimension * kernel_channel_size * kernel_row_size * kernel_column_size) +
-                                                   (channel * kernel_row_size * kernel_column_size) +
-                                                   (flipped_row * kernel_column_size) + flipped_column;
+                                                   (flipped_channel * kernel_row_size * kernel_column_size) +
+                                                   (flipped_row * kernel_column_size) + 
+                                                   flipped_column;
 
                                 int gradient_index = (gradient_channel * gradient_row_size * gradient_column_size) +
                                                      (gradient_row * gradient_column_size) +
@@ -499,7 +495,6 @@ void Tensor::ConvolveInner(const Tensor &input, const Tensor &kernel, int stride
 
     int dimension_size = input_channels_size * input_rows_size * input_columns_size;
 
-        
     int start_dimension_value = d * dimension_size;
     int output_dimension_value = d * (_channels * _rows * _columns);
       
@@ -510,7 +505,9 @@ void Tensor::ConvolveInner(const Tensor &input, const Tensor &kernel, int stride
         int kernel_depth_index = output_channel_index * kernel_channel_size * kernel_row_size * kernel_column_size;
 
         for (int output_row_index = 0; output_row_index < _rows; ++output_row_index) {
+
             int output_row = output_row_index * _columns;
+
             for (int output_column_index = 0; output_column_index < _columns; ++output_column_index) {
 
                 int output_index = output_dimension_value + 
@@ -567,36 +564,54 @@ void Tensor::Maxpool(const Tensor &input, int filter_size, int stride, std::vect
     int input_channels_size = input.NumberOfChannels();
     int input_rows_size = input.NumberOfRows();
     int input_columns_size = input.NumberOfColumns();
+    int input_size = input.NumberOfElements();
+
+    // Iterate the output 
 
     for (int dimension = 0; dimension < _activeDimensions; dimension++) {
 
+        int output_dimension_index = (dimension * _channels * _rows * _columns);
+        int input_dimension_index = dimension * input_channels_size * input_rows_size * input_columns_size;
+
         for (int channel = 0; channel < _channels; channel++) {
 
-            int input_depth_index = (dimension * input_channels_size * input_rows_size * input_columns_size) +
-                                        (channel * input_rows_size * input_columns_size);
+            int output_channel_index = channel * _rows * _columns;
+            int input_channel_index = channel * input_rows_size * input_columns_size;
 
             for (int row = 0; row < _rows; row++) {
+
+                int output_row_index = row * _columns;
+
                 for (int column = 0; column < _columns; column++) {
 
-                    float max_value = 0.0f;
+                    int output_index = output_dimension_index + 
+                                        output_channel_index + 
+                                        output_row_index + 
+                                        column;
+
+                    // Iterate the kernel 
+
+                    float max_value = std::numeric_limits<float>::lowest();
                     int max_index = 0;
 
                     for (int kernel_row = 0; kernel_row < filter_size; kernel_row++) {
 
-                        int input_row_index = (row * stride) + kernel_row;
+                        int input_row_index = ((row * stride) + kernel_row) * input_columns_size;
+
                         for (int kernel_column = 0; kernel_column < filter_size; kernel_column++) {
 
                             int input_col_index = (column * stride) + kernel_column;
 
-                            int input_index = input_depth_index +
-                                            (input_row_index * input_columns_size) +
-                                            (input_col_index);
+                            int input_index = input_dimension_index +
+                                            input_channel_index +
+                                            input_row_index +
+                                            input_col_index;
 
 
                             // Check if the current input index is within the bounds of the input tensor
-                            if (input_index >= 0 && input_index < input.NumberOfElements()) {
+                            if (input_index >= 0 && input_index < input_size) {
 
-                                if (input._tensor[input_index] > max_value) {
+                                if (input._tensor[input_index] >= max_value) {
                                     max_value = input._tensor[input_index];
                                     max_index = input_index;
                                 }
@@ -604,14 +619,10 @@ void Tensor::Maxpool(const Tensor &input, int filter_size, int stride, std::vect
                         }
                     }
 
-                    int output_index = (dimension * _channels * _rows * _columns) + 
-                                        (channel * _rows * _columns) + 
-                                        (row * _columns) + 
-                                        column;
                     _tensor[output_index] = max_value;
 
                     if (maxpool_indexes.size() > 1) {
-                        maxpool_indexes.push_back(max_index);
+                        maxpool_indexes[output_index] = max_index;
                     }
                 }
             }

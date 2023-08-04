@@ -16,7 +16,7 @@ class Convolution_Layer: public Neural_Layer {
         void Build(Neural_Layer const* previousLayer) override;
         Tensor const* ForwardPropogate(Tensor const* input) override;
         Tensor* Backpropogate(Tensor* gradient) override;
-        void Training(bool train) override;
+        //void Training(bool train) override;
         void SetBatchDimensions(int batch_size) override;
 
         friend class Network_Saver;

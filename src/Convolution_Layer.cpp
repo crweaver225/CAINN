@@ -25,7 +25,7 @@ Convolution_Layer::~Convolution_Layer() {}
 void Convolution_Layer::PrintMetaData() {
     std::cout<<"convolutional layer: ("
             <<"["<<_dimensions.channels<<","<<_dimensions.rows<<","<<_dimensions.columns<<"]"
-            <<")\n";
+            <<std::endl;
 }
 
 void Convolution_Layer::Build(Neural_Layer const* previousLayer) {
@@ -58,7 +58,7 @@ void Convolution_Layer::SetBatchDimensions(int batch_size) {
     _dimensions.dimensions = batch_size;
     _output = std::unique_ptr<Tensor>(new Tensor(batch_size,_dimensions.channels, _dimensions.rows, _dimensions.columns));
 }
-
+/*
 void Convolution_Layer::Training(bool train)  {
      if (train) {
         this->_gradient = std::make_unique<Tensor>(Tensor(_dimensions.dimensions,_dimensions.channels, _dimensions.rows, _dimensions.columns));
@@ -66,3 +66,4 @@ void Convolution_Layer::Training(bool train)  {
         this->_gradient.reset();
     }
 }
+*/
