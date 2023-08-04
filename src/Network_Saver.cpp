@@ -43,18 +43,6 @@ void Network_Saver::SaveNetwork(Neural_Network *neural_network, std::string &pat
             Dropout_Layer *dropout_layer = dynamic_cast<Dropout_Layer*>(x);
             network_layers.push_back(7);
             dropped.push_back(dropout_layer->returnPercentageDropped());
-        } else if (dynamic_cast<Convolution_Layer*>(x) != nullptr) {
-            Convolution_Layer *convolution_layer = dynamic_cast<Convolution_Layer*>(x);
-            network_layers.push_back(8);
-            dropped.push_back(0.0f);
-            dimensions.push_back({convolution_layer->_kernels, convolution_layer->_kernel_size, convolution_layer->_stride});
-            Dimensions weight_dimensions = x->_weights->dimensions();
-            weights.push_back(std::vector<float>(x->_weights.get()->ReturnData() , x->_weights.get()->ReturnData() + (weight_dimensions.dimensions * weight_dimensions.channels * weight_dimensions.rows * weight_dimensions.columns)));
-        } else if (dynamic_cast<Maxpool_Layer*>(x) != nullptr) {
-            Maxpool_Layer *maxpool_layer = dynamic_cast<Maxpool_Layer*>(x);
-            network_layers.push_back(9);
-            dimensions.push_back({maxpool_layer->_kernel_size, maxpool_layer->_stride});
-            dropped.push_back(0.0f);
         }
         activation_functions.push_back(x->ReturnActivationFunctionType());
         neurons.push_back(x->ReturnDimensions().columns);
@@ -102,10 +90,6 @@ void Network_Saver::LoadNetwork(Neural_Network *neural_network, std::string &pat
             neural_network->AddFlattenLayer();
         }   else if (network_layers[layer] == 7) {
             neural_network->AddDropoutLayer(dropped[layer]);
-        } else if (network_layers[layer] == 8) {
-            neural_network->AddConvolutionalLayer(dimensions[layer][0], dimensions[layer][1], dimensions[layer][2]);
-        }  else if (network_layers[layer] == 9) {
-            neural_network->AddMaxpoolLayer(dimensions[layer][0], dimensions[layer][1]);
         } 
     }
     neural_network->Build();

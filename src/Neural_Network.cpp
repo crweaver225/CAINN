@@ -24,14 +24,6 @@ void Neural_Network::AddDropoutLayer(float dropped) {
     _droppoutLayerExists = true;
 }
 
-void Neural_Network::AddMaxpoolLayer(int kernel_size, int stride) {
-     _neuralLayers.push_back(std::make_unique<Maxpool_Layer>(Maxpool_Layer(kernel_size, stride)));
-}
-
-void Neural_Network::AddConvolutionalLayer(int kernels, int kernel_size, int stride) {
-     _neuralLayers.push_back(std::make_unique<Convolution_Layer>(Convolution_Layer(kernels, kernel_size, stride)));
-}
-
 void Neural_Network::AddFlattenLayer() {
     _neuralLayers.push_back(std::make_unique<Flatten_Layer>(Flatten_Layer()));
 }

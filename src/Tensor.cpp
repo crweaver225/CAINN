@@ -296,7 +296,7 @@ const int Tensor::ReturnActiveDimension() const {
 
 void Tensor::AssignRandomValues() {
     int matrixSize = _dimensions * _channels * _rows * _columns;
-    float range = std::sqrt(6.0 / (_dimensions + _channels + _rows + _columns));
+    float range = std::sqrt(6.0 / (_rows + _columns));
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(-range,range);
