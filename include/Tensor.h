@@ -30,8 +30,6 @@ private:
     template<typename a_f>
     void MatmulInner(const Tensor &m1, Tensor &m2, float *bias, int d, a_f af);
 
-    void ConvolveInner(const Tensor &input, const Tensor &kernel, int stride, const int d);
-
     void UpdateGradientInner(const Tensor &gradient, const Tensor &weights, int d);
     void UpdateWeightsInner(const Tensor &gradient, const Tensor &output, const int d);
 
@@ -65,13 +63,6 @@ public:
 
     template<typename a_f>
     void Matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af);
-
-    // Convolution functions
-    void UpdateKernel(const Tensor &input, const Tensor &gradient, int stride);
-    void Convolve(const Tensor &input, const Tensor &kernel, int stride);
-    void Backward(const Tensor &gradient, const Tensor &kernel, int stride);
-
-    void Maxpool(const Tensor &input, int filter_size, int stride, std::vector<int> &maxpool_indexes);
 
     void ResetTensor();
     void UpdateTensor(float *new_tensor);

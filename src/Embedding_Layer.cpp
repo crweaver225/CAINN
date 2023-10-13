@@ -24,28 +24,49 @@ void Embedding_Layer::PrintMetaData()  {
 
 void Embedding_Layer::Build(Neural_Layer const* previousLayer) {
     _previousLayer_Dimensions = previousLayer->ReturnDimensions();
-    this->_weights = std::unique_ptr<Tensor>(new Tensor(_dimensions.rows, _dimensions.columns));
-    this->_weights->AssignRandomValues();
+    _weights = std::unique_ptr<Tensor>(new Tensor(_dimensions.rows, _dimensions.columns));
+    _weights->AssignRandomValues();
     _output = std::make_unique<Tensor>(Tensor(_previousLayer_Dimensions.columns, _dimensions.columns));
     _dimensions.rows = _previousLayer_Dimensions.columns;
 }
 
 Tensor const* Embedding_Layer::ForwardPropogate(Tensor const* input){
+
     _input = input;
+
     const float *embedded_weights = _weights->ReturnData();
     const float *inputData = input->ReturnData();
+
     Dimensions previousLayerShape = input->dimensions();
+
+    // For mini batches. I should multi-thread this
     for (int batch = 0; batch < _dimensions.dimensions; batch++) {
+
+        // Starting index based on current batch
         int batchStartingPoint = batch * previousLayerShape.rows * previousLayerShape.columns;
+
+        // Loop through each input value 
         for (int index = 0; index < previousLayerShape.columns; index ++) {
-            if (inputData[batchStartingPoint + index] == 0) {
+
+            // current input value based batch and index values
+            int current_row = inputData[index + batchStartingPoint];
+
+            if (current_row == 0) {
+
                 for (int rowValue = 0; rowValue < _dimensions.columns; rowValue++) {
                     _output->setNeuron(batch, (index * _dimensions.columns) + rowValue, 0.0f);
                 }
+
             } else {
-                int current_row = inputData[index + batchStartingPoint];
-                for (int rowValue = 0; rowValue < _dimensions.columns; rowValue++) {
-                    _output->setNeuron(batch, (index * _dimensions.columns) + rowValue, embedded_weights[(current_row * _weights.get()->NumberOfColumns()) + rowValue]);
+
+                // Loop through each of the embedding layer values for a specific input index
+                 for (int rowValue = 0; rowValue < _dimensions.columns; rowValue++) {
+                    
+                    // Assign the embedded weights to the output based on input index
+                    _output->setNeuron(batch, 
+                                        (index * _dimensions.columns) + rowValue, 
+                                        embedded_weights[(current_row * _dimensions.columns) + rowValue]
+                                        );
                 }
             }
         }
@@ -53,14 +74,21 @@ Tensor const* Embedding_Layer::ForwardPropogate(Tensor const* input){
     return _output.get();
 }
 
-Tensor* Embedding_Layer::Backpropogate(Tensor* gradient){
+Tensor* Embedding_Layer::Backpropogate(Tensor* gradient) {
+
     const float *inputData = _input->ReturnData();
     const float *gradientData = gradient->ReturnData();
+
     for (int batch = 0; batch < _dimensions.dimensions; batch++) { 
+
         for (int index = 0; index < _dimensions.rows; index ++) { 
+
             int gradientIndex = ((batch * (_dimensions.columns * index)) + (_dimensions.columns * index));
+
             for (int i = 0; i < _dimensions.columns; i++) { 
+
                 int input_value = inputData[(_dimensions.rows * batch) + index];
+
                 if (input_value != 0) {
                     int current_weight_index = (_weights.get()->NumberOfColumns() * input_value) + i;
                     float current_weight_value = _weights.get()->ReturnData()[current_weight_index];
