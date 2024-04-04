@@ -8,7 +8,7 @@ This project is designed to be a neural network trainer inspired by Tensorflow a
 - Save the neural network in JSON format
 
 A demo of the project in action can be found here:
-https://www.youtube.com/watch?v=stO8T83rQY0
+[https://www.youtube.com/watch?v=stO8T83rQY0](https://youtu.be/NM_xdVMel8U)
 
 ### Requirements to run
 - Python 3.0 or higher
