@@ -28,6 +28,14 @@ void Neural_Network::AddFlattenLayer() {
     _neuralLayers.push_back(std::make_unique<Flatten_Layer>(Flatten_Layer()));
 }
 
+void Neural_Network::AddMaxpoolLayer(int kernel_size, int stride) {
+     _neuralLayers.push_back(std::make_unique<Maxpool_Layer>(Maxpool_Layer(kernel_size, stride)));
+}
+
+void Neural_Network::AddConvolutionalLayer(int kernels, int kernel_size, int stride) {
+     _neuralLayers.push_back(std::make_unique<Convolution_Layer>(Convolution_Layer(kernels, kernel_size, stride)));
+}
+
 void Neural_Network::AddEmbeddingLayer(int unique_words_length, int output) {
     _neuralLayers.push_back(std::make_unique<Embedding_Layer>(Embedding_Layer(Dimensions{1, 1, unique_words_length, output})));
 }
@@ -137,7 +145,7 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
 
     std::unique_ptr<float*> batch_input = std::unique_ptr<float*>(new float*[batch_size]);
     std::unique_ptr<float*> batch_target = std::unique_ptr<float*>(new float*[batch_size]);
-    
+
     for (int epoch = 0; epoch < epochs; ++epoch) {
 
         RandomizeDropout();
@@ -158,15 +166,17 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
             }
 
             Tensor const* output = _input_layer->AddInputInBatches(final_batch_size, batch_input.get());
-
+       
             for (int i = 1; i < _neuralLayers.size(); ++i) {
                 _neuralLayers[i]->SetActiveDimensions(final_batch_size);
                 output = _neuralLayers[i]->ForwardPropogate(output);
             }
-
+         
             _output_layer->CalculateError(batch_target.get(), _applyL2Regularization ? CalculateL2() : 0.0f);
+
             ClearGradients();
             Backpropogate();
+       
         }
 
         if (epoch % this->_printLossEveryIterations == 0) {
@@ -185,7 +195,6 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
 
         if (_stopAutomatically) {
             if (loss == 0) {
-                std::cout<<"stopping training early, loss has reached zero"<<std::endl;
                 break;
             }
         }
@@ -195,8 +204,9 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
         }
 
        _output_layer->ResetLoss();
+
     }
-    
+
     for (int i = 0; i < _neuralLayers.size(); ++i) {
         _neuralLayers[i].get()->SetBatchDimensions(1);
         _neuralLayers[i].get()->Training(false);

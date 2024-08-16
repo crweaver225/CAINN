@@ -51,8 +51,10 @@ void Neural_Layer::SetBias(float *data) {
 void Neural_Layer::Training(bool train) { 
     if (train) {
         BuildGradient();
+        _output->optimizeForTraining();
     } else {
         _gradient.reset();
+        _output->optimizeForInference();
     }
 }
 
@@ -107,6 +109,7 @@ void Neural_Layer::BuildGradient() {
                                                 _previousLayer_Dimensions.channels,
                                                 _previousLayer_Dimensions.rows,
                                                 _previousLayer_Dimensions.columns));
+    _gradient->optimizeForTraining();
 }
 
 Activation_Function Neural_Layer::ReturnActivationFunctionType() const {

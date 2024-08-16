@@ -13,6 +13,8 @@
 #include "Network_Saver.h"
 #include "Flatten_Layer.h"
 #include "Embedding_Layer.h"
+#include "Convolution_Layer.h"
+#include "Maxpool_Layer.h"
 #include "Dimensions.h"
 
 class Neural_Network {
@@ -47,6 +49,8 @@ public:
     void AddInputLayer(int *dimension, int size);
     void AddFullyConnectedLayer(int neurons, int activation_function);
     void AddDropoutLayer(float dropped);
+    void AddConvolutionalLayer(int kernels, int kernel_size, int stride);
+    void AddMaxpoolLayer(int kernel_size, int stride);
     void AddOutputLayer(int neurons, int activation_function);
     void AddFlattenLayer();
     void AddEmbeddingLayer(int unique_words_length, int output);

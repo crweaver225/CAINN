@@ -37,9 +37,11 @@ void Output_Layer::Training(bool train) {
     if (train) {
         _error = std::make_unique<Tensor>(Tensor(_dimensions.dimensions,1,1,_dimensions.columns));
         BuildGradient();
+        _output->optimizeForTraining();
     } else {
         _error.reset();
         _gradient.reset();
+        _output->optimizeForInference();
     }
 }
 
@@ -81,6 +83,7 @@ void Output_Layer::SetActiveDimensions(int batch_size) {
 }
 
 void Output_Layer::CalculateError(float **target, float regularization) {
+    _error->ResetTensor();
     float temp_loss = 0.0f;
     _batchesInIteration ++;
     auto lf = ReturnLossFunction();
@@ -92,7 +95,9 @@ void Output_Layer::CalculateError(float **target, float regularization) {
         int current_dimensions = d * output_size;
         temp_loss += lf(output, target[d], current_dimensions, output_size);
         for (int i_o = 0; i_o < output_size; ++ i_o) {
-           _error->setNeuron(d, i_o, (target[d][i_o] - output[current_dimensions + i_o]) + regularization);
+            float error_value = target[d][i_o] - output[current_dimensions + i_o];
+            error_value += (error_value > 0) ? regularization : -regularization;
+           _error->setNeuron(d, i_o, error_value);
         }
     }
     _loss += temp_loss / (float)active_dimension;

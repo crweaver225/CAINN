@@ -25,13 +25,14 @@ void Activation_Functions::relu(float* x, int location, int size) {
 
 void Activation_Functions::leaky_relu(float* x, int location, int size) {
     for (int i = 0; i < size; i++) {
-        x[location + i] = std::max((x[location + i]) * 0.001f, x[location + i]);
+        x[location + i] = std::max(x[location + i] * 0.01f, x[location + i]);
+
     }
 }
 
 void Activation_Functions::leaky_relu(float* x, float *bias, int location, int size) {
     for (int i = 0; i < size; i++) {
-        x[location + i] = std::max((x[location + i] + bias[i]) * 0.001f, x[location + i] + bias[i]);
+        x[location + i] = std::max((x[location + i] + bias[i]) * 0.01f, x[location + i] + bias[i]);
     }
 }
 
@@ -66,13 +67,13 @@ void Activation_Functions::sigmoid_d(float* output, float* derivative, int size)
 
 void Activation_Functions::relu_d(float* output, float* derivative, int size) {
     for (int i = 0; i < size; i++) {
-        derivative[i] = ((output[i] > 0.0f) ? 1.0f : 0.0f) * derivative[i];
+        derivative[i] *= ((output[i] > 0.0f) ? 1.0f : 0.0f);
     }
 }
 
 void Activation_Functions::leaky_relu_d(float* output, float* derivative, int size) {
     for (int i = 0; i < size; i++) {
-       derivative[i] = output[i] * derivative[i];
+       derivative[i] *= ((output[i] > 0.0f) ? 1.0f : 0.001f);
     }
 }
 

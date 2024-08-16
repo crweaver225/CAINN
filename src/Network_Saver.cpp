@@ -10,12 +10,14 @@ void Network_Saver::SaveNetwork(Neural_Network *neural_network, std::string &pat
     std::vector<std::vector<float>> weights;
     std::vector<std::vector<int>> dimensions;
     std::vector<float> dropped;
-
+    std::vector<int> other_dimensions;
+  
     for (Neural_Layer* x : neural_network->network()) {
         if (dynamic_cast<Input_layer*>(x) != nullptr) {
             network_layers.push_back(1);
             dimensions.push_back(x->_dimensions.vector());
             dropped.push_back(0.0f);
+      
         } else if (dynamic_cast<Fully_Connected_Layer*>(x) != nullptr) {
             network_layers.push_back(2);
             bias.push_back(std::vector<float>(x->_bias.get(), x->_bias.get() + x->_dimensions.columns));
@@ -23,26 +25,47 @@ void Network_Saver::SaveNetwork(Neural_Network *neural_network, std::string &pat
             weights.push_back(std::vector<float>(x->_weights.get()->ReturnData() , x->_weights.get()->ReturnData() + (weight_dimensions.rows * weight_dimensions.columns)));
             dimensions.push_back(x->_dimensions.vector());
             dropped.push_back(0.0f);
+       
         } else if (dynamic_cast<Output_Layer*>(x) != nullptr) {
             network_layers.push_back(3);
             Dimensions weight_shape = x->_weights->dimensions();
             weights.push_back(std::vector<float>(x->_weights.get()->ReturnData() , x->_weights.get()->ReturnData() + (weight_shape.rows * weight_shape.columns)));
             dimensions.push_back(x->_dimensions.vector());
             dropped.push_back(0.0f);
+   
         } else if (dynamic_cast<Embedding_Layer*>(x) != nullptr) {
             network_layers.push_back(4);
             Dimensions weight_shape = x->_weights->dimensions();
             weights.push_back(std::vector<float>(x->_weights.get()->ReturnData() , x->_weights.get()->ReturnData() + (weight_shape.rows * weight_shape.columns)));
             dimensions.push_back(x->_dimensions.vector());
             dropped.push_back(0.0f);
+    
         } else if (dynamic_cast<Flatten_Layer*>(x) != nullptr) {
             network_layers.push_back(5);
             dimensions.push_back(x->_dimensions.vector());
             dropped.push_back(0.0f);
+      
         } else if (dynamic_cast<Dropout_Layer*>(x) != nullptr) {
             Dropout_Layer *dropout_layer = dynamic_cast<Dropout_Layer*>(x);
-            network_layers.push_back(7);
+            network_layers.push_back(6);
             dropped.push_back(dropout_layer->returnPercentageDropped());
+     
+        } else if (dynamic_cast<Convolution_Layer*>(x) != nullptr) {
+            Convolution_Layer *convolution_layer = dynamic_cast<Convolution_Layer*>(x);
+            network_layers.push_back(7);
+            Dimensions weight_dimensions = x->_weights->dimensions();
+            weights.push_back(std::vector<float>(x->_weights.get()->ReturnData() , x->_weights.get()->ReturnData() + (weight_dimensions.rows * weight_dimensions.columns)));
+            dimensions.push_back(x->_dimensions.vector());
+            dropped.push_back(0.0f);
+            other_dimensions.push_back(convolution_layer->_kernels);
+            other_dimensions.push_back(convolution_layer->_kernel_size);
+            other_dimensions.push_back(convolution_layer->_stride);
+        } else if (dynamic_cast<Maxpool_Layer*>(x) != nullptr) {
+            Maxpool_Layer *maxpool_layer = dynamic_cast<Maxpool_Layer*>(x);
+            network_layers.push_back(8);
+            other_dimensions.push_back(maxpool_layer->_kernel_size);
+            other_dimensions.push_back(maxpool_layer->_stride);
+            dropped.push_back(0.0f);
         }
         activation_functions.push_back(x->ReturnActivationFunctionType());
         neurons.push_back(x->ReturnDimensions().columns);
@@ -56,6 +79,7 @@ void Network_Saver::SaveNetwork(Neural_Network *neural_network, std::string &pat
     network_json["weights"] = weights;
     network_json["dimensions"] = dimensions;
     network_json["dropped"] = dropped;
+    network_json["other_dimensions"] = other_dimensions;
 
     std::ofstream file(path);
     file << network_json;
@@ -75,7 +99,8 @@ void Network_Saver::LoadNetwork(Neural_Network *neural_network, std::string &pat
     std::vector<std::vector<float>> bias =  network_json["bias"].get<std::vector<std::vector<float>>>();
     std::vector<std::vector<float>> weights = network_json["weights"].get<std::vector<std::vector<float>>>();
     std::vector<std::vector<int>> dimensions = network_json["dimensions"].get<std::vector<std::vector<int>>>();
-    std::vector<float> dropped = network_json["dropped"].get<std::vector<float>>();\
+    std::vector<float> dropped = network_json["dropped"].get<std::vector<float>>();
+    std::vector<int> other_dimensions = network_json["other_dimensions"].get<std::vector<int>>();
 
     for (int layer = 0; layer < network_layers.size(); layer++) {
         if (network_layers[layer] == 1) {
@@ -88,9 +113,13 @@ void Network_Saver::LoadNetwork(Neural_Network *neural_network, std::string &pat
             neural_network->AddEmbeddingLayer(weights[1].size(), neurons[layer]);
         } else if (network_layers[layer] == 5) {
             neural_network->AddFlattenLayer();
-        }   else if (network_layers[layer] == 7) {
+        }   else if (network_layers[layer] == 6) {
             neural_network->AddDropoutLayer(dropped[layer]);
-        } 
+        } else if (network_layers[layer] == 7) {
+            neural_network->AddConvolutionalLayer(other_dimensions[0], other_dimensions[1], other_dimensions[2]);
+        } else if (network_layers[layer] == 8) {
+            neural_network->AddMaxpoolLayer(other_dimensions[0], other_dimensions[1]);
+        }
     }
     neural_network->Build();
     
@@ -108,10 +137,10 @@ void Network_Saver::LoadNetwork(Neural_Network *neural_network, std::string &pat
         } else if (network_layers[layer] == 4) {
             neural_network->_neuralLayers[layer].get()->_weights.get()->SetData(weights[weight_index].data());
             weight_index++;
-        } else if (network_layers[layer] == 8) {
+        } else if (network_layers[layer] == 7) {
             neural_network->_neuralLayers[layer].get()->_weights.get()->SetData(weights[weight_index].data());
             weight_index++;
-        }
+        } 
     }
 }
 
