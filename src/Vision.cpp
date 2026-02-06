@@ -6,57 +6,57 @@ std::mutex backward_mutex{};
 // ### Convolution Methods ###
 void Vision::InnerBackward(const Tensor &gradient, const Tensor &kernel, Tensor &_gradient, int stride, const int d, const int n_d) {
   
-    int gradient_active_batches = gradient.ReturnActiveDimension(); 
-    int gradient_channels = gradient.NumberOfChannels(); 
-    int gradient_rows = gradient.NumberOfRows(); 
-    int gradient_columns = gradient.NumberOfColumns(); 
+    size_t gradient_active_batches = gradient.ReturnActiveDimension(); 
+    size_t gradient_channels = gradient.NumberOfChannels(); 
+    size_t gradient_rows = gradient.NumberOfRows(); 
+    size_t gradient_columns = gradient.NumberOfColumns(); 
     const float* gradient_data = gradient.ReturnData(); 
 
-    int kernel_dimensions = kernel.NumberOfDimensions();
-    int kernel_channels = kernel.NumberOfChannels(); 
-    int kernel_rows = kernel.NumberOfRows(); 
-    int kernel_columns = kernel.NumberOfColumns(); 
+    size_t kernel_dimensions = kernel.NumberOfDimensions();
+    size_t kernel_channels = kernel.NumberOfChannels(); 
+    size_t kernel_rows = kernel.NumberOfRows(); 
+    size_t kernel_columns = kernel.NumberOfColumns(); 
     const float* kernel_data = kernel.ReturnData(); 
 
-    int _gradient_active_batches = _gradient.ReturnActiveDimension();
-    int _gradient_channels = _gradient.NumberOfChannels(); 
-    int _gradient_rows = _gradient.NumberOfRows(); 
-    int _gradient_columns = _gradient.NumberOfColumns(); 
+    size_t _gradient_active_batches = _gradient.ReturnActiveDimension();
+    size_t _gradient_channels = _gradient.NumberOfChannels(); 
+    size_t _gradient_rows = _gradient.NumberOfRows(); 
+    size_t _gradient_columns = _gradient.NumberOfColumns(); 
 
-    int gradient_dimension_idx = d * (gradient_channels * gradient_rows * gradient_columns);
-    int _gradient_dimension_idx = d * (_gradient_channels * _gradient_rows * _gradient_columns);
+    size_t gradient_dimension_idx = d * (gradient_channels * gradient_rows * gradient_columns);
+    size_t _gradient_dimension_idx = d * (_gradient_channels * _gradient_rows * _gradient_columns);
 
-    for (int dimension_tracker = 0; dimension_tracker < n_d; dimension_tracker++) {
+    for (size_t dimension_tracker = 0; dimension_tracker < n_d; dimension_tracker++) {
         
-        for (int kernel = 0; kernel < kernel_dimensions; kernel++) {
+        for (size_t kernel = 0; kernel < kernel_dimensions; kernel++) {
 
-            const int kernel_dimension_idx = kernel * (kernel_channels * kernel_rows * kernel_columns);
-            const int gradient_channel_idx = gradient_dimension_idx + (kernel * gradient_rows * gradient_columns);
+            const size_t kernel_dimension_idx = kernel * (kernel_channels * kernel_rows * kernel_columns);
+            const size_t gradient_channel_idx = gradient_dimension_idx + (kernel * gradient_rows * gradient_columns);
 
 
-            for (int kernel_channel = 0; kernel_channel < kernel_channels; kernel_channel++) {
+            for (size_t kernel_channel = 0; kernel_channel < kernel_channels; kernel_channel++) {
             
-                const int kernel_channel_idx = kernel_dimension_idx + (kernel_channel * (kernel_rows * kernel_columns));
-                const int _gradient_channel_idx = _gradient_dimension_idx + (kernel_channel * _gradient_rows * _gradient_columns);
+                const size_t kernel_channel_idx = kernel_dimension_idx + (kernel_channel * (kernel_rows * kernel_columns));
+                const size_t _gradient_channel_idx = _gradient_dimension_idx + (kernel_channel * _gradient_rows * _gradient_columns);
 
-                for (int kernel_row = 0; kernel_row < kernel_rows; kernel_row++) {
+                for (size_t kernel_row = 0; kernel_row < kernel_rows; kernel_row++) {
 
-                    int kernel_row_idx = kernel_channel_idx + (kernel_row * kernel_columns);
+                    size_t kernel_row_idx = kernel_channel_idx + (kernel_row * kernel_columns);
 
-                    for (int kernel_column = 0; kernel_column < kernel_columns; kernel_column++) {
+                    for (size_t kernel_column = 0; kernel_column < kernel_columns; kernel_column++) {
 
-                        const int kernel_column_idx = kernel_row_idx + kernel_column;
+                        const size_t kernel_column_idx = kernel_row_idx + kernel_column;
                         const float kernel_value = kernel_data[kernel_column_idx];
                                                                           
-                        for (int gradient_row = 0; gradient_row < gradient_rows; gradient_row ++) {
+                        for (size_t gradient_row = 0; gradient_row < gradient_rows; gradient_row ++) {
                             
-                            const int gradient_row_idx = gradient_channel_idx + (gradient_row * gradient_columns);
-                            const int _gradient_row_idx = (_gradient_channel_idx + ((gradient_row + kernel_row) * _gradient_columns));
+                            const size_t gradient_row_idx = gradient_channel_idx + (gradient_row * gradient_columns);
+                            const size_t _gradient_row_idx = (_gradient_channel_idx + ((gradient_row + kernel_row) * _gradient_columns));
                             
-                            for (int gradient_column = 0; gradient_column < gradient_columns; gradient_column ++) {
+                            for (size_t gradient_column = 0; gradient_column < gradient_columns; gradient_column ++) {
                                 
-                                const int gradient_column_idx = gradient_row_idx + gradient_column;
-                                const int _gradient_column_idx = _gradient_row_idx + gradient_column + kernel_column;
+                                const size_t gradient_column_idx = gradient_row_idx + gradient_column;
+                                const size_t _gradient_column_idx = _gradient_row_idx + gradient_column + kernel_column;
                                 
                                 _gradient.changeNeuron(_gradient_column_idx, gradient_data[gradient_column_idx] * kernel_value);
                                 

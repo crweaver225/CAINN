@@ -109,14 +109,18 @@ void Tensor::MatmulInner(const Tensor &m1, Tensor &m2, float *bias, const int d,
     const int dimension_size = m1._rows * m1._columns;
     const int product_dimension_size = m1._rows * m2._columns;
 
-    unsigned int i_d = d * dimension_size;
-    unsigned int o_d = d * product_dimension_size;
+    size_t i_d = d * dimension_size;
+    size_t o_d = d * product_dimension_size;
 
-    for (int dimension_tracker = 0; dimension_tracker < n_d; dimension_tracker++) {
-        for (int i = 0; i < m1._rows; ++i) {
+    for (size_t dimension_tracker = 0; dimension_tracker < n_d; dimension_tracker++) {
+        for (size_t i = 0; i < m1._rows; ++i) {
+            size_t output_i = o_d + (i * m2._columns);
+            size_t m1_i = i_d + (i * m1._columns);
             for (int j = 0; j < m1._columns; ++j) {
-                for (int z = 0; z < m2._columns; ++z) {
-                    _tensor[o_d + (i * (m2._columns) + z)] += m1._tensor[i_d + ((i * m1._columns) + j)] * m2._tensor[(j * m2._columns) + z];
+                size_t m1_j = m1_i + j;
+                size_t m2_j = m2._columns * j;
+                for (size_t z = 0; z < m2._columns; ++z) {
+                    _tensor[output_i + z] += m1._tensor[m1_j] * m2._tensor[m2_j + z];
                 }
             }
         }
