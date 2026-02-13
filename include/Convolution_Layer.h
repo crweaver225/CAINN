@@ -8,12 +8,13 @@ class Convolution_Layer: public Neural_Layer {
         Convolution_Layer(int kernels, int kernel_size, int stride);
         Convolution_Layer(const Convolution_Layer &convolution_layer) = delete;
         Convolution_Layer& operator=(const Convolution_Layer &convolution_layer) = delete;
-        Convolution_Layer(Convolution_Layer &&convolution_layer) noexcept;
-        Convolution_Layer& operator=(Convolution_Layer &&convolution_layer) noexcept;
+        Convolution_Layer(Convolution_Layer &&convolution_layer) = default;
+        Convolution_Layer& operator=(Convolution_Layer &&convolution_layer) = default;
         ~Convolution_Layer();
 
         void PrintMetaData() override;
         void Build(Neural_Layer const* previousLayer) override;
+        void Training(bool train) override;
         Tensor const* ForwardPropogate(Tensor const* input) override;
         Tensor* Backpropogate(Tensor* gradient) override;
         void SetBatchDimensions(int batch_size) override;

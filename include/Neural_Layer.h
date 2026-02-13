@@ -1,9 +1,12 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <optional>
+#include <assert.h>
 #include "Tensor.h"
 #include "Dimensions.h"
 #include "Activation_Functions.h"
+#include "AdamState.h"
 
 #ifndef NEURAL_LAYER_H_
 #define NEURAL_LAYER_H_
@@ -21,6 +24,9 @@ protected:
     std::unique_ptr<float> _bias;
 
     Tensor const* _input;
+
+    std::optional<AdamState> _adamState = std::nullopt;
+    std::optional<AdamState> _adamStateBias = std::nullopt;
 
     Dimensions _previousLayer_Dimensions;
     Dimensions _dimensions;
@@ -41,8 +47,8 @@ public:
     ~Neural_Layer();
     Neural_Layer(const Neural_Layer &neural_layer) = delete;
     Neural_Layer& operator = (const Neural_Layer &neural_layer) = delete;
-    Neural_Layer(Neural_Layer &&neural_layer) noexcept;
-    Neural_Layer& operator=(Neural_Layer &&neural_layer) noexcept;
+    Neural_Layer(Neural_Layer &&neural_layer) noexcept = default;
+    Neural_Layer& operator=(Neural_Layer &&neural_layer) noexcept = default;
     
     const Dimensions ReturnDimensions() const;
     const float ReturnL2() const;

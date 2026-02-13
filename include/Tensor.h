@@ -15,6 +15,7 @@
 #include "Dimensions.h"
 #include "Vision.h"
 #include "Thread_Pool.h"
+#include "AdamState.h"
 
 class Tensor {
 
@@ -33,7 +34,8 @@ private:
     void MatmulInner(const Tensor &m1, Tensor &m2, float *bias, int d, const int n_d, a_f af);
 
     void UpdateGradientInner(const Tensor &gradient, const Tensor &weights, int d, int n_d);
-    void UpdateWeightsInner(const Tensor &gradient, const Tensor &output, const int d, const int n_d);
+    void UpdateWeightsInner(const Tensor &gradient, const Tensor &output, const int d, const int n_d, AdamState &adamState);
+    void ApplyAdam(AdamState &adamState);
 
 public:
  
@@ -65,12 +67,14 @@ public:
     const float *ReturnData() const;
     const float SumTheSquares() const;
 
+    float valueAt(int dimension, int channel, int row, int col) const;
+
     template<typename a_f>
     void Matmul(const Tensor &m1, Tensor &m2, float *bias, a_f af);
     
     // Convolution functions
-    void UpdateKernel(const Tensor &input, const Tensor &gradient, int stride);
-    void Convolve(const Tensor &input, const Tensor &kernel, int stride);
+    void UpdateKernel(const Tensor &input, const Tensor &gradient, int stride, AdamState &adamState);
+    void Convolve(const Tensor &input, const Tensor &kernel, int stride, float *bias);
     void Backward(const Tensor &gradient, const Tensor &kernel, int stride);
 
     void Maxpool(const Tensor &input, int filter_size, int stride, std::vector<unsigned int> &maxpool_indexes);
@@ -78,7 +82,7 @@ public:
     void ResetTensor();
     void UpdateTensor(float *new_tensor);
     void UpdateGradients(const Tensor &gradient, const Tensor &weights);
-    void UpdateWeights(const Tensor &gradient, const Tensor &output);
+    void UpdateWeights(const Tensor &gradient, const Tensor &output, AdamState &adamState);
 
     void flatten();
     void reshape(int dimension, int channels, int rows, int columns);

@@ -23,6 +23,21 @@ void Activation_Functions::relu(float* x, int location, int size) {
     }
 }
 
+void Activation_Functions::relu_convolution(float* x, float* bias, int batch, int channels, int height, int width) {
+    int idx = 0;
+    for (int b = 0; b < batch; b++) {
+        for (int oc = 0; oc < channels; oc++) {
+            float bval = bias[oc];
+            for (int y = 0; y < height; y++) {
+                for (int xw = 0; xw < width; xw++) {
+                    x[idx] = std::max(0.0f, x[idx] + bval);
+                    idx++;
+                }
+            }
+        }
+    }
+}
+
 void Activation_Functions::leaky_relu(float* x, int location, int size) {
     for (int i = 0; i < size; i++) {
         x[location + i] = std::max(x[location + i] * 0.01f, x[location + i]);

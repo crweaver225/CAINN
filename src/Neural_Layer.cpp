@@ -8,18 +8,6 @@ Neural_Layer::Neural_Layer(Dimensions dimensions, Activation_Function activation
 
 Neural_Layer::~Neural_Layer() { }
 
-Neural_Layer::Neural_Layer(Neural_Layer &&neural_layer)  noexcept  {
-    _output = std::move(neural_layer._output);
-    _weights = std::move(neural_layer._weights);
-    _gradient = std::move(neural_layer._gradient);
-    _bias = std::move(neural_layer._bias);
-    _dimensions = std::move(neural_layer._dimensions);
-    _activationFunction = neural_layer._activationFunction;
-}
-
-Neural_Layer& Neural_Layer::operator=(Neural_Layer &&neural_layer) noexcept  {
-    return *this;
-}
 
 void Neural_Layer::PrintMetaData() {
     std::cout<<"Generic neural layer: "<<_dimensions.dimensions <<std::endl;

@@ -5,20 +5,6 @@ Maxpool_Layer::Maxpool_Layer(int kernel_size, int stride) : Neural_Layer({1,1,1,
     _stride = stride;
 }
 
-Maxpool_Layer::Maxpool_Layer(Maxpool_Layer &&maxpool_layer)  noexcept  : Neural_Layer{std::move(maxpool_layer)} {
-    this->_kernel_size = maxpool_layer._kernel_size;
-    this->_stride = maxpool_layer._stride;
-    this->_maxpooledIndexes = maxpool_layer._maxpooledIndexes;
-}
-
-Maxpool_Layer& Maxpool_Layer::operator=(Maxpool_Layer &&maxpool_layer)  noexcept {
-    if (this == &maxpool_layer) {
-        return *this;
-    }
-    Neural_Layer::operator=(std::move(maxpool_layer));
-    return *this;
- }
-
 Maxpool_Layer::~Maxpool_Layer() {}
 
 void Maxpool_Layer::PrintMetaData() {

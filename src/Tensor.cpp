@@ -231,24 +231,23 @@ void Tensor::UpdateGradients(const Tensor &gradient, const Tensor &weights) {
         }
     }
 
-    clipData();
+   // clipData();
 }
 
-void Tensor::UpdateWeightsInner(const Tensor &gradient, const Tensor &output, const int d, const int n_d) {
+void Tensor::UpdateWeightsInner(const Tensor &gradient, const Tensor &output, const int d, const int n_d, AdamState &adamState) {
 
-    const int gradient_dimensions = output._dimensions;
-    const float learning_rate_value = _learningRate / gradient_dimensions;
+    const size_t gradient_dimensions = output._dimensions;
 
-    int gradient_index = d * gradient._columns * gradient._rows;
-    int output_index = d * output._columns * output._rows;
+    size_t gradient_index = d * gradient._columns * gradient._rows;
+    size_t output_index = d * output._columns * output._rows;
     
-    for (int dimension_tracker  = 0; dimension_tracker < n_d; dimension_tracker++) {
-        for (int output_x = 0; output_x < output._columns; output_x++) {
-            const int weight_row = output_x * _columns;
-            const int output_value = output._tensor[output_x + output_index];
-            for (int gradient_x = 0; gradient_x < gradient._columns; gradient_x++) {
-                float new_value = (output_value * gradient._tensor[gradient_x + gradient_index]) * learning_rate_value;
-                _tensor[weight_row + gradient_x] += new_value;
+    for (size_t dimension_tracker  = 0; dimension_tracker < n_d; dimension_tracker++) {
+        for (size_t output_x = 0; output_x < output._columns; output_x++) {
+            const size_t weight_row = output_x * _columns;
+            const size_t output_value = output._tensor[output_x + output_index];
+            for (size_t gradient_x = 0; gradient_x < gradient._columns; gradient_x++) {
+                const float new_value = (output_value * gradient._tensor[gradient_x + gradient_index]) / gradient_dimensions;
+                adamState.gradientAccumulation[weight_row + gradient_x] += new_value;
             }
         }
         gradient_index += gradient._columns * gradient._rows;
@@ -256,11 +255,28 @@ void Tensor::UpdateWeightsInner(const Tensor &gradient, const Tensor &output, co
     }
 }
 
-void Tensor::UpdateWeights(const Tensor &gradient, const Tensor &output) {
+void Tensor::ApplyAdam(AdamState &adamState) {
+    adamState.t ++;
+    const float bias_correction1 = 1.0f - std::pow(adamState.beta1, adamState.t);
+    const float bias_correction2 = 1.0f - std::pow(adamState.beta2, adamState.t);
+
+    for (size_t i = 0; i < NumberOfElements(); i++) {
+        const float g = adamState.gradientAccumulation[i];
+        adamState.m[i] = adamState.beta1 * adamState.m[i] + (1.0f - adamState.beta1) * g;
+        adamState.v[i] = adamState.beta2 * adamState.v[i] + (1.0f - adamState.beta2) * g * g;
+        const float m_hat = adamState.m[i] / bias_correction1;
+        const float v_hat = adamState.v[i] / bias_correction2;
+        _tensor[i] += _learningRate * (m_hat / (std::sqrt(v_hat) + adamState.epsilon));
+        adamState.gradientAccumulation[i] = 0.0f;
+    }
+}
+
+void Tensor::UpdateWeights(const Tensor &gradient, const Tensor &output, AdamState &adamState) {
 
     for (int i = 0; i < output._activeDimensions; i++) {
-        UpdateWeightsInner(gradient, output, i, 1);
+        UpdateWeightsInner(gradient, output, i, 1, adamState);
     }
+    ApplyAdam(adamState);
 }
 
 void Tensor::optimizeForTraining() {
@@ -299,7 +315,7 @@ void Tensor::clipData() {
 }
 
 float Tensor::clip(float x) {
-    return std::max(-0.1f, std::min(x, 0.1f));
+    return std::max(-0.01f, std::min(x, 0.01f));
 }
 
 void Tensor::ResetTensor() {
@@ -312,6 +328,13 @@ void Tensor::SetData(const float *tensor) {
 
 const float * Tensor::ReturnData() const {
     return _tensor;
+}
+
+float Tensor::valueAt(int dimension, int channel, int row, int col) const {
+    const size_t d_index = dimension * NumberOfElementsPerTensor();
+    const size_t channel_index = channel * _rows * _columns;
+    const size_t row_index = row * _columns;
+    return _tensor[d_index + channel_index + row_index + col];
 }
 
 void Tensor::TransferDataFrom(Tensor const* tensor) {
@@ -432,14 +455,13 @@ void Tensor::Backward(const Tensor &gradient, const Tensor &kernel, int stride) 
     Vision::Backward(gradient, kernel, *this, _threadPool, stride);
 }
 
-void Tensor::UpdateKernel(const Tensor &input, const Tensor &gradient, int stride) {
-    Vision::UpdateKernel(input, *this, gradient, _threadPool, stride);
+void Tensor::UpdateKernel(const Tensor &input, const Tensor &gradient, int stride, AdamState &adamState) {
+    Vision::UpdateKernel(input, *this, gradient, _threadPool, stride, adamState);
 }
 
-void Tensor::Convolve(const Tensor &input, const Tensor &kernel, int stride) {
+void Tensor::Convolve(const Tensor &input, const Tensor &kernel, int stride, float* bias) {
     Vision::Convolve(input, *this, kernel, _threadPool, stride);
-    const int number_of_elements = _activeDimensions * _channels * _rows * _columns;
-    Activation_Functions::relu(_tensor, 0, number_of_elements);
+    Activation_Functions::relu_convolution(_tensor, bias, _activeDimensions, _channels, _rows, _columns);
 }
 
 // ### Maxpool Methods ###

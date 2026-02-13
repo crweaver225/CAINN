@@ -12,8 +12,8 @@ public:
     ~Output_Layer();
     Output_Layer(const Output_Layer &output_layer) = delete;
     Output_Layer& operator=(const Output_Layer &output_layer) = delete;
-    Output_Layer(Output_Layer &&output_layer) noexcept;
-    Output_Layer& operator=(Output_Layer &&output_layer) noexcept;
+    Output_Layer(Output_Layer &&output_layer) = default;
+    Output_Layer& operator=(Output_Layer &&output_layer) = default;
 
     void Build(Neural_Layer const* previousLayer) override;
     Tensor const* ForwardPropogate(Tensor const* input) override;

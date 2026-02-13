@@ -10,8 +10,8 @@ public:
     Maxpool_Layer(int kernel_size, int stride);
     Maxpool_Layer(const Maxpool_Layer &maxpool_layer) = delete;
     Maxpool_Layer& operator=(const Maxpool_Layer &maxpool_layer) = delete;
-    Maxpool_Layer(Maxpool_Layer &&maxpool_layer) noexcept;
-    Maxpool_Layer &operator=(Maxpool_Layer &&maxpool_layer) noexcept;
+    Maxpool_Layer(Maxpool_Layer &&maxpool_layer) = default;
+    Maxpool_Layer &operator=(Maxpool_Layer &&maxpool_layer) = default;
     ~Maxpool_Layer();
 
     void PrintMetaData() override;

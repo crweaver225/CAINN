@@ -4,18 +4,6 @@ Output_Layer::Output_Layer(Dimensions dimensions, Activation_Function af) : Neur
 
 Output_Layer::~Output_Layer() {}
 
-Output_Layer::Output_Layer(Output_Layer &&output_layer) noexcept  : Neural_Layer{std::move(output_layer)} {}
-
-Output_Layer& Output_Layer::operator=(Output_Layer &&output_layer) noexcept  {
-     if (this == &output_layer) {
-        return *this;
-    }
-    Neural_Layer::operator=(std::move(output_layer));
-    _loss = output_layer._loss;
-    _error = std::move(output_layer._error);
-    return *this;
-}
-
 void Output_Layer::Build(Neural_Layer const* previousLayer) {
     _previousLayer_Dimensions = previousLayer->ReturnDimensions();
     this->_weights = std::unique_ptr<Tensor>(new Tensor(
@@ -38,10 +26,12 @@ void Output_Layer::Training(bool train) {
         _error = std::make_unique<Tensor>(Tensor(_dimensions.dimensions,1,1,_dimensions.columns));
         BuildGradient();
         _output->optimizeForTraining();
+        _adamState.emplace(_weights->NumberOfElements());
     } else {
         _error.reset();
         _gradient.reset();
         _output->optimizeForInference();
+        _adamState.reset();
     }
 }
 
@@ -127,7 +117,7 @@ Tensor* Output_Layer::Backpropogate(Tensor* gradient) {
 
     gradient->ApplyDerivative(*_output, ReturnActivationFunctionDerivative());
     _gradient->UpdateGradients(*gradient, *_weights);
-    _weights->UpdateWeights(*gradient, *_input);
+    _weights->UpdateWeights(*gradient, *_input, _adamState.value());
 
     return _gradient.get();
 }
