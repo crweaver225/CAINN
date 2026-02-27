@@ -12,7 +12,7 @@ public:
     Maxpool_Layer& operator=(const Maxpool_Layer &maxpool_layer) = delete;
     Maxpool_Layer(Maxpool_Layer &&maxpool_layer) = default;
     Maxpool_Layer &operator=(Maxpool_Layer &&maxpool_layer) = default;
-    ~Maxpool_Layer();
+    ~Maxpool_Layer() = default;
 
     void PrintMetaData() override;
     void Build(Neural_Layer const* previousLayer) override;

@@ -5,9 +5,9 @@ public:
     Embedding_Layer(Dimensions dimensions);
     Embedding_Layer(const Embedding_Layer &embedding_layer) = delete;
     Embedding_Layer& operator=(const Embedding_Layer &embedding_layer) = delete;
-    Embedding_Layer(Embedding_Layer &&embedding_layer) noexcept;
-    Embedding_Layer &operator=(Embedding_Layer &&embedding_layer) noexcept;
-    ~Embedding_Layer();
+    Embedding_Layer(Embedding_Layer &&embedding_layer) = default;
+    Embedding_Layer &operator=(Embedding_Layer &&embedding_layer) = default;
+    ~Embedding_Layer() = default;
 
     void PrintMetaData() override;
     void Build(Neural_Layer const* previousLayer) override;

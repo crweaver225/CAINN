@@ -6,9 +6,9 @@ public:
     Flatten_Layer();
     Flatten_Layer(const Flatten_Layer &flatten_layer) = delete;
     Flatten_Layer& operator=(const Flatten_Layer &flatten_layer) = delete;
-    Flatten_Layer(Flatten_Layer &&flatten_layer) noexcept;
-    Flatten_Layer &operator=(Flatten_Layer &&flatten_layer) noexcept;
-    ~Flatten_Layer();
+    Flatten_Layer(Flatten_Layer &&flatten_layer) = default;
+    Flatten_Layer &operator=(Flatten_Layer &&flatten_layer) = default;
+    ~Flatten_Layer() = default;
 
     void PrintMetaData() override;
     void Build(Neural_Layer const* previousLayer) override;

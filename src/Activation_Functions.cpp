@@ -1,6 +1,6 @@
 #include <math.h>
 #include "Activation_Functions.h"
-#include<iostream>
+#include <iostream>
 
 void Activation_Functions::sigmoid(float* x, float *bias, int location, int size) {
     for (int i = 0; i < size; i++) {
@@ -41,7 +41,6 @@ void Activation_Functions::relu_convolution(float* x, float* bias, int batch, in
 void Activation_Functions::leaky_relu(float* x, int location, int size) {
     for (int i = 0; i < size; i++) {
         x[location + i] = std::max(x[location + i] * 0.01f, x[location + i]);
-
     }
 }
 
@@ -52,23 +51,20 @@ void Activation_Functions::leaky_relu(float* x, float *bias, int location, int s
 }
 
 void Activation_Functions::softmax(float* x, float *bias, int location, int size) {
-    float max_value = std::numeric_limits<float>::min();
+    float max_value = -std::numeric_limits<float>::infinity();
+
     for (int i = 0; i < size; i++) {
-        if (x[location + i] > max_value) {
-            max_value = x[location + i];
-        }
+        max_value = std::max(max_value, x[location + i]);
     }
 
-    float y_sum = 0.0f;
+    float sum = 0.0f;
     for (int i = 0; i < size; i++) {
-        x[location + i] = exp(x[location + i] - max_value);
-        y_sum += x[location + i];
+        x[location + i] = std::exp(x[location + i] - max_value);
+        sum += x[location + i];
     }
-    
-    float min_value = std::numeric_limits<float>::min();
+
     for (int i = 0; i < size; i++) {
-        x[location + i] = x[location + i] / y_sum;
-        x[location + i] = std::min(1.0f - min_value, std::max(min_value, x[location + i]));
+        x[location + i] /= sum;
     }
 }
  

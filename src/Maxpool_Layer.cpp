@@ -5,8 +5,6 @@ Maxpool_Layer::Maxpool_Layer(int kernel_size, int stride) : Neural_Layer({1,1,1,
     _stride = stride;
 }
 
-Maxpool_Layer::~Maxpool_Layer() {}
-
 void Maxpool_Layer::PrintMetaData() {
     std::cout<<"maxpool layer: ("
             << _dimensions.channels

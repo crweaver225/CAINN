@@ -2,18 +2,6 @@
 
 Flatten_Layer::Flatten_Layer() : Neural_Layer(Dimensions{1,1,1,1}, Activation_Function::Pass) {}
 
-Flatten_Layer::Flatten_Layer(Flatten_Layer &&flatten_layer)  noexcept  : Neural_Layer{std::move(flatten_layer)} {}
-
-Flatten_Layer& Flatten_Layer::operator=(Flatten_Layer &&flatten_layer)  noexcept {
-    if (this == &flatten_layer) {
-        return *this;
-    }
-    Neural_Layer::operator=(std::move(flatten_layer));
-    return *this;
-}
-
-Flatten_Layer::~Flatten_Layer() {};
-
 void Flatten_Layer::PrintMetaData()  {
     std::cout<<"flatten layer: (1,"<<_output.get()->NumberOfColumns()<<")"<<std::endl;
 }

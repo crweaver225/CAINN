@@ -7,17 +7,17 @@ class Loss(Enum):
     ASE = 1
     CrossEntropy = 2
 
-
 class Activation_Function(Enum):
     Sigmoid = 0
     Pass = 1
     Relu = 2
     Leaky_Relu = 3
-    Tanh = 4
-    SoftMax = 5
-    Maxpool = 6
-    Flatten = 7
-    Global_Maxpool = 8
+    Relu_Conv = 4
+    Tanh = 5
+    SoftMax = 6
+    Maxpool = 7
+    Flatten = 8
+    Global_Maxpool = 9
 
 
 class Layer_Types(Enum):

@@ -6,9 +6,6 @@ Neural_Layer::Neural_Layer(Dimensions dimensions, Activation_Function activation
     this->_activationFunction = activation_function;
 }
 
-Neural_Layer::~Neural_Layer() { }
-
-
 void Neural_Layer::PrintMetaData() {
     std::cout<<"Generic neural layer: "<<_dimensions.dimensions <<std::endl;
 }

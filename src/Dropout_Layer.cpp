@@ -5,22 +5,6 @@ Dropout_Layer::Dropout_Layer(Dimensions dimensions, float percentDropped) : Neur
     _percentage = percentDropped;
 }
 
-Dropout_Layer::Dropout_Layer(Dropout_Layer &&dropout_layer) noexcept  : Neural_Layer{std::move(dropout_layer)} {
-    this->_percentage = dropout_layer._percentage;
-    this->_neurons = dropout_layer._neurons;
-    this->_droppedNeurons = dropout_layer._droppedNeurons;
-}
-
-Dropout_Layer& Dropout_Layer::operator=(Dropout_Layer &&dropout_layer) noexcept {
-    if (this == &dropout_layer) {
-        return *this;
-    }
-    Neural_Layer::operator=(std::move(dropout_layer));
-    return *this;
-}
-
-Dropout_Layer::~Dropout_Layer() { }
-
 void Dropout_Layer::SetBatchDimensions(int batch_size) {
     _dimensions.dimensions = batch_size;
     _previousLayer_Dimensions.dimensions = batch_size;

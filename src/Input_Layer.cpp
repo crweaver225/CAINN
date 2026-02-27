@@ -2,18 +2,6 @@
 
 Input_layer::Input_layer(Dimensions dimensions) : Neural_Layer(dimensions, Activation_Function::Pass) {}
 
-Input_layer::~Input_layer() {}
-
-Input_layer::Input_layer(Input_layer &&input_layer)  noexcept : Neural_Layer{std::move(input_layer)} {}
-
-Input_layer& Input_layer::operator=(Input_layer &&input_layer) noexcept  {
-    if (this == &input_layer) {
-        return *this;
-    }
-    Neural_Layer::operator=(std::move(input_layer));
-    return *this;
-}
-
 void Input_layer::PrintMetaData() {
     std::cout<<"Input layer: ("<<_dimensions.channels<<","<<_dimensions.rows<<","<<_dimensions.columns<<")"<<std::endl;
 }

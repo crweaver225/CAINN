@@ -104,8 +104,6 @@ void Vision::Backward(const Tensor &gradient, const Tensor &kernel, Tensor &_gra
             Vision::InnerBackward(gradient, kernel, _gradient, stride, i, 1);
         }
     }
-    
-   // _gradient.clipData();
 }
 
 void Vision::UpdateKernel(const Tensor &input, Tensor &kernel, const Tensor &gradient, Thread_Pool& threadPool, int stride, AdamState &adamState) {
@@ -163,6 +161,7 @@ void Vision::ApplyAdam(AdamState &adamState, Tensor &kernel) {
         const float v_hat = adamState.v[i] / bias_correction2;
         const float final_update = (m_hat / (std::sqrt(v_hat) + adamState.epsilon)) * kernel._learningRate;
         kernel.changeNeuron(i, final_update);
+        adamState.gradientAccumulation[i] = 0.0f;
     }
 }
 
@@ -223,7 +222,7 @@ void Vision::InnerUpdateKernel(const Tensor &input, Tensor &kernel, const Tensor
                     {
                         auto lock = std::unique_lock<std::mutex>{backward_mutex};
 
-                        adamState.gradientAccumulation[gradient_batch_idx] += sum / (active_dimensions * gradient_row_size * gradient_column_size);
+                        adamState.gradientAccumulation[kernel_row_idx + kernel_column_idx] += sum / active_dimensions;;
 
                         start_gradient_column += stride;
                         kernel_column_idx++;

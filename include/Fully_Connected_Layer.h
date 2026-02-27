@@ -7,7 +7,7 @@ class Fully_Connected_Layer: public Neural_Layer {
         Fully_Connected_Layer& operator=(const Fully_Connected_Layer &fully_connected_layer) = delete;
         Fully_Connected_Layer(Fully_Connected_Layer &&fully_connected_layer) = default;
         Fully_Connected_Layer& operator=(Fully_Connected_Layer &&fully_connected_layer) = default;
-        ~Fully_Connected_Layer();
+        ~Fully_Connected_Layer() = default;
 
         void PrintMetaData() override;
         void Training(bool train) override;

@@ -10,7 +10,7 @@ class Convolution_Layer: public Neural_Layer {
         Convolution_Layer& operator=(const Convolution_Layer &convolution_layer) = delete;
         Convolution_Layer(Convolution_Layer &&convolution_layer) = default;
         Convolution_Layer& operator=(Convolution_Layer &&convolution_layer) = default;
-        ~Convolution_Layer();
+        ~Convolution_Layer() = default;
 
         void PrintMetaData() override;
         void Build(Neural_Layer const* previousLayer) override;

@@ -2,8 +2,6 @@
 
 Output_Layer::Output_Layer(Dimensions dimensions, Activation_Function af) : Neural_Layer(dimensions, af) {}
 
-Output_Layer::~Output_Layer() {}
-
 void Output_Layer::Build(Neural_Layer const* previousLayer) {
     _previousLayer_Dimensions = previousLayer->ReturnDimensions();
     this->_weights = std::unique_ptr<Tensor>(new Tensor(

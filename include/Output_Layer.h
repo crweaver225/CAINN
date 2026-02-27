@@ -9,7 +9,7 @@ private:
     int _batchesInIteration = 1;
 public:
     Output_Layer(Dimensions dimensions, Activation_Function af);
-    ~Output_Layer();
+    ~Output_Layer() = default;
     Output_Layer(const Output_Layer &output_layer) = delete;
     Output_Layer& operator=(const Output_Layer &output_layer) = delete;
     Output_Layer(Output_Layer &&output_layer) = default;

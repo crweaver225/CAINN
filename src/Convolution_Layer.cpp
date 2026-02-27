@@ -6,8 +6,6 @@ Convolution_Layer::Convolution_Layer(int kernels, int kernel_size, int stride) :
     _kernel_size = kernel_size;
 }
 
-Convolution_Layer::~Convolution_Layer() {}
-
 void Convolution_Layer::PrintMetaData() {
     std::cout<<"convolutional layer: ("
             <<"["<<_dimensions.channels<<","<<_dimensions.rows<<","<<_dimensions.columns<<"]"
@@ -68,9 +66,10 @@ Tensor* Convolution_Layer::Backpropogate(Tensor* gradient) {
                 }
             }
         }
-        biasAdam.gradientAccumulation[oc] = sum / (active_dimension * _dimensions.rows * _dimensions.columns);
+        biasAdam.gradientAccumulation[oc] = sum / active_dimension;
     }
 
+    biasAdam.t ++;
     const float bias_correction1 = 1.0f - std::pow(biasAdam.beta1, biasAdam.t);
     const float bias_correction2 = 1.0f - std::pow(biasAdam.beta2, biasAdam.t);
 

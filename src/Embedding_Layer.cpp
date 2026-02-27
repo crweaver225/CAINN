@@ -2,18 +2,6 @@
 
 Embedding_Layer::Embedding_Layer(Dimensions dimensions) : Neural_Layer(dimensions, Activation_Function::Pass) {}
 
-Embedding_Layer::Embedding_Layer(Embedding_Layer &&embedding_layer) noexcept  : Neural_Layer{std::move(embedding_layer)} { }
-
-Embedding_Layer& Embedding_Layer::operator=(Embedding_Layer &&embedding_layer) noexcept {
-    if (this == &embedding_layer) {
-        return *this;
-    }
-    Neural_Layer::operator=(std::move(embedding_layer));
-    return *this;
-}
-
-Embedding_Layer::~Embedding_Layer() {};
-
 void Embedding_Layer::PrintMetaData()  {
     std::cout<<"embeded layer: ("
                 <<_dimensions.rows

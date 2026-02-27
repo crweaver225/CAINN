@@ -230,8 +230,6 @@ void Tensor::UpdateGradients(const Tensor &gradient, const Tensor &weights) {
             UpdateGradientInner(gradient, weights, i, 1);
         }
     }
-
-   // clipData();
 }
 
 void Tensor::UpdateWeightsInner(const Tensor &gradient, const Tensor &output, const int d, const int n_d, AdamState &adamState) {
@@ -315,7 +313,7 @@ void Tensor::clipData() {
 }
 
 float Tensor::clip(float x) {
-    return std::max(-0.01f, std::min(x, 0.01f));
+    return std::max(-0.001f, std::min(x, 0.001f));
 }
 
 void Tensor::ResetTensor() {

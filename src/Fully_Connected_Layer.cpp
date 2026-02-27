@@ -3,8 +3,6 @@
 
 Fully_Connected_Layer::Fully_Connected_Layer(Dimensions dimensions, Activation_Function af) : Neural_Layer(dimensions, af) {}
 
-Fully_Connected_Layer::~Fully_Connected_Layer() {}
-
 void Fully_Connected_Layer::PrintMetaData() {
     std::cout<<"fully connected layer: ("
             <<_previousLayer_Dimensions.columns

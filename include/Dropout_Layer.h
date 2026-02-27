@@ -10,9 +10,9 @@ public:
     Dropout_Layer(Dimensions dimensions, float percentDropped);
     Dropout_Layer(const Dropout_Layer &dropout_layer) = delete;
     Dropout_Layer& operator=(const Dropout_Layer &dropout_layer) = delete;
-    Dropout_Layer(Dropout_Layer &&dropout_layer) noexcept;
-    Dropout_Layer &operator=(Dropout_Layer &&dropout_layer) noexcept;
-    ~Dropout_Layer();
+    Dropout_Layer(Dropout_Layer &&dropout_layer) = default;
+    Dropout_Layer &operator=(Dropout_Layer &&dropout_layer) = default;
+    ~Dropout_Layer() = default;
 
     void PrintMetaData() override;
     void Build(Neural_Layer const* previousLayer) override;
