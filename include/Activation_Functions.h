@@ -14,7 +14,6 @@ namespace Activation_Functions {
     void sigmoid_d(float* output, float* derivative, int size);
     void relu_d(float* output, float* derivative, int size);
     void leaky_relu_d(float* output, float* derivative, int size);
-    void softmax_d(float* output, float* derivative, int size);
     void pass_d(float* output, float* derivative, int size);
     
 };

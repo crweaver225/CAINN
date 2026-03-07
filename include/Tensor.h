@@ -26,7 +26,6 @@ private:
     int _columns;
     int _channels;
     float *_tensor;
-    float clip(float x);
 
     Thread_Pool _threadPool;
     

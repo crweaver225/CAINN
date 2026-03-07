@@ -305,17 +305,6 @@ void Tensor::reshape(int dimension, int channels, int rows, int columns) {
     _columns = columns;
 }
 
-void Tensor::clipData() {
-    int size = _activeDimensions * _channels * _rows * _columns;
-    for (int i = 0; i < size; i++) {
-        _tensor[i] = clip(_tensor[i]);
-    }
-}
-
-float Tensor::clip(float x) {
-    return std::max(-0.001f, std::min(x, 0.001f));
-}
-
 void Tensor::ResetTensor() {
     memset(_tensor, 0.0f, _dimensions * _channels * _rows * _columns * sizeof(float));
 }

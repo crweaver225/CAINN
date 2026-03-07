@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <limits>
+#include <algorithm>
 
 #ifndef LOSS_H_
 #define LOSS_H_

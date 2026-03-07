@@ -22,7 +22,7 @@ public:
     void SetLossFunction(Loss loss);
     void PrintMetaData() override;
     void Training(bool train) override;
-    void CalculateError(float **target, float regularization);
+    void CalculateError(float **target);
     void ResetLoss();
     float ReturnLoss() const;
     Tensor* ReturnError() const;

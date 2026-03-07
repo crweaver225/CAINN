@@ -83,7 +83,7 @@ Tensor* Convolution_Layer::Backpropogate(Tensor* gradient) {
         const float m_hat = biasAdam.m[oc] / bias_correction1;
         const float v_hat = biasAdam.v[oc] / bias_correction2;
 
-        _bias.get()[oc] -= Tensor::_learningRate * m_hat / (std::sqrt(v_hat) + biasAdam.epsilon);
+        _bias.get()[oc] += Tensor::_learningRate * m_hat / (std::sqrt(v_hat) + biasAdam.epsilon);
 
         biasAdam.gradientAccumulation[oc] = 0.0f;
     }

@@ -66,7 +66,7 @@ Tensor* Fully_Connected_Layer::Backpropogate(Tensor* gradient) {
         const float m_hat = biasAdam.m[b] / bias_correction1;
         const float v_hat = biasAdam.v[b] / bias_correction2;
 
-       _bias.get()[b] -= Tensor::_learningRate * m_hat / (std::sqrt(v_hat) + biasAdam.epsilon);
+       _bias.get()[b] += Tensor::_learningRate * m_hat / (std::sqrt(v_hat) + biasAdam.epsilon);
 
        biasAdam.gradientAccumulation[b] = 0.0f; // reset
     }

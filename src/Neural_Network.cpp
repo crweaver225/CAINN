@@ -172,7 +172,7 @@ void Neural_Network::Train(float **input, float **targets, int batch_size, int e
                 output = _neuralLayers[i]->ForwardPropogate(output);
             }
          
-            _output_layer->CalculateError(batch_target.get(), _applyL2Regularization ? CalculateL2() : 0.0f);
+            _output_layer->CalculateError(batch_target.get());
 
             ClearGradients();
             Backpropogate();

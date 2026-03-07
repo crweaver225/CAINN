@@ -88,22 +88,5 @@ void Activation_Functions::leaky_relu_d(float* output, float* derivative, int si
     }
 }
 
-void Activation_Functions::softmax_d(float* output, float* derivative, int size) {
-    float* output_derivative = new float[size];
-    for (int i = 0; i < size; i++) {
-        float sum = 0.0f;
-        const float neg_sft_i = -output[i];
-        for (int j = 0; j < size; j++) {
-            float mul = derivative[j] * output[j] * neg_sft_i;
-            sum += mul;
-        }
-        output_derivative[i] = sum;
-    }
-    for (int i = 0; i < size; i++) {
-        output_derivative[i] += output[i] * derivative[i];
-    } 
-    *derivative = *output_derivative;
-}
-
 void Activation_Functions::pass_d(float* output, float* derivative, int size) {}
 

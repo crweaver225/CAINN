@@ -64,9 +64,7 @@ auto Neural_Layer::ReturnActivationFunctionDerivative() -> void (*)(float*, floa
         return Activation_Functions::relu_d;
     } else if (_activationFunction == Activation_Function::Leaky_Relu) {
         return Activation_Functions::leaky_relu_d;
-    } else if (_activationFunction == Activation_Function::SoftMax) {
-        return Activation_Functions::softmax_d;
-    } else {
+    }  else {
         return Activation_Functions::pass_d;
     }
 }

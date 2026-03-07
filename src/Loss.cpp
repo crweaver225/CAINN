@@ -15,12 +15,10 @@ float Loss_Function::ase(const float *output, float *target, int location, int s
     return return_loss;
 }
 float Loss_Function::crossentropy(const float *output, float *target, int location, int size) {
-    float return_loss = 0.0f;
-    float loss_min = std::numeric_limits<float>::min();
+    float loss = 0.0f;
     for (int i = 0; i < size; ++i) {
-        if (output[location + i] < 1.0f && output[location + i] > 0.0f) {
-            return_loss -= target[i] * log10(output[location + i]);
-        }
+        float p = std::clamp(output[location + i], 1e-7f, 1.0f - 1e-7f);
+        loss -= target[i] * log(p);
     }
-    return return_loss;
+    return loss;
 }
