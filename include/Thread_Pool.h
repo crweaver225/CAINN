@@ -36,6 +36,7 @@ public:
     }
 
     void wait();
+    bool isRunning() const { return !stop; }
 
 private:
     std::vector<std::thread> workers; 

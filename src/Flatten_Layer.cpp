@@ -29,6 +29,7 @@ Tensor* Flatten_Layer::Backpropogate(Tensor* gradient)  {
 
 void Flatten_Layer::SetBatchDimensions(int batch_size) {
      _dimensions.dimensions = batch_size;
+     _previousLayer_Dimensions.dimensions = batch_size;
      _output = std::make_unique<Tensor>(Tensor(batch_size,
                                                 1,
                                                 1,

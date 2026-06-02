@@ -34,11 +34,13 @@ void Convolution_Layer::Training(bool train) {
     if (train) {
         BuildGradient();
         _output->optimizeForTraining();
+        _weights->optimizeForTraining();
         _adamState.emplace(_weights->NumberOfElements());
         _adamStateBias.emplace(_dimensions.channels);
     } else {
         _gradient.reset();
         _output->optimizeForInference();
+        _weights->optimizeForInference();
         _adamState.reset();
         _adamStateBias.reset();
     }

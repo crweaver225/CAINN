@@ -27,7 +27,7 @@ private:
     int _channels;
     float *_tensor;
 
-    Thread_Pool _threadPool;
+    static Thread_Pool _threadPool;
     
     template<typename a_f>
     void MatmulInner(const Tensor &m1, Tensor &m2, float *bias, int d, const int n_d, a_f af);

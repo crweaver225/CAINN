@@ -1,6 +1,7 @@
 #include "Tensor.h"
 
 float Tensor::_learningRate = 0.1f;
+Thread_Pool Tensor::_threadPool;
 
 Tensor::Tensor(const int rows, const int columns) : 
     _dimensions(1),
@@ -278,11 +279,15 @@ void Tensor::UpdateWeights(const Tensor &gradient, const Tensor &output, AdamSta
 }
 
 void Tensor::optimizeForTraining() {
-    _threadPool.setupPool(std::thread::hardware_concurrency());
+    if (!_threadPool.isRunning()) {
+        _threadPool.setupPool(std::thread::hardware_concurrency());
+    }
 }
 
 void Tensor::optimizeForInference() {
-    _threadPool.clearPool();
+    if (_threadPool.isRunning()) {
+        _threadPool.clearPool();
+    }
 }
 
 void Tensor::flatten() {
