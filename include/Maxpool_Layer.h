@@ -19,6 +19,7 @@ public:
     Tensor const* ForwardPropogate(Tensor const* input) override;
     Tensor* Backpropogate(Tensor* gradient) override;
     void Training(bool train) override;
+    void SetBatchDimensions(int batch_size) override;
     
     friend class Network_Saver;
 };

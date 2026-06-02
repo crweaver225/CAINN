@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.6)
 project(Neural_Network)
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -7,11 +7,17 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O3 -mavx -ffast-math -flto -funroll-loops -fno-exceptions")
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++17 -O3  -march=native -ffast-math -flto -funroll-loops -fno-exceptions")
-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O3 -mavx -ffast-math -flto -funroll-loops -fno-exceptions")
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    add_compile_options(
+        -O3
+        -march=native
+        -ffast-math
+        -flto
+        -funroll-loops
+        -fno-exceptions
+    )
+    set(CMAKE_CXX_STANDARD 20)
+endif()
 
 include_directories(include)
 file(GLOB SOURCES "src/*cpp")
@@ -22,7 +28,7 @@ include(FetchContent)
 
 FetchContent_Declare(json
   GIT_REPOSITORY https://github.com/nlohmann/json.git
-  GIT_TAG v3.7.3)
+  GIT_TAG v3.12.0)
 
 FetchContent_GetProperties(json)
 if(NOT json_POPULATED)

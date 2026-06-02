@@ -62,7 +62,7 @@ Tensor::Tensor(const Tensor &otherTensor) noexcept :
     _channels(otherTensor._channels) {
          
     _tensor = new float[_dimensions * _channels * _rows * _columns];
-    *this->_tensor = *(otherTensor.ReturnData());
+    std::memcpy(this->_tensor, otherTensor.ReturnData(), _dimensions * _channels * _rows * _columns * sizeof(float));
 }
 
 Tensor& Tensor::operator = (const Tensor &otherTensor) noexcept  {
@@ -73,7 +73,7 @@ Tensor& Tensor::operator = (const Tensor &otherTensor) noexcept  {
     this->_columns = otherTensor._columns;
     this->_channels = otherTensor._channels;
     this->_tensor = new float[_dimensions * _channels * _rows * _columns];
-    *this->_tensor = *(otherTensor._tensor);
+    std::memcpy(this->_tensor, otherTensor._tensor, _dimensions * _channels * _rows * _columns * sizeof(float));
     return *this;
 }
 
@@ -242,7 +242,7 @@ void Tensor::UpdateWeightsInner(const Tensor &gradient, const Tensor &output, co
     for (size_t dimension_tracker  = 0; dimension_tracker < n_d; dimension_tracker++) {
         for (size_t output_x = 0; output_x < output._columns; output_x++) {
             const size_t weight_row = output_x * _columns;
-            const size_t output_value = output._tensor[output_x + output_index];
+            const float output_value = output._tensor[output_x + output_index];
             for (size_t gradient_x = 0; gradient_x < gradient._columns; gradient_x++) {
                 const float new_value = (output_value * gradient._tensor[gradient_x + gradient_index]) / gradient_dimensions;
                 adamState.gradientAccumulation[weight_row + gradient_x] += new_value;
@@ -356,10 +356,19 @@ const int Tensor::ReturnActiveDimension() const {
 
 void Tensor::AssignRandomValues() {
     int matrixSize = _dimensions * _channels * _rows * _columns;
-    float range = std::sqrt(6.0 / (_rows + _columns));
+    float range;
+    if (_dimensions > 1) {
+        // Conv kernel layout: (out_filters, in_channels, kH, kW)
+        // fan_in = in_channels * kH * kW; He/Kaiming init for ReLU
+        int fan_in = _channels * _rows * _columns;
+        range = std::sqrt(2.0f / fan_in);
+    } else {
+        // FC weight layout: (in_neurons, out_neurons); Xavier/Glorot init
+        range = std::sqrt(6.0f / (_rows + _columns));
+    }
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(-range,range);
+    std::uniform_real_distribution<> dis(-range, range);
     for (int i = 0; i < matrixSize; ++i) {
         _tensor[i] = dis(gen);
     }

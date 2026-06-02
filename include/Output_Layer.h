@@ -4,7 +4,7 @@ class Output_Layer: public Neural_Layer {
 
 private:
     std::unique_ptr<Tensor> _error;
-    float _loss;
+    float _loss = 0.0f;
     auto ReturnLossFunction() -> float (*)(const float*, float*, int, int);
     int _batchesInIteration = 1;
 public:

@@ -44,31 +44,36 @@ Tensor* Fully_Connected_Layer::Backpropogate(Tensor* gradient) {
     gradient->ApplyDerivative(*_output, ReturnActivationFunctionDerivative());
 
     const float *gradient_data = gradient->ReturnData();
-    int batch_size = _output->ReturnActiveDimension();
-    
+    int active_dim = _output->ReturnActiveDimension();
+    int num_outputs = _dimensions.columns;
+
     AdamState& biasAdam = _adamStateBias.value();
-    
-    for (int b = 0; b < gradient->NumberOfRows(); ++b) {
-        biasAdam.gradientAccumulation[b] += gradient_data[b] / batch_size; // average over batch
+
+    for (int col = 0; col < num_outputs; col++) {
+        float sum = 0.0f;
+        for (int d = 0; d < active_dim; d++) {
+            sum += gradient_data[d * num_outputs + col];
+        }
+        biasAdam.gradientAccumulation[col] += sum / active_dim;
     }
 
     biasAdam.t++;
 
-   const float bias_correction1 = 1.0f - std::pow(biasAdam.beta1, biasAdam.t);
-   const float bias_correction2 = 1.0f - std::pow(biasAdam.beta2, biasAdam.t);
+    const float bias_correction1 = 1.0f - std::pow(biasAdam.beta1, biasAdam.t);
+    const float bias_correction2 = 1.0f - std::pow(biasAdam.beta2, biasAdam.t);
 
-    for (int b = 0; b < gradient->NumberOfRows(); ++b) {
-        const float g = biasAdam.gradientAccumulation[b]; // averaged gradient
+    for (int col = 0; col < num_outputs; col++) {
+        const float g = biasAdam.gradientAccumulation[col];
 
-        biasAdam.m[b] = biasAdam.beta1 * biasAdam.m[b] + (1.0f - biasAdam.beta1) * g;
-        biasAdam.v[b] = biasAdam.beta2 * biasAdam.v[b] + (1.0f - biasAdam.beta2) * g * g;
+        biasAdam.m[col] = biasAdam.beta1 * biasAdam.m[col] + (1.0f - biasAdam.beta1) * g;
+        biasAdam.v[col] = biasAdam.beta2 * biasAdam.v[col] + (1.0f - biasAdam.beta2) * g * g;
 
-        const float m_hat = biasAdam.m[b] / bias_correction1;
-        const float v_hat = biasAdam.v[b] / bias_correction2;
+        const float m_hat = biasAdam.m[col] / bias_correction1;
+        const float v_hat = biasAdam.v[col] / bias_correction2;
 
-       _bias.get()[b] += Tensor::_learningRate * m_hat / (std::sqrt(v_hat) + biasAdam.epsilon);
+        _bias.get()[col] += Tensor::_learningRate * m_hat / (std::sqrt(v_hat) + biasAdam.epsilon);
 
-       biasAdam.gradientAccumulation[b] = 0.0f; // reset
+        biasAdam.gradientAccumulation[col] = 0.0f;
     }
     
     // update weights

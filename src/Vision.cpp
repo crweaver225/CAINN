@@ -49,14 +49,14 @@ void Vision::InnerBackward(const Tensor &gradient, const Tensor &kernel, Tensor 
                         const float kernel_value = kernel_data[kernel_column_idx];
                                                                           
                         for (int gradient_row = 0; gradient_row < gradient_rows; gradient_row ++) {
-                            
+
                             const int gradient_row_idx = gradient_channel_idx + (gradient_row * gradient_columns);
-                            const int _gradient_row_idx = (_gradient_channel_idx + ((gradient_row + kernel_row) * _gradient_columns));
-                            
+                            const int _gradient_row_idx = (_gradient_channel_idx + ((gradient_row * stride + kernel_row) * _gradient_columns));
+
                             for (int gradient_column = 0; gradient_column < gradient_columns; gradient_column ++) {
-                                
+
                                 const int gradient_column_idx = gradient_row_idx + gradient_column;
-                                const int _gradient_column_idx = _gradient_row_idx + gradient_column + kernel_column;
+                                const int _gradient_column_idx = _gradient_row_idx + gradient_column * stride + kernel_column;
                                 
                                 _gradient.changeNeuron(_gradient_column_idx, gradient_data[gradient_column_idx] * kernel_value);
                                 

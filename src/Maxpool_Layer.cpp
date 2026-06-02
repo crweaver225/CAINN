@@ -54,6 +54,11 @@ Tensor* Maxpool_Layer::Backpropogate(Tensor* gradient) {
     return _gradient.get();
 }
 
+void Maxpool_Layer::SetBatchDimensions(int batch_size) {
+    Neural_Layer::SetBatchDimensions(batch_size);
+    _maxpooledIndexes.resize(_output->NumberOfElements(), 0);
+}
+
 void Maxpool_Layer::Training(bool train) {
     if (train) {
         BuildGradient();
