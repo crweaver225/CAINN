@@ -60,6 +60,7 @@ public:
     void setNeuron(int index, float value);
     void setNeuron(int batch, int index, float value);
     void SetData(const float *tensor);
+    void MultiplyElementwise(const float *values, size_t count);
     void TransferDataFrom(Tensor const* tensor);
     void AssignRandomValues();
 

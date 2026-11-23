@@ -314,6 +314,12 @@ void Tensor::ResetTensor() {
     memset(_tensor, 0.0f, _dimensions * _channels * _rows * _columns * sizeof(float));
 }
 
+void Tensor::MultiplyElementwise(const float *values, size_t count) {
+    for (size_t i = 0; i < count; i++) {
+        _tensor[i] *= values[i];
+    }
+}
+
 void Tensor::SetData(const float *tensor) {
     std::memcpy(this->_tensor, tensor, _dimensions * _channels * _rows * _columns * sizeof(float));
 }

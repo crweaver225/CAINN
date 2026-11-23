@@ -181,54 +181,57 @@ void Vision::InnerUpdateKernel(const Tensor &input, Tensor &kernel, const Tensor
 
     Dimensions kernel_dimensions = kernel.dimensions();
  
-    int gradient_batch_idx = d * gradient.NumberOfElementsPerTensor();
-    int input_batch_idz = d * input.NumberOfElementsPerTensor();
+    for (int dimension_tracker = 0; dimension_tracker < n_d; dimension_tracker++) {
 
-    for (int gradient_channel = 0; gradient_channel < gradient_channel_size; gradient_channel++) {
+        int gradient_batch_idx = (d + dimension_tracker) * gradient.NumberOfElementsPerTensor();
+        int input_batch_idz = (d + dimension_tracker) * input.NumberOfElementsPerTensor();
 
-        int gradient_channel_idx = gradient_batch_idx + (gradient_channel * gradient_row_size * gradient_column_size);
-        int kernel_idx = gradient_channel * kernel_dimensions.channels * kernel_dimensions.rows * kernel_dimensions.columns;
+        for (int gradient_channel = 0; gradient_channel < gradient_channel_size; gradient_channel++) {
 
-        for (int input_channel = 0; input_channel < input_channels_size; input_channel ++) {
+            int gradient_channel_idx = gradient_batch_idx + (gradient_channel * gradient_row_size * gradient_column_size);
+            int kernel_idx = gradient_channel * kernel_dimensions.channels * kernel_dimensions.rows * kernel_dimensions.columns;
 
-            int input_chanel_idx = input_batch_idz + (input_channel * input_rows_size * input_columns_size);
-            int kernel_channel_idx = kernel_idx + (input_channel * kernel_dimensions.rows * kernel_dimensions.columns);
-            int start_gradient_row = 0;
+            for (int input_channel = 0; input_channel < input_channels_size; input_channel ++) {
 
-            while (start_gradient_row + gradient_row_size <=  input_rows_size) {
+                int input_chanel_idx = input_batch_idz + (input_channel * input_rows_size * input_columns_size);
+                int kernel_channel_idx = kernel_idx + (input_channel * kernel_dimensions.rows * kernel_dimensions.columns);
+                int start_gradient_row = 0;
 
-                int start_gradient_column = 0;
-                int kernel_row_idx = kernel_channel_idx + (start_gradient_row  * kernel_dimensions.columns);
-                int kernel_column_idx = 0;
+                while (start_gradient_row + gradient_row_size <=  input_rows_size) {
+
+                    int start_gradient_column = 0;
+                    int kernel_row_idx = kernel_channel_idx + (start_gradient_row  * kernel_dimensions.columns);
+                    int kernel_column_idx = 0;
     
-                while (start_gradient_column + gradient_column_size <= input_columns_size) {
+                    while (start_gradient_column + gradient_column_size <= input_columns_size) {
 
-                    float sum = 0.0f;
+                        float sum = 0.0f;
                     
-                    for (int gradient_row = 0; gradient_row < gradient_row_size; gradient_row++) {
+                        for (int gradient_row = 0; gradient_row < gradient_row_size; gradient_row++) {
                      
-                        int gradient_row_idx = gradient_channel_idx + (gradient_row * gradient_column_size);
-                        int input_row_idx = input_chanel_idx + ((start_gradient_row + gradient_row) * input_columns_size);
+                            int gradient_row_idx = gradient_channel_idx + (gradient_row * gradient_column_size);
+                            int input_row_idx = input_chanel_idx + ((start_gradient_row + gradient_row) * input_columns_size);
                         
-                        for (int gradient_column = 0; gradient_column < gradient_column_size; gradient_column ++) {
+                            for (int gradient_column = 0; gradient_column < gradient_column_size; gradient_column ++) {
 
-                            int gradient_column_idx = gradient_row_idx + gradient_column;
-                            int input_column_idx = input_row_idx + start_gradient_column + gradient_column;
+                                int gradient_column_idx = gradient_row_idx + gradient_column;
+                                int input_column_idx = input_row_idx + start_gradient_column + gradient_column;
 
-                            sum += gradient_data[gradient_column_idx] * input_data[input_column_idx];
+                                sum += gradient_data[gradient_column_idx] * input_data[input_column_idx];
                             
+                            }
+                        }
+                        {
+                            auto lock = std::unique_lock<std::mutex>{backward_mutex};
+
+                            adamState.gradientAccumulation[kernel_row_idx + kernel_column_idx] += sum / active_dimensions;;
+
+                            start_gradient_column += stride;
+                            kernel_column_idx++;
                         }
                     }
-                    {
-                        auto lock = std::unique_lock<std::mutex>{backward_mutex};
-
-                        adamState.gradientAccumulation[kernel_row_idx + kernel_column_idx] += sum / active_dimensions;;
-
-                        start_gradient_column += stride;
-                        kernel_column_idx++;
-                    }
+                    start_gradient_row += stride;
                 }
-                start_gradient_row += stride;
             }
         }
     }
@@ -387,7 +390,7 @@ void Vision::InnerFindMax(const Tensor &input, Tensor &output, int filter_size, 
                
                     int output_column_idx = out_row_idx + start_column_output;
 
-                    float max_value = std::numeric_limits<float>::min();
+                    float max_value = std::numeric_limits<float>::lowest();
                     unsigned int max_index = 0;
 
                     for (int kernel_row = 0; kernel_row < filter_size; kernel_row++) {

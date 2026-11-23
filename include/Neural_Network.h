@@ -28,15 +28,13 @@ private:
     void Backpropogate();
     void ClearGradients();
     const float CalculateL2() const;
-    void RandomizeDropout();
     void ShuffleTrainingData(float **input, float **targets, int input_size);
     bool _saveIfBest = false;
     bool _stopAutomatically = false;
     bool _shuffleDataPerEpoch = false;
     float _bestLoss;
     bool _applyL2Regularization = false;
-    bool _droppoutLayerExists = false;
-    int _printLossEveryIterations;
+    int _printLossEveryIterations = 1;
     std::string _filePath;
 
     std::vector<Neural_Layer *> network() const; 

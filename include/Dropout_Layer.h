@@ -3,9 +3,10 @@
 
 class Dropout_Layer: public Neural_Layer {
 private:
-    std::vector<int> _droppedNeurons;
-    int _neurons;
+    std::vector<float> _mask;
     float _percentage;
+    bool _training = false;
+    std::mt19937 _generator;
 public:
     Dropout_Layer(Dimensions dimensions, float percentDropped);
     Dropout_Layer(const Dropout_Layer &dropout_layer) = delete;
@@ -19,7 +20,6 @@ public:
     Tensor const* ForwardPropogate(Tensor const* input) override;
     Tensor* Backpropogate(Tensor* gradient) override;
     void SetBatchDimensions(int batch_size) override;
-    void randomizeDropped();
     void Training(bool train) override;
 
     float returnPercentageDropped() const;
